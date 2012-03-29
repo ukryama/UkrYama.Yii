@@ -65,7 +65,7 @@ $all_elements=implode(',',$dataProvider->keys);
 			{
 				id : 0,
 				PREMODERATE_ALL: '{$all_elements}',
-				ajax: 1,
+				ajax: 1, 
 			},
 			function(data)
 			{
@@ -245,7 +245,7 @@ EOD
 	'dataProvider'=>$dataProvider,
 	'itemView'=>'_view',
 	'itemsTagName'=>'ul',
-	'cssFile'=>'/css/holes_list.css',
+	'cssFile'=>Yii::app()->request->baseUrl.'/css/holes_list.css',
 	'itemsCssClass'=>'holes_list',
 	'summaryText'=>false,
 	'viewData'=>Array('user'=>Yii::app()->user),

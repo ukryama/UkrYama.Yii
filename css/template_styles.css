@@ -82,7 +82,7 @@ body {
 							top:0;
 							width:20px;
 							height:34px;
-							background:url(/images/grad.png) 0 center no-repeat;
+							background:url(../images/grad.png) 0 center no-repeat; 
 							display:none;
 							z-index:1;
 						}
@@ -147,7 +147,7 @@ body {
 	}
 
 		.addFact {
-			background: #f27a00 url(/images/add_bg.gif) repeat-x bottom;
+			background: #f27a00 url(../images/add_bg.gif) repeat-x bottom;
 			border-color: #ffac1f #ffac1f #f88200 #f27b00;
 			-webkit-border-radius: 3px;
 			-moz-border-radius: 3px;
@@ -172,7 +172,7 @@ body {
 			}
 	
 			.addFact .text {
-				background: url(/images/add_shadow.gif) no-repeat right top;
+				background: url(../images/add_shadow.gif) no-repeat right top;
 				line-height: 60px;
 				padding-left: 22px;
 				position: relative;
@@ -186,7 +186,7 @@ body {
 			}
 
 			.addFact .arrow {
-				background: url(/images/add_arrow.gif) no-repeat center center;
+				background: url(../images/add_arrow.gif) no-repeat center center;
 				width: 40px;
 			}
 	
@@ -247,7 +247,7 @@ body {
 	}
 
 .profileBtn, .profileBtn:hover {
-	background: #f88100 url(/images/btn_bg.gif) repeat-x bottom;
+	background: #f88100 url(../images/btn_bg.gif) repeat-x bottom;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
 	border-radius: 3px;
@@ -262,7 +262,7 @@ ul.usermenu li {float:left;}
 ul.usermenu li.active .profileBtn{background: #f88100;}
 
 	.filterBtn {
-		background: #e47100 url(/images/filter_btn_bg.gif) repeat-x bottom;
+		background: #e47100 url(../images/filter_btn_bg.gif) repeat-x bottom;
 		border-color: #ffac1f #ffac1f #f88200 #f88200;
 		-webkit-border-radius: 3px;
 		-moz-border-radius: 3px;
@@ -288,7 +288,7 @@ ul.usermenu li.active .profileBtn{background: #f88100;}
 		}
 
 		.filterBtn .text {
-			background: url(/images/filter_btn_shadow.gif) no-repeat right bottom;
+			background: url(../images/filter_btn_shadow.gif) no-repeat right bottom;
 			font-weight: bold;
 			padding-left: 13px;
 			text-align: left;
@@ -296,7 +296,7 @@ ul.usermenu li.active .profileBtn{background: #f88100;}
 		}
 
 		.filterBtn .arrow {
-			background: url(/images/filter_arrow.gif) no-repeat center center;
+			background: url(../images/filter_arrow.gif) no-repeat center center;
 			width: 27px;
 		}
 
@@ -314,7 +314,7 @@ ul.usermenu li.active .profileBtn{background: #f88100;}
 	}
 	
 	.steps .number {
-		background: url(/images/step_ring.png) no-repeat center center;
+		background: url(../images/step_ring.png) no-repeat center center;
 		color: #e6660d;
 		font-size: 1.08em;
 		height: 27px;
@@ -387,7 +387,7 @@ ul.usermenu li.active .profileBtn{background: #f88100;}
 			vertical-align: middle;
 		}
 		
-		.filterStatus .fresh { background: #a3a3a8 url(/images/label_grey_bg.gif) repeat-x top;}
+		.filterStatus .fresh { background: #a3a3a8 url(../images/label_grey_bg.gif) repeat-x top;}
 		.filterStatus .achtung { background: #d84528;} 
 		.filterStatus .inprogress { background: #e5ae2b;}
 		.filterStatus .prosecutor { background: #d84528;} 
@@ -422,17 +422,17 @@ ul.usermenu li.active .profileBtn{background: #f88100;}
 			vertical-align: middle;
 		}
 		
-		.badroad {background: url(/images/st1234/badroad.png) no-repeat 0 0;}
-		.hatch {background: url(/images/st1234/hatch.png) no-repeat 0 0;}
-		.nomarking {background: url(/images/st1234/nomarking.png) no-repeat 0 0;}
-		.light {background: url(/images/st1234/light.png) no-repeat 3px -2px;}
-		.holeonroad {background: url(/images/st1234/holeonroad.png) no-repeat 0 0;}
-		.crossing {background: url(/images/st1234/crossing.png) no-repeat 0 0;}
-		.rails {background: url(/images/st1234/rails.png) no-repeat 0 0;}
-		.policeman {background: url(/images/st1234/policeman.png) no-repeat 0 -3px;}
-		.holeinyard {background: url(/images/st1234/holeinyard.png) no-repeat 0 0;}
-		.fence {background: url(/images/st1234/fence.png) no-repeat 0 -3px;}
-		.snow {background: url(/images/st1234/snow.png) no-repeat 0 0;}
+		.badroad {background: url(../images/st1234/badroad.png) no-repeat 0 0;}
+		.hatch {background: url(../images/st1234/hatch.png) no-repeat 0 0;}
+		.nomarking {background: url(../images/st1234/nomarking.png) no-repeat 0 0;}
+		.light {background: url(../images/st1234/light.png) no-repeat 3px -2px;}
+		.holeonroad {background: url(../images/st1234/holeonroad.png) no-repeat 0 0;}
+		.crossing {background: url(../images/st1234/crossing.png) no-repeat 0 0;}
+		.rails {background: url(../images/st1234/rails.png) no-repeat 0 0;}
+		.policeman {background: url(../images/st1234/policeman.png) no-repeat 0 -3px;}
+		.holeinyard {background: url(../images/st1234/holeinyard.png) no-repeat 0 0;}
+		.fence {background: url(../images/st1234/fence.png) no-repeat 0 -3px;}
+		.snow {background: url(../images/st1234/snow.png) no-repeat 0 0;}
 
 .filterCol {
 	font-size: 0.92em;
@@ -465,17 +465,17 @@ div.submit input {font: normal 1em "Trebuchet MS", Arial, sans-serif; margin-rig
 }
 
 .aboutProject .about1 {
-	background: url(/images/about_1.jpg) no-repeat center bottom;
+	background: url(../images/about_1.jpg) no-repeat center bottom;
 	padding-bottom: 190px;
 }
 
 .aboutProject .about2 {
-	background: url(/images/about_2.jpg) no-repeat center bottom;
+	background: url(../images/about_2.jpg) no-repeat center bottom;
 	padding-bottom: 173px;
 }
 
 .aboutProject .about3 {
-	background: url(/images/about_3.jpg) no-repeat center bottom;
+	background: url(../images/about_3.jpg) no-repeat center bottom;
 	margin-right: 0;
 	padding-bottom: 155px;
 	width: 200px;
@@ -576,7 +576,7 @@ div.submit input {font: normal 1em "Trebuchet MS", Arial, sans-serif; margin-rig
 			}
 			
 			.autochmo a {
-				background: url("/images/chmo.gif") no-repeat scroll left center transparent;
+				background: url("../images/chmo.gif") no-repeat scroll left center transparent;
 				left: -20px;
 				padding-left: 20px;
 				position: relative;
@@ -755,11 +755,11 @@ p.date {
 		}
 		
 		.menu .add a {
-			background: #ef7600 url(/images/add_bg.gif) repeat-x bottom;
+			background: #ef7600 url(../images/add_bg.gif) repeat-x bottom;
 		}
 		
 		.menu b {
-			background: url(/images/separator.gif) 0 -39px;
+			background: url(../images/separator.gif) 0 -39px;
 			cursor: pointer;
 			display: block;
 			height: 39px;
@@ -790,7 +790,7 @@ p.date {
 		}
 		
 		.menu i {
-			background: url(/images/separator.gif);
+			background: url(../images/separator.gif);
 			cursor: pointer;
 			display: block;
 			height: 39px;
@@ -802,11 +802,11 @@ p.date {
 		}
 
 		.menu .last i {
-			background: url(/images/separator.gif) 0 -78px;
+			background: url(../images/separator.gif) 0 -78px;
 		}
 		
 		.menu .add i {
-			background: url(/images/separator.gif) 0 -117px;
+			background: url(../images/separator.gif) 0 -117px;
 		}
 
 .menu li:after {
@@ -916,8 +916,8 @@ table.bx-auth-table td {padding:3px;}
 
 div.bx-auth input.bx-auth-input {vertical-align:middle;}
 div.bx-auth span.bx-auth-secure {background-color:#FFFAE3; border:1px solid #DEDBC8; padding:2px; display:inline-block; vertical-align:middle;}
-div.bx-auth div.bx-auth-secure-icon {background-image:url(/images/sec.png); background-repeat:no-repeat; background-position:center; width:19px; height:18px;}
-div.bx-auth div.bx-auth-secure-unlock {background-image:url(/images/sec-unlocked.png);}
+div.bx-auth div.bx-auth-secure-icon {background-image:url(../images/sec.png); background-repeat:no-repeat; background-position:center; width:19px; height:18px;}
+div.bx-auth div.bx-auth-secure-unlock {background-image:url(../images/sec-unlocked.png);}
 
 .head #head_user_info { 
 padding-top: 10px;
@@ -950,6 +950,6 @@ color: rgb(0, 128, 0);
 .loading{
 	width: 100%;
 	height: 40px;
-	background: transparent url(/images/ajaxload.gif) center center no-repeat;
+	background: transparent url(../images/ajaxload.gif) center center no-repeat;
 	} 
 

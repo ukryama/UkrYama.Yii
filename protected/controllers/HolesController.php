@@ -43,7 +43,7 @@ class HolesController extends Controller
 				'groups'=>array('root',), 
 			),
 			array('deny',  // deny all users
-				'users'=>array('*'),
+				'users'=>array('*'),  
 			),
 		);
 	}
@@ -654,8 +654,8 @@ class HolesController extends Controller
 			$model->attributes=isset($_POST['Holes']) ? $_POST['Holes'] : $_GET['Holes'];
 		
 		$cs=Yii::app()->getClientScript();
-        $cs->registerCssFile('/css/holes_list.css');        
-        $cs->registerCssFile('/css/hole_view.css');
+        $cs->registerCssFile(Yii::app()->request->baseUrl.'/css/holes_list.css');        
+        $cs->registerCssFile(Yii::app()->request->baseUrl.'/css/hole_view.css');
         $cs->registerScriptFile(CHtml::asset($this->viewPath.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'holes_selector.js'));
 		$cs->registerScriptFile('http://www.vertstudios.com/vertlib.min.js');        
         $cs->registerScriptFile(CHtml::asset($this->viewPath.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'StickyScroller'.DIRECTORY_SEPARATOR.'StickyScroller.min.js'));

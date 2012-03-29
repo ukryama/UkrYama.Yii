@@ -3,7 +3,7 @@
 class SiteController extends Controller
 {
 	/**
-	 * Declares class-based actions.
+	 * Declares class-based actions.  
 	 */
 	public $layout='//layouts/header_default'; 
 	

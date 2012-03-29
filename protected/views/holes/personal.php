@@ -58,7 +58,7 @@ $this->pageTitle=Yii::app()->name . ' :: Мои ямы';
 		$this->renderPartial('_selected', Array('gibdds'=>$selected ? GibddHeads::model()->with('holes')->findAll('holes.id IN ('.implode(',',$selected).')') : Array(),'user'=>$user->userModel));
 		?>
 	<?php endif;  ?>
-	</div>
+	</div> 
 
 </div>
 
@@ -90,7 +90,7 @@ $this->pageTitle=Yii::app()->name . ' :: Мои ямы';
 	'dataProvider'=>$model->userSearch(),
 	'itemView'=>'_view',
 	'itemsTagName'=>'ul',
-	'cssFile'=>'/css/holes_list.css',
+	'cssFile'=>Yii::app()->request->baseUrl.'/css/holes_list.css',
 	'itemsCssClass'=>'holes_list',
 	'summaryText'=>false,
 	'viewData'=>Array('showcheckbox'=>true, 'user'=>$user),

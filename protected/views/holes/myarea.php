@@ -42,7 +42,7 @@ $this->pageTitle=Yii::app()->name . ' :: Мой участок';
 
 <?php $this->widget('application.widgets.userAreaMap.userAreaMapWidget',Array('data'=>Array('area'=>$area))); ?>
 
-<?php if ($user->userModel->areaNeighbors) : ?>
+<?php if ($user->userModel->areaNeighbors) : ?> 
 <div id="area_neighbors">
 <h3>Соседи:</h3>
 <ul>
@@ -93,7 +93,7 @@ $this->pageTitle=Yii::app()->name . ' :: Мой участок';
 	'dataProvider'=>$model->areaSearch($user),
 	'itemView'=>'_view',
 	'itemsTagName'=>'ul',
-	'cssFile'=>'/css/holes_list.css',
+	'cssFile'=>Yii::app()->request->baseUrl.'/css/holes_list.css',
 	'itemsCssClass'=>'holes_list',
 	'summaryText'=>false,
 	'viewData'=>Array('showcheckbox'=>true, 'user'=>$user),

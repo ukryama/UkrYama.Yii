@@ -2,11 +2,11 @@
 <div id="addmess" style="display:none; color:#0C0"><p><b>Выберите место на карте и кликните по нему два раза, чтобы отметить расположение ямы.</b></p></div>
   <div class="head">
 		<div class="container">
-<div class="lCol"><a href="/" class="logo" title="На главную"><img src="/images/logo.png"  alt="РосЯма" /></a>
+<div class="lCol"><a href="/" class="logo" title="На главную"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo.png"  alt="РосЯма" /></a>
 </div>
 						<div class="rCol">
 					
-							<div id="head_user_info">
+							<div id="head_user_info"> 
 <div class="buttons">
 		<?php $this->widget('zii.widgets.CMenu', array(
 				'items'=>Array(
