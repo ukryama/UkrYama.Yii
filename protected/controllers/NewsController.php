@@ -79,8 +79,7 @@ class NewsController extends Controller
 	public function actionPublish($id)
 	{
 		$model=$this->loadModel($id);
-		if ($model->published) $model->published=0;
-		else $model->published=1;
+		$model->published = (int)!$model->published;
 		$model->update();
 		if(!isset($_GET['ajax']))
 			$this->redirect($_SERVER['HTTP_REFERER']);
