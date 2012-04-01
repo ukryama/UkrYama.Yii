@@ -131,7 +131,12 @@ return array(
                 ),
                 'CLinkPager'=>array(
                     'maxButtonCount'=>10,
-
+					'lastPageLabel'=>false, 
+					'firstPageLabel'=>false, 
+					'nextPageLabel'=>'&rarr;',
+					'prevPageLabel'=>'&larr;',
+					'cssFile'=>false,
+					'header'=>false,
                     //'cssFile'=>false,
                 ),
             ),

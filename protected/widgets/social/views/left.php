@@ -1,3 +1,22 @@
+<div id="from_blog">
+	<script src="http://www.google.com/jsapi?key=internal-sample" type="text/javascript"></script>
+	<script language="Javascript" type="text/javascript">//<![CDATA[
+		google.load("feeds", "1");
+		function OnLoad() {
+		var feedControl = new google.feeds.FeedControl();
+		feedControl.addFeed("http://ukryama.info/rss/", "<h2>Сообщество УкрЯмы</h2>Новости:");
+		feedControl.setNumEntries(4)
+		feedControl.setLinkTarget(google.feeds.LINK_TARGET_BLANK );
+		feedControl.draw(document.getElementById("feedControl"));
+		}
+		google.setOnLoadCallback(OnLoad);
+	//]]>
+	</script> 
+	<div id="feedControl">Загрузка постов…</div>
+</div>
+
+
+
 <script src="http://widgets.twimg.com/j/2/widget.js"></script>
 	<style type="text/css" media="screen">
 		.twtr-hd {padding:0}
@@ -104,6 +123,26 @@
 		</div> -->
 	</div>
 </div>
+	
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#groupSwitch a').click(function(){
+	var $target = $(event.target);
+	if($target.className != "active") {
+		$('#groupSwitch a').removeClass('active');
+		$target.addClass('active');
+		$('#groupsWrap li').hide();
+		$('#groupsWrap #' + event.target.id).show();
+		if(event.target.id=="vk") {
+			$('#groupsWrap #' + event.target.id + ' #vk_groups').css('height','290px');
+			$('#groupsWrap #' + event.target.id + ' iframe').css('height','290px');
+		}
+	}
+	return false;
+	});
+});	
+</script>
+	
 	
 	<!--
 	

@@ -250,14 +250,6 @@ EOD
 		'itemsCssClass'=>'holes_list',
 		'summaryText'=>false,
 		'viewData'=>Array('user'=>Yii::app()->user),
-		'pager'=>array(
-			'lastPageLabel'=>false, 
-			'firstPageLabel'=>false, 
-			'nextPageLabel'=>'&rarr;',
-			'prevPageLabel'=>'&larr;',
-			'cssFile'=>false,
-			'header'=>false,
-		),
 )); ?>
 <?php if (Yii::app()->user->isModer && $model->NOT_PREMODERATED && $dataProvider->totalItemCount > 0) : ?>
 	<input type="button" id="all_right" value="Разрешить все дефекты" />

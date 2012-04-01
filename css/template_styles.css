@@ -1104,5 +1104,22 @@ color: rgb(0, 128, 0);
 }
 
 .pager ul li{display:inline; margin-right: 1em;}
+.pager ul li.hidden {display: none;}
 .pager ul li.previous a,.pager ul li.next a {text-decoration:none; font-size: 1.33em; font-weight: bold;}
 .pager ul li.selected a {color:black; text-decoration:none;}
+
+
+/*COMUNITY NEWS*/
+#from_blog {
+	word-wrap: break-word;
+	background-color: white;
+	font-size: 12px;
+	padding: 10px;
+	top: 240px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom:30px;
+	z-index: 500 !important;
+	opacity: 1;
+	text-align: left;
+}
