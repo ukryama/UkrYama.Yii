@@ -1,3 +1,10 @@
+<div id="competition">
+<h2>Внимание! Конкурс.</h2>
+<noindex><a href="http://www.ahelp.ua/competition-rde2012.html" target="_blank" title="Конкурс УкрЯма" alt="Конкурс УкрЯма" /><img src="<?php echo Yii::app()->request->baseUrl?>/images/newroad.jpg" width="195"></a></noindex>
+</div><br />
+
+
+
 <div id="from_blog">
 	<script src="http://www.google.com/jsapi?key=internal-sample" type="text/javascript"></script>
 	<script language="Javascript" type="text/javascript">//<![CDATA[
@@ -113,14 +120,14 @@
 		<noindex><script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
 <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="vkontakte,facebook,twitter,lj"></div></noindex><br />
 	<div id="banner_ap">
-	<!--	<div class="banner_yama">
+		<div class="banner_yama">
 			<span class="">Партнер:</span><br />
-			<noindex><a href="http://autoportal.ua/" target="_blank" rel="nofollow"><img src="/banners/ap-bann-215x111.png" alt="" /></a></noindex>
+			<noindex><a href="http://autoportal.ua/" target="_blank" rel="nofollow"><img src="<?php echo Yii::app()->request->baseUrl;?>/banners/ap-bann-215x111.png" alt="" /></a></noindex>
 		</div>
 		<br />
 		<div id="partners">
 			SSL сертификаты и <a href="http://www.isplicense.ru/" target="_blank">лицензии ПО</a>
-		</div> -->
+		</div> 
 	</div>
 </div>
 	

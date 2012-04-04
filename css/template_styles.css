@@ -541,7 +541,7 @@ div.submit input {font: normal 1em "Trebuchet MS", Arial, sans-serif; margin-rig
 		border-top: 1px solid #fff;
 		font-size: 1.2em;
 		line-height: 1.67em;
-		padding-top: 55px;
+		padding-top: 20px;
 	}
 	
 		.footer .copy {
@@ -568,20 +568,26 @@ div.submit input {font: normal 1em "Trebuchet MS", Arial, sans-serif; margin-rig
 				text-decoration: underline;
 			}
 			
+			
+			.footer .info {margin-top:55px;}
+			
 			.footer .friends {
-				margin-top: 80px;
+				float: right;
+				margin-right: 30px;
+				width: 215px;
 			}
 			
-			.autochmo {
+			.rosyama {
 				float: right;
 			}
 			
-			.autochmo a {
-				background: url("../images/chmo.gif") no-repeat scroll left center transparent;
+			.rosyama a {
+				background: url("../images/rosyama.gif") no-repeat scroll left center transparent;
 				left: -20px;
 				padding-left: 20px;
 				position: relative;
 			}
+			
 
 .head:after, .head .container:after, .addFact ul:after, .mainCols:after, .footer:after, .social .share:after, .h .control:after, .addSubmit .container:after, .filterStatus label:after, .filterCol:after, .progress:after {
 	content: ".";
@@ -1103,8 +1109,9 @@ color: rgb(0, 128, 0);
 	text-align: center;
 }
 
-.pager ul li{display:inline; margin-right: 1em;}
+.pager ul li{display:inline; margin-right: 0.2em;}
 .pager ul li.hidden {display: none;}
+.pager a{padding:0 0.4em;}
 .pager ul li.previous a,.pager ul li.next a {text-decoration:none; font-size: 1.33em; font-weight: bold;}
 .pager ul li.selected a {color:black; text-decoration:none;}
 
@@ -1119,6 +1126,34 @@ color: rgb(0, 128, 0);
 	margin-left: auto;
 	margin-right: auto;
 	margin-bottom:30px;
+	z-index: 500 !important;
+	opacity: 1;
+	text-align: left;
+}
+
+/*PARTNERS*/
+#partners {
+	word-wrap: break-word;
+	background-color: white;
+	font-size: 12px;
+	padding: 10px;
+	top: 240px;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: 500 !important;
+	opacity: 1;
+	text-align: left;
+}
+
+/*COMPETITION*/
+#competition {
+	word-wrap: break-word;
+	background-color: white;
+	font-size: 12px;
+	padding: 10px;
+	top: 240px;
+	margin-left: auto;
+	margin-right: auto;
 	z-index: 500 !important;
 	opacity: 1;
 	text-align: left;

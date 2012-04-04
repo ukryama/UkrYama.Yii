@@ -139,17 +139,31 @@
 
 	<div class="footer">
 		<div class="container">
-			<p class="autochmo"><a target="_blank" href="http://autochmo.ru/" title="Доска позора водителей &aring;вточмо">&aring;utochmo</a><br>Доска позора водителей</p>
+			<p class="rosyama">
+				<noindex><a target="_blank" href="http://rosyama.ru/" title="РосЯма">РосЯма</a></noindex><br>Яму мне запили!<br/>			
+				<a href="http://novus.org.ua/" style="background:none;" target="_blank"><img src="<?php echo Yii::app()->request->baseUrl;?>/images/logo-novus.png"></a> 
+			</p>
 			<p class="copy">Идея - <a href="http://navalny.ru/">Алексей Навальный</a>, 2011<br />
 			<a href="mailto:rossyama@gmail.com">rossyama@gmail.com</a><br />
-			<br/>Разработка прототипа и дизайна - <a href="http://greensight.ru">Greensight</a>.
+			<br/>Разработка прототипа и дизайна <a href="http://greensight.ru">Greensight</a>. <br/>
+			Хостинг — «<noindex><a href="http://ihc.com.ua/" target="_blank">ihc</a></noindex>»<br /><br />
+			
+			<br/>Разработано в <a href="http://pixelsmedia.ru">Pixelsmedia</a><br/>
+			Powered by Yii Framework.
 			<br />
-			<br/>Разработано в <a href="http://pixelsmedia.ru">Pixelsmedia</a><br/>Powered by Yii Framework.
-			<br /></p>
+			
+			</p>
 			<?php if($this->beginCache('countHoles', array('duration'=>3600))) { ?>
 			<?php $this->widget('application.widgets.collection.collectionWidget'); ?>			
 			<?php $this->endCache(); } ?>
-			<p class="friends">Чиним ямы <a href="http://ukryama.com/">в Украине</a>, <a href="http://belyama.by/">Беларуси</a> и <a href="http://kazyama.kz/">Казахстане</a></p>
+			<p class="friends">Информация:<br />
+				<a href="<?php echo $this->createUrl('site/page',array('view'=>'donate'))?>">Помочь проекту</a><br />
+				<a href="http://ukryama.info" target="_blank">Сообщество</a><br />
+				<a href="<?php echo $this->createUrl('site/page',array('view'=>'partners'))?>" title="Наши партнеры">Партнеры</a><br />
+				<a href="<?php echo $this->createUrl('site/page',array('view'=>'thanks'))?>" title="Все те, кто нам помог">Благодарности</a><br />
+				<a href="<?php echo $this->createUrl('site/page',array('view'=>'smi'))?>" title="Сми об «УкрЯме»">СМИ</a><br />
+			</p>
+			<p class="info"></p>
 		</div>
 	</div>
 	
