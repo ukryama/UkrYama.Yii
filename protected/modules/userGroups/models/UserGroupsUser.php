@@ -72,6 +72,9 @@ class UserGroupsUser extends CActiveRecord
 	 * @var string
 	 */
 	public $rememberMe;
+
+    public $language;
+
 	private $_identity;
 	/**
 	 * this constant rappresent the root id

@@ -81,10 +81,11 @@ class Controller extends CController
 
                 $cookie = new CHttpCookie('prefLangId', $sChosenLanguage);
                 $cookie->expire = time() + 86400 * 7;
-               // Yii::app()->request->cookies['prefLang'] = $cookie;
+               Yii::app()->request->cookies['prefLang'] = $cookie;
             }
         } else {
-            $sChosenLanguage = Yii::app()->user->language;
+            $sChosenLanguage = Yii::app()->user->getLanguage();
+
         }
 
         switch ($sChosenLanguage){

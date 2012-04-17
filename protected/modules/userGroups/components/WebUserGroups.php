@@ -423,9 +423,15 @@ class WebUserGroups extends CWebUser
 
 
     public function getLanguage(){
+
         if(!empty($this->_language)) return $this->_language;
+        return $this->userModel->language;
+    }
 
-
-        return null;
+    public function setLanguage($sLanguage){
+        $this->userModel->language = $sLanguage;
+        $this->_language = $sLanguage;
+        return $this->userModel->save();
+        //return true;
     }
 }

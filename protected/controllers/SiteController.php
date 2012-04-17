@@ -132,4 +132,14 @@ class SiteController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
+
+    public function actionChangeLang(){
+        if (Yii::app()->user->isGuest){
+            echo false;
+        } else{
+            $lang = Yii::app()->request->getParam("lang");
+            Yii::app()->user->setLanguage($lang);
+        }
+
+    }
 }

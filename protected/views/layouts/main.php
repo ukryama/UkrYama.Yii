@@ -36,7 +36,20 @@
                             var expiryDate = oneWeekLater.toString();
 
                                 document.cookie = 'prefLang=' + $lang + '; expires=' + expiryDate + '; path=/;';
-                                location.reload(true);
+
+                            $.ajax({
+                                type: "POST",
+                                url: "<?php echo $this->createUrl("site/changelang")?>",
+                                cache: false,
+                                data: "lang="+$lang,
+                                dataType: "json",
+                                timeout: 5000,
+                                success: function (data) {
+                                }
+                            });
+
+
+                         location.reload(true);
 
                         })
 					})
@@ -66,7 +79,7 @@
 			'activeCssClass'=>'selected',
 		)); ?>
 
-            <div style="float: right; margin-right: 70px;padding-top: 3px; cursor: pointer;">
+            <div style="float: left; margin-right: 10px;padding-top: 3px; cursor: pointer;">
 
                 <?php if(Yii::app()->language == "ru"):?>
                 <img src="/images/flags/ua.png" alt="Українською" lang="ua" class="change-language">
