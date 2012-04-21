@@ -1,0 +1,27 @@
+<div id="Printer" onClick="PrintThis();"  title="Версия для печати"></div>
+<div id="PrinterArea">
+ 
+<h1>Одесса</h1>
+
+<p>
+	&nbsp;</p>
+<p>
+	<strong>Одесская область </strong></p>
+<p>
+	&nbsp;</p>
+<p>
+	ОГАИ ГУМВД Украины в Одесской области</p>
+<p>
+	Адрес: ул.А.Королева, 5, г.Одесса, 65114</p>
+<p>
+	Телефон &laquo;горячей линии&raquo;:</p>
+<p>
+	0482-30-17-53</p>
+<p>
+	Прием СМС-сообщений:</p>
+<p>
+	+38091-332-24-10</p>
+<p>
+	Адрес сайта:</p>
+<p>
+	<a href="http://www.saiodessa.gov.ua/">http://www.saiodessa.gov.ua/</a></p>
