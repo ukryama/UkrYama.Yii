@@ -29,30 +29,37 @@
 								$('.grad').show()
 							}
 
-                        $(".change-language").click( function(){
-                            $lang = $(this).attr("lang");
-                            var theDate = new Date();
-                            var oneWeekLater = new Date(theDate.getTime() + 1000 * 60 * 60 * 24 * 100);
-                            var expiryDate = oneWeekLater.toString();
 
-                                document.cookie = 'prefLang=' + $lang + '; expires=' + expiryDate + '; path=/;';
-
-                            $.ajax({
-                                type: "POST",
-                                url: "<?php echo $this->createUrl("site/changelang")?>",
-                                cache: false,
-                                data: "lang="+$lang,
-                                dataType: "json",
-                                timeout: 5000,
-                                success: function (data) {
-                                }
-                            });
-
-
-                         location.reload(true);
-
-                        })
 					})
+
+
+                    //$(".change-language").click( function(){
+                     function changeLanguage($lang){
+
+                        //$lang = $(this).attr("lang");
+                        var theDate = new Date();
+                        var oneWeekLater = new Date(theDate.getTime() + 1000 * 60 * 60 * 24 * 100);
+                        var expiryDate = oneWeekLater.toString();
+
+                        document.cookie = 'prefLang=' + $lang + '; expires=' + expiryDate + '; path=/;';
+
+                        $.ajax({
+                            type: "POST",
+                            url: "<?php echo $this->createUrl("site/changelang")?>",
+                            cache: false,
+                            data: "lang="+$lang,
+                            dataType: "html",
+                            timeout: 5000,
+                            success: function (data) {
+                                window.location.reload();
+                            }
+                        });
+
+
+
+                         return false;
+
+                    }
 				</script>
 
 <div class="wrap">
@@ -82,16 +89,16 @@
             <div style="float: left; margin-right: 10px;padding-top: 3px; cursor: pointer;">
 
                 <?php if(Yii::app()->language == "ru"):?>
-                <img src="/images/flags/ua.png" alt="Українською" lang="ua" class="change-language">
+                <a href="#" onclick="changeLanguage('ua');"><img src="/images/flags/ua.png" alt="Українською" lang="ua" class="change-language" ></a>
                  <?php else: ?>
-                 <img src="/images/flags/ru.png" alt="По-русски"  lang="ru" class="change-language">
+                 <a href="#" onclick="changeLanguage('ru');"><img src="/images/flags/ru.png" alt="По-русски"  lang="ru" class="change-language"></a>
                      <?php endif;?>
             </div>
 
             
 			<div class="search">
 				<form action="/map">
-			<input type="image" name="s" src="<?php echo Yii::app()->request->baseUrl; ?>/images/search_btn.gif" class="btn" /><input type="text" class="textInput inactive" name="q"  value="Поиск по адресу" />
+			<input type="image" name="s" src="<?php echo Yii::app()->request->baseUrl; ?>/images/search_btn.gif" class="btn" /><input type="text" class="textInput inactive" name="q"  value="<?php echo Yii::t("template", "FIND_BY_ADRESS");?>" />
 	<script type="text/javascript">
 		$(document).ready(function(){
 			var startSearchWidth=$('.search').width();
@@ -108,7 +115,7 @@
 					searchWidth+=5;
 					}
 				$('.search .textInput').click(function(){
-					if ($(this).val()=='Поиск по адресу')
+					if ($(this).val()=='<?php echo Yii::t("template", "FIND_BY_ADRESS");?>')
 					{
 						$(this).val('').removeClass('inactive');
 					}
@@ -119,7 +126,7 @@
 					
 					if ($(this).val()=='')
 					{
-						$(this).val('Поиск по адресу').addClass('inactive');
+						$(this).val('<?php echo Yii::t("template", "FIND_BY_ADRESS");?>').addClass('inactive');
 					}
 					$('.search').animate({width:startSearchWidth},time);
 					$('.search .textInput').animate({width:startSearchInputWidth},time);
@@ -130,12 +137,12 @@
 			</div>
 			<div class="auth">
 			<?php if(!$this->user->isGuest) : ?>
-					<?php echo CHtml::link('<img src="'.Yii::app()->request->baseUrl.'/images/logout.png" alt="Выйти" />',Array('/site/logout'),Array('title'=>'Выйти')); ?>
+					<?php echo CHtml::link('<img src="'.Yii::app()->request->baseUrl.'/images/logout.png" alt="'.Yii::t("template", "LOGOUT").'" />',Array('/site/logout'),Array('title'=>Yii::t("template", "LOGIN"))); ?>
 					<div class="name">
 						<p><?php echo CHtml::link($this->user->fullname,Array('/holes/personal')); ?></p><span class="grad"></span>
 					</div>
 				<?php else: ?>
-					<?php echo CHtml::link('Войти',Array('/holes/personal'),Array('title'=>'Войти', 'class'=>'profileBtn')); ?>
+					<?php echo CHtml::link(Yii::t("template", "LOGIN"),Array('/holes/personal'),Array('title'=>Yii::t("template", "LOGOUT"), 'class'=>'profileBtn')); ?>
 				<? endif; ?>
 					<style type="text/css">
 						.auth .name

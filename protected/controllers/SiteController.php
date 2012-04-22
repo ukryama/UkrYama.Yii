@@ -138,7 +138,8 @@ class SiteController extends Controller
             echo false;
         } else{
             $lang = Yii::app()->request->getParam("lang");
-            Yii::app()->user->setLanguage($lang);
+             Yii::app()->user->setLanguage($lang);
+            echo Yii::app()->user->language;
         }
 
     }
