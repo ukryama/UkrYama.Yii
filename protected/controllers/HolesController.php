@@ -177,19 +177,17 @@ class HolesController extends Controller
 	//Список ГИБДД возле ямы
 	public function actionTerritorialGibdd()
 	{
-		if(isset($_POST['Holes']))
-		{
+		if(isset($_POST['Holes'])) {
 			$model=new Holes;
 			$model->attributes=$_POST['Holes'];
-			$subj=RfSubjects::model()->SearchID(trim($model->STR_SUBJECTRF));
-			if($subj) $model->ADR_SUBJECTRF=$subj;
-			else $model->ADR_SUBJECTRF=0;
-			
-			$data=CHtml::listData($model->territorialGibdd,'id','gibdd_name');
-		    foreach($data as $value=>$name)
-		    {
-		        echo CHtml::tag('option',
-		                   array('value'=>$value),CHtml::encode($name),true);
+			//думаю, 4 первых буквы хватает для однозначного определения области
+			$s=mb_substr(mb_strtolower(trim($model->STR_SUBJECTRF),'UTF-8'),0,4,'UTF-8');
+			$subj=RfSubjects::model()->find('LOWER(name_full) LIKE :name', array(':name'=>'%'.$s.'%'));
+			$data=GibddHeads::model()->findAll('subject_id=:id',array(':id'=>$subj->id));
+			//$data=CHtml::listData($model->search(),'id','gibdd_name');
+		    foreach($data as $value) { 
+				echo CHtml::tag('option',
+					array('value'=>$value->id),CHtml::encode($value->gibdd_name),true);
 		    }
 			
 		}
@@ -528,6 +526,7 @@ class HolesController extends Controller
 			$model->attributes=isset($_POST['Holes']) ? $_POST['Holes'] : $_GET['Holes'];
 			if ($model->ADR_CITY=="Город") $model->ADR_CITY='';
 		$dataProvider=$model->search();	
+		
 		$this->render('index',array(
 			'model'=>$model,
 			'dataProvider'=>$dataProvider,

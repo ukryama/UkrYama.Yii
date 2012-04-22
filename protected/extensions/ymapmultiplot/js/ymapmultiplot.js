@@ -616,14 +616,18 @@ function geocodeOnSetCoordValue(ev)
 		document.getElementById('other_address_str').innerHTML = otherstr;
 		
 		if (ev){
-		jQuery.ajax({'type':'POST','url':'/holes/territorialGibdd','data':$('#holes-form').serialize(),'beforeSend':function(){
-														$("#Holes_gibdd_id").attr("disabled", "true");
-													 },'complete':function(){
-														$("#Holes_gibdd_id").removeAttr("disabled");
-													 },'cache':false,'success':function(html){
-													 $("#Holes_gibdd_id").html(html);
-													 //jQuery("#gibdd_form").html(html)
-													 }});
+			jQuery.ajax({
+				'type':'POST','url':'/holes/territorialGibdd',
+				'data':$('#holes-form').serialize(),
+				'beforeSend':function(){$("#Holes_gibdd_id").attr("disabled", "true");},
+				'complete':function(){$("#Holes_gibdd_id").removeAttr("disabled");},
+				'cache':false,
+				'success':function(html){
+					//console.log(html);
+					$("#Holes_gibdd_id").html(html);
+					//jQuery("#gibdd_form").html(html)
+				}
+			});
 		}
 		
 	});
