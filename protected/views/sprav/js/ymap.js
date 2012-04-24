@@ -274,7 +274,7 @@ function init_MAP_DzDvWLBsil(context, type)
 					}				
 					
 				}else {
-					center = new YMaps.GeoPoint(37.61763381958, 55.75578689575);					
+					center = new YMaps.GeoPoint(30.547969,50.445671);					
 				}
 	// Установка для карты ее центра и масштаба
 	map.setCenter(center, zoom, context.YMaps.MapType.MAP);			
@@ -302,9 +302,12 @@ function init_MAP_DzDvWLBsil(context, type)
 	map.disableDblClickZoom();
 	YMaps.Events.observe(map, map.Events.DblClick, setCoordValue);	
 	if (type=="update") {	
-	setCoordValue(map);
-	center = new YMaps.GeoPoint($('#GibddHeads_lng').val(), $('#GibddHeads_lat').val());
-	map.setCenter(center, zoom, context.YMaps.MapType.MAP);	
+		//не устанавливать карту, если не указаны долгота и широта
+		if (($('#GibddHeads_lng').val()!=0) && ($('#GibddHeads_lat').val()!=0)) {
+			setCoordValue(map);
+			center = new YMaps.GeoPoint($('#GibddHeads_lng').val(), $('#GibddHeads_lat').val());
+			map.setCenter(center, zoom, context.YMaps.MapType.MAP);	
+		}
 	}
 }      
 

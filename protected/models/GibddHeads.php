@@ -47,7 +47,7 @@ class GibddHeads extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, subject_id, post, post_dative, fio, fio_dative, gibdd_name, address', 'required'),
+			array('name, subject_id, post, post_dative, gibdd_name, address', 'required'),
 			array('subject_id, is_regional, moderated', 'numerical', 'integerOnly'=>true),
 			array('post, post_dative, fio, fio_dative, gibdd_name, tel_degurn, tel_dover, url', 'length', 'max'=>255),
 			array('contacts, str_subject', 'length'),
