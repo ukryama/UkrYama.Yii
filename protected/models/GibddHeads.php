@@ -76,8 +76,8 @@ class GibddHeads extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-		'subject'=>array(self::BELONGS_TO, 'RfSubjects', 'subject_id'),
-		'holes'=>array(self::HAS_MANY, 'Holes', 'gibdd_id'),
+			'subject'=>array(self::BELONGS_TO, 'RfSubjects', 'subject_id'),
+			'holes'=>array(self::HAS_MANY, 'Holes', 'gibdd_id'),
 		);
 	}
 	

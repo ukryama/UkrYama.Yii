@@ -54,6 +54,7 @@ class Prosecutors extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'subject'=>array(self::BELONGS_TO, 'RfSubjects', 'subject_id'),
 		);
 	}
 
@@ -64,10 +65,10 @@ class Prosecutors extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Name',
-			'subject_id' => 'Subject',
-			'preview_text' => 'Preview Text',
-			'gibdd_name' => 'Gibdd Name',
+			'name' => 'Полное название',
+			'subject_id' => 'Область',
+			'preview_text' => 'Контакты',
+			'gibdd_name' => 'Название',
 		);
 	}
 
@@ -91,5 +92,11 @@ class Prosecutors extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
+	}
+	
+	protected function beforeSave() {
+		if ($this->preview_text)
+			$this->preview_text=nl2br($this->preview_text);
+		return parent::beforeSave();
 	}
 }
