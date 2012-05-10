@@ -92,42 +92,13 @@ class RfSubjects extends CActiveRecord
 	}	 
 	
 	public function SearchID($subject_name)
-	{
-
-		$subject_name = trim($subject_name, " \n\t");	
-		if ($subject_name=='республика Чувашская') $subject_name='Чувашская республика';
-
-		$subjects=$this->findAll();
-		$_RF_SUBJECTS=CHtml::listData($subjects, 'id','name');
-		$result = $this->gs_array_search($subject_name, $_RF_SUBJECTS);
-		if (!$result){
-			$_RF_SUBJECTS=CHtml::listData($subjects, 'id','name_full');
-			$result = $this->gs_array_search($subject_name, $_RF_SUBJECTS);
+	{	
+		$s=mb_substr(mb_strtolower(trim($subject_name),'UTF-8'),0,4,'UTF-8');
+		if (strlen($s)) {
+			$subj=self::find('LOWER(name_full) LIKE :name', array(':name'=>'%'.$s.'%'));
+			return $subj->id;
 		}
-		if(!$result)
-		{
-			$subject_name = explode(' ', $subject_name);
-			foreach($subject_name as $s)
-			{
-				$ls = mb_strtolower($s,'UTF-8');				
-				if
-				(
-					$ls == 'республика'
-					|| $ls == 'край'
-					|| $ls == 'область'
-					|| $ls == 'округ'
-				)
-				{
-					continue;
-				}
-				$result = $this->gs_array_search($s, $_RF_SUBJECTS);
-				if($result)
-				{
-					break;
-				}
-			}
-		}
-		return $result;
+		return false;
 	}
 	
 	public function Address($address)
