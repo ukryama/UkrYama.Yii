@@ -22,6 +22,14 @@ class GibddHeads extends CActiveRecord
 {
 	public $post='Начальник';
 	public $str_subject;
+	public $mindist;
+	
+	public $levelNames=Array(
+		0=>'ГУОБДД РФ',
+		1=>'ГИБДД региона',
+		2=>'ГИБДД района',
+		3=>'спецбатальон на спецтрассе',
+	);
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @return GibddHeads the static model class
@@ -47,12 +55,12 @@ class GibddHeads extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name, subject_id, post, post_dative, gibdd_name, address', 'required'),
-			array('subject_id, is_regional, moderated', 'numerical', 'integerOnly'=>true),
+			array('name, subject_id, post, post_dative, fio, fio_dative, gibdd_name, address, level', 'required'),
+			array('subject_id, is_regional, moderated, level', 'numerical', 'integerOnly'=>true),
 			array('post, post_dative, fio, fio_dative, gibdd_name, tel_degurn, tel_dover, url', 'length', 'max'=>255),
 			array('contacts, str_subject', 'length'),
 			array('lat, lng', 'numerical'),
-			array('url', 'url','allowEmpty'=>true),
+			array('url, url_priemnaya', 'url','allowEmpty'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, subject_id, post, post_dative, fio, fio_dative, gibdd_name, contacts, address, tel_degurn, tel_dover, url, lat, lng, is_regional, moderated', 'safe', 'on'=>'search'),
@@ -67,6 +75,15 @@ class GibddHeads extends CActiveRecord
 			}
 		else return '';	
 	}
+	
+	public function getUserlevelNames()
+	{
+		if ($this->is_regional) return $this->levelNames;
+		$arr=Array();
+		foreach ($this->levelNames as $i=>$level)
+			if ($i>1) $arr[$i]=$level;
+		return $arr;
+	}
 
 	/**
 	 * @return array relational rules.
@@ -76,23 +93,98 @@ class GibddHeads extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'subject'=>array(self::BELONGS_TO, 'RfSubjects', 'subject_id'),
-			'holes'=>array(self::HAS_MANY, 'Holes', 'gibdd_id'),
+		'subject'=>array(self::BELONGS_TO, 'RfSubjects', 'subject_id'),
+		'holes'=>array(self::HAS_MANY, 'Holes', 'gibdd_id'),
+		'areas'=>array(self::HAS_MANY, 'GibddAreas', 'gibdd_id'),
 		);
 	}
 	
+	public function getJsAreaPoints(){
+		$arr=Array();
+		foreach ($this->areaPoints as $i=>$point){
+			$arr[]='new YMaps.GeoPoint('.$point->lng.','.$point->lat.')';			
+		}
+		return implode(', ',$arr);
+	}
+	
 	public function BeforeDelete(){
-				
+			
+		parent::beforeDelete();
+		
 		if ($this->subject->gibdd->id == $this->id) return false;		
 		foreach ($this->holes as $hole){
 			$hole->gibdd_id=$this->subject->gibdd->id;
 			$hole->update;
 		}
+		
+		foreach ($this->areas as $item) $item->delete();
 			
 		return true;
 	}
+	
+	public function BeforeValidate(){
+		parent::beforeValidate();
+		if (isset($_POST['GibddAreaPoints']) ){
+					$areaarr=Array(); 
+					foreach ($_POST['GibddAreaPoints'] as $i=>$area){
+						$areamodel=new GibddAreas;	
+						$pointarr=Array();
+							foreach ($area as $ii=>$point){
+								$pointmodel=new GibddAreaPoints;
+								$pointmodel->attributes=$point;								
+								$pointmodel->point_num=$ii;	
+								$pointarr[]=$pointmodel;
+							}	
+						$areamodel->points=$pointarr;
+						$areaarr[]=$areamodel;						
+					}				
+				$this->areas=$areaarr;	
+				}	
+		return true;
+	}
+	
+	public function BeforeSave(){
+				parent::beforeSave();
+				if (!$this->is_regional && ($this->lat==0 || $this->lng==0)) {
+					$this->addError('lat','Поставьте точку на карте двойным кликом'); 
+					return false;
+					}
+				if (!$this->is_regional && !$this->subject_id) {
+					$this->addError('subject_id', 'Не определен субъект РФ');  	
+					return false;
+					}			
+				
+				return true;
+	}
+	
+	public function AfterSave(){
+				parent::afterSave();
+				
+				if ($this->scenario != 'fill'){
+					$oldareas=GibddAreas::model()->findAll('gibdd_id='.$this->id);
+					foreach ($oldareas as $item) $item->delete();
+				
+					if (isset($_POST['GibddAreaPoints']) ){
+						//print_r($_POST['GibddAreaPoints']); die();
+						foreach ($_POST['GibddAreaPoints'] as $i=>$area){
+							$areamodel=new GibddAreas;
+							$areamodel->gibdd_id=$this->id;
+							if ($areamodel->save()){
+								foreach ($area as $ii=>$point){
+									$pointmodel=new GibddAreaPoints;
+									$pointmodel->attributes=$point;
+									$pointmodel->area_id=$areamodel->id;
+									$pointmodel->point_num=$ii;
+									$pointmodel->save(); 
+								}		
+							}
+						}				
+					}
+				}
+				return true;
+	}	
 
-	/**
+	/**	
 	 * @return array customized attribute labels (name=>label)
 	 */
 	public function attributeLabels()
@@ -113,6 +205,8 @@ class GibddHeads extends CActiveRecord
 			'url' => 'Сайт',
 			'lat' => 'Широта',
 			'lng' => 'Долгота',
+			'url_priemnaya'=>'Интернет-приемная',
+			'level'=>'Уровень ГИБДД',
 		);
 	}
 

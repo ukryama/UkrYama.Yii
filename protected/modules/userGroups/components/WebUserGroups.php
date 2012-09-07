@@ -13,7 +13,6 @@ class WebUserGroups extends CWebUser
 	 * @var array containing the url of the login page
 	 */
 	public $loginUrl = array('/userGroups/');
-    private $_language;
 
 	/**
 	 * updates the identity of the user
@@ -420,18 +419,4 @@ class WebUserGroups extends CWebUser
 		if ($this->GroupName=='root' || $this->GroupName=='admin'|| $this->GroupName=='moder') return true;
 		else return false;
 	}
-
-
-    public function getLanguage(){
-
-        if(!empty($this->_language)) return $this->_language;
-        return $this->userModel->language;
-    }
-
-    public function setLanguage($sLanguage){
-        $this->userModel->language = $sLanguage;
-        $this->_language = $sLanguage;
-        return $this->userModel->save();
-        //return true;
-    }
 }

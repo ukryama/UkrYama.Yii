@@ -1,7 +1,7 @@
 <?php
 $MESS['HOLES_STATISTICS_NAME']        = 'Статистика ям';
 $MESS['HOLES_STATISTICS_DESCRIPTION'] = 'Статистика ям';
-$MESS['MAX_STRINGS'] = 'Максимальное количество записей, выводимое по каждому пункту';
+$MESS['MAX_STRINGS'] = 'Максимальное колличество записей, выводимое по каждому пункту';
 $MESS['YEAR1'] = 'лет';
 $MESS['YEAR2'] = 'года';
 $MESS['YEAR3'] = 'год';
@@ -32,5 +32,6 @@ $MESS['PIT_STATE']         = 'Количество ям в каждом стат
 $MESS['AGV_TIME']          = 'Среднее время исправления ямы';
 $MESS['PIT_PEOPLES']       = 'Пользователи по общему количеству ям';
 $MESS['FIXED_PIT_PEOPLES'] = 'Пользователи по количеству исправленных ям';
+$MESS['TOP_MODERS'] = 'TOP 10 модераторов';
 return $MESS;
 ?>

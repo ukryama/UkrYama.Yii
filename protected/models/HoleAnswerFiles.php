@@ -71,11 +71,17 @@ class HoleAnswerFiles extends CActiveRecord
 		);
 	}
 	
+	
+	public function getDivClass(){
+		return str_replace('/', '_', $this->file_type);
+	}
+	
 	public function beforeDelete(){
-		if ($this->file_type=='image')
-			unlink($_SERVER['DOCUMENT_ROOT'].$this->answer->filesFolder.'/thumbs/'.$this->file_name);
-			
-		unlink($_SERVER['DOCUMENT_ROOT'].$this->answer->filesFolder.'/'.$this->file_name);
+		$thumb=$_SERVER['DOCUMENT_ROOT'].$this->answer->filesFolder.'/thumbs/'.$this->file_name;
+		$file=$_SERVER['DOCUMENT_ROOT'].$this->answer->filesFolder.'/'.$this->file_name;
+		if ($this->file_type=='image' && is_file($thumb))
+			unlink($thumb);			
+		if (is_file($file)) unlink($file);
 		return true;
 	}
 	

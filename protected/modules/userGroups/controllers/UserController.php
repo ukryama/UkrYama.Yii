@@ -402,7 +402,7 @@ class UserController extends Controller
 
 			if($model->validate()) {
 				if (isset($_GET['UserGroupsUser']) || $_POST['id'] === 'user-groups-activate-form') {
-					if (!isset($_GET['UserGroupsUser']['active'])){
+					if (!isset($_GET['UserGroupsUser']['active']) && !isset($_POST['UserGroupsUser']['active'])){
 						$model->login('recovery');
 						$this->redirect(Yii::app()->baseUrl . '/userGroups/user/recovery');
 						}
@@ -480,22 +480,32 @@ class UserController extends Controller
 			$attr='username'; $val=$formmodel->username;
 			if (!$formmodel->username) {$attr='email'; $val=$formmodel->email;}
 			if (!$formmodel->email) {$attr='username'; $val=$formmodel->username;}		
-			if ($formmodel->username || $formmodel->email) {
+			if ($formmodel->username || $formmodel->email) {				
 				$model = UserGroupsUser::model()->findByAttributes(array($attr=>$val));			
-					if ($model) {				
-						$model->scenario = 'passRequest';
-						if ($model->save()) {				
-							$mail = new UGMail($model, UGMail::PASS_RESET);
-							if ($mail->send()) {
-								if(!Yii::app()->user->hasFlash('success'))
-									Yii::app()->user->setFlash('success', Yii::t('UserGroupsModule.general','An email containing the instructions to reset your password has been sent to your email address: {email}'));									
-									}
-							
-						} else {					
-							//print_r ($model->errors); die(); 
-							Yii::app()->user->setFlash('success', Yii::t('userGroupsModule.general','An Error Occurred. Please try later.'));
+					if ($model) {
+						if ($model->xml_id && $model->external_auth_id) {
+							$mail = new UGMail($model, UGMail::PASS_RESET_ERROR);
+							$mail->send();
+							Yii::app()->user->setFlash('success', 'Невозможно поменять пароль т.к. Вы авторизировались с помощью '.$model->external_auth_id);							
 							}
-						$this->redirect(Array ('/userGroups/'));
+						else {
+							$flash='';
+							$model->scenario = 'passRequest';
+							if ($model->save()) {	
+								$mail = new UGMail($model, UGMail::PASS_RESET);
+								$mail->send();
+								$flash=Yii::t('UserGroupsModule.general','An email containing the instructions to reset your password has been sent to your email address: {email}');								
+								
+							} else {					
+								//print_r ($model->errors); die(); 
+								$flash=Yii::t('userGroupsModule.general','An Error Occurred. Please try later.');
+								}
+							Yii::app()->user->logout();	
+							$cookies=Yii::app()->request->cookies;
+							$cookies->add('success',new CHttpCookie('success',$flash));
+							}								
+							$this->redirect(Array ('/userGroups/user/login/'));
+							
 					}
 				}
 			$formmodel->validate();
@@ -528,7 +538,6 @@ class UserController extends Controller
 
 	public function actionLogin()
 	{
-	
 		$service = Yii::app()->request->getQuery('service');
 		/*if (isset($service)) {
 			$authIdentity = Yii::app()->eauth->getIdentity($service);
@@ -621,7 +630,7 @@ class UserController extends Controller
 	public function actionRecovery()
 	{
 		$model = $this->loadModel(Yii::app()->user->id, 'recovery');
-
+		$model->is_bitrix_pass=0;
 		// if user and password are already setted and so question and answer no form will be prompted
 		if (strpos($model->username, '_user') !== 0 && $model->password
 			&& $model->salt && $model->question && $model->answer) {
@@ -637,7 +646,7 @@ class UserController extends Controller
 		$this->performAjaxValidation($model);
 
 		if (isset($_POST['UserGroupsUser'])) {
-			$model->attributes = $_POST['UserGroupsUser'];
+			$model->attributes = $_POST['UserGroupsUser'];			
 			if ($model->validate()) {
 				if (!$model->save())
 					Yii::app()->user->setFlash('success', Yii::t('userGroupsModule.general','An Error Occurred. Please try later.'));

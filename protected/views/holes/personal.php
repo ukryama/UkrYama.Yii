@@ -58,7 +58,7 @@ $this->pageTitle=Yii::app()->name . ' :: Мои ямы';
 		$this->renderPartial('_selected', Array('gibdds'=>$selected ? GibddHeads::model()->with('holes')->findAll('holes.id IN ('.implode(',',$selected).')') : Array(),'user'=>$user->userModel));
 		?>
 	<?php endif;  ?>
-	</div> 
+	</div>
 
 </div>
 
@@ -80,17 +80,17 @@ $this->pageTitle=Yii::app()->name . ' :: Мои ямы';
 			<div style="text-align:right;">
 			<?php echo CHtml::checkBox('selectAll', false, Array('id'=>'selectAll','class'=>'state_check')); ?><?php echo CHtml::label('Выбрать все', 'selectAll'); ?>
 			</div>
-			
+			<?php if ($model->keys) echo $form->dropDownList($model, 'gibdd_id', CHtml::listData(GibddHeads::model()->with(Array('holes'=>Array('select'=>'ID, gibdd_id')))->findAll(Array('condition'=>'holes.ID IN ('.implode(', ',$model->keys).')','order'=>'t.name')), 'id', 'gibdd_name' ), array('prompt'=>'Все ГИБДД')); ?>
 	<?php $this->endWidget(); ?>		
 			</p>
 				
 <?php $this->widget('zii.widgets.CListView', array(
 	'id'=>'holes_list',
 	'ajaxUpdate'=>true,
-	'dataProvider'=>$model->userSearch(),
+	'dataProvider'=>$dataProvider,
 	'itemView'=>'_view',
 	'itemsTagName'=>'ul',
-	'cssFile'=>Yii::app()->request->baseUrl.'/css/holes_list.css',
+	'cssFile'=>'/css/holes_list.css',
 	'itemsCssClass'=>'holes_list',
 	'summaryText'=>false,
 	'viewData'=>Array('showcheckbox'=>true, 'user'=>$user),

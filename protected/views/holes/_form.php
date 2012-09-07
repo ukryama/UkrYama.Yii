@@ -15,6 +15,19 @@
 
 	<!-- левая колоночка -->
 	<div class="lCol">
+		<div class="hiddenfields" <?php if (!$model->TYPE_ID) echo 'style="display:none;"';?> >
+		
+		<?php if (Yii::app()->user->level > 99) : ?>
+		<div class="f">
+			<?php echo $form->labelEx($model,'deleted'); ?>
+			<?php echo $form->dropDownList($model, 'deleted', Array(0=>'Нет', 1=>'Да')); ?>
+			<?php echo $form->error($model,'deleted'); ?>
+			<?php if ($model->deleted) : ?>
+				Удалил: <?php echo $model->deletor ? CHtml::link($model->deletor->Fullname, Array('profile/view','id'=>$model->deletor->id)) : 'Непонятно кто' ?>
+			<?php endif; ?>
+		</div>
+		<?php endif; ?>
+		
 		<!-- тип дефекта -->
 		<div class="f">
 			<?php echo $form->labelEx($model,'TYPE_ID'); ?>
@@ -22,6 +35,7 @@
 			<?php echo $form->error($model,'TYPE_ID'); ?>
 		</div>
 		
+
 		<!-- адрес -->
 		<div class="f">
 			<?php echo $form->labelEx($model,'ADDRESS'); ?>
@@ -39,29 +53,79 @@
 		<!-- фотки -->
 		<div class="f">
 			<?php echo $form->labelEx($model,'upploadedPictures'); ?>
-			<?php $this->widget('CMultiFileUpload',array('accept'=>'gif|jpg|png', 'model'=>$model, 'attribute'=>'upploadedPictures', 'htmlOptions'=>array('class'=>'mf'), 'denied'=>Yii::t('mf','Невозможно загрузить этот файл'),'duplicate'=>Yii::t('mf','Файл уже существует'),'remove'=>Yii::t('mf','удалить'),'selected'=>Yii::t('mf','Файлы: $file'),)); ?>						
+			<?php 
+				if (!Yii::app()->user->userModel->relProfile->use_multi_upload) 
+					$this->widget('CMultiFileUpload',array('accept'=>'gif|jpg|jpeg|png', 'model'=>$model, 'attribute'=>'upploadedPictures', 'htmlOptions'=>array('class'=>'mf'), 'denied'=>Yii::t('mf','Невозможно загрузить этот файл'),'duplicate'=>Yii::t('mf','Файл уже существует'),'remove'=>Yii::t('mf','удалить'),'selected'=>Yii::t('mf','Файлы: $file'),));
+				else $this->widget('ext.EAjaxUpload.EAjaxUpload',
+					array(
+							'id'=>'uploadFile',
+							'config'=>array(
+								   'action'=>Yii::app()->createUrl('/holes/upload'),
+								   'allowedExtensions'=>array("jpg", "jpeg", "png", "gif"),//array("jpg","jpeg","gif","exe","mov" and etc...
+								   'sizeLimit'=>10*1024*1024,// maximum file size in bytes
+								   'minSizeLimit'=>20,// minimum file size in bytes
+								   'multiple'=>true,
+								   //'onComplete'=>"js:function(id, fileName, responseJSON){ alert(fileName); }",
+								   'messages'=>array(
+								                     'typeError'=>"{file} не верный тип файла. Можно загружать только {extensions}.",
+								                     'sizeError'=>"{file} слишком большой файл. Максимальный размер {sizeLimit}.",
+								                     'minSizeError'=>"{file} слишком маленький файл. Минимальный размер {minSizeLimit}.",
+								                     'emptyError'=>"{file} пуст. Выберите другой файл для загрузки",
+								                     'onLeave'=>"Файлы загружаются, если вы выйдете сейчас, загрузка будет прервана."
+								                   ),
+								   //'showMessage'=>"js:function(message){ alert(message); }"
+								  )
+					)); ?>
 		</div>
 		
 		<!-- камент -->
+		
+		<div class="f">
+			<?php echo $form->labelEx($model,'description_size'); ?>
+			<?php echo $form->textArea($model,'description_size',Array('rows'=>5)); ?>
+			<?php echo $form->error($model,'description_size'); ?>
+		</div>
+		<div class="f">
+			<?php echo $form->labelEx($model,'description_locality'); ?>
+			<?php echo $form->textArea($model,'description_locality',Array('rows'=>8)); ?>
+			<?php echo $form->error($model,'description_locality'); ?>
+		</div>
+		
 		<div class="f">
 			<?php echo $form->labelEx($model,'COMMENT1'); ?>
-			<?php echo $form->textArea($model,'COMMENT1'); ?>
+			<?php echo $form->textArea($model,'COMMENT1',Array('class'=>'big')); ?>
 			<?php echo $form->error($model,'COMMENT1'); ?>
 		</div>
-		<?php echo $form->hiddenField($model,'LATITUDE'); ?>
-		<?php echo $form->hiddenField($model,'LONGITUDE'); ?>
+	
 		<?php echo $form->hiddenField($model,'STR_SUBJECTRF'); ?>
 		<?php echo $form->hiddenField($model,'ADR_CITY'); ?>
+		</div>
+		<div id="coord_fields" style="display:none;">
+		<div class="f">
+			<?php echo $form->labelEx($model,'LONGITUDE'); ?>
+			<?php echo $form->textField($model,'LONGITUDE',array('class'=>'textInput')); ?>
+			<?php echo $form->error($model,'LONGITUDE'); ?>
+		</div>
+		<div class="f">
+			<?php echo $form->labelEx($model,'LATITUDE'); ?>
+			<?php echo $form->textField($model,'LATITUDE',array('class'=>'textInput')); ?>
+			<?php echo $form->error($model,'LATITUDE'); ?>
+		</div>
+		<div class="addSubmit">
+			<div class="container" style="padding:0px;">				
+				<div class="btn">
+					<a class="addFact set_by_coord"><i class="text">Показать</i><i class="arrow"></i></a>
+				</div>
+			</div>
+		</div>
+		</div>
 	</div>
 	<!-- /левая колоночка -->
 	
 	<!-- правая колоночка -->
 	<div class="rCol"> 
 	<div class="f">
-	<p class="tip">
-Поставьте метку на карте двойным щелчком мыши
-<span class="required">*</span>
-</p>
+
 		<div class="bx-yandex-search-layout" style="padding-bottom: 0px;">
 			<div class="bx-yandex-search-form" style="padding-bottom: 0px;">				
 					<p>Введите адрес места для быстрого поиска</p>
@@ -71,14 +135,33 @@
 			</div>		
 			<div class="bx-yandex-search-results" id="results_MAP_DzDvWLBsil"></div>
 		</div>	
+			
+			<p><strong>
+Поставьте метку на карте двойным щелчком мыши
+<span class="required">*</span></strong><br />
+или <a href="#" id="show_fields">введите координаты дефекта</a>
+
+</p>
+
 			<span id="recognized_address_str" title="Субъект РФ и населённый пункт"></span>
-			<span id="other_address_str"></span>				
-		
+			<span id="other_address_str"></span>	
 		
 		<div class="bx-yandex-view-layout">
 			<div class="bx-yandex-view-map">
 		<?php if ($model->isNewRecord) $maptype='addhole'; else $maptype='updatehole'; ?>
 		<?php Yii::app()->clientScript->registerScript('initmap',<<<EOD
+		
+		$('#show_fields').live('click',function() {
+			$("#coord_fields").animate({opacity: 'show'}, 'slow');				
+				if(jQuery.browser.safari){
+							jQuery("body").animate( { scrollTop: $("#Holes_LATITUDE").offset().top-20 }, 1100 );
+						  }else{
+							jQuery("html").animate( { scrollTop: $("#Holes_LATITUDE").offset().top-20 }, 1100 );
+						  }			
+			$("#Holes_LONGITUDE").focus();
+			
+		});
+		
 		if (window.attachEvent) // IE
 			window.attachEvent("onload", function(){init_MAP_DzDvWLBsil(null,'{$maptype}')});
 		else if (window.addEventListener) // Gecko / W3C
@@ -131,14 +214,17 @@ EOD
 		<? endif;  ?>
 	</div>
 	<!-- /правая колоночка -->
-	<div class="addSubmit">
-		<div class="container">
-			<p>После нажатия на кнопку «Отправить» вы можете создать обращение о дефекте в виде pdf-документа, которое можно распечатать и отправить в ближайшее отделение ГИБДД</p>
-			<div class="btn" onclick="$(this).parents('form').submit();">
-				<a class="addFact"><i class="text">Отправить</i><i class="arrow"></i></a>
+	<div class="hiddenfields" <?php if (!$model->TYPE_ID) echo 'style="display:none;"';?> >
+	
+		<div class="addSubmit">
+			<div class="container">
+				<p>После нажатия на кнопку «Отправить» вы можете создать обращение о дефекте в виде pdf-документа, которое можно распечатать и отправить в ближайшее отделение ГИБДД</p>
+				<div class="btn" onclick="$(this).parents('form').submit();">
+					<a class="addFact"><i class="text">Отправить</i><i class="arrow"></i></a>
+				</div>
 			</div>
 		</div>
-	</div>
+	</div>	
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->

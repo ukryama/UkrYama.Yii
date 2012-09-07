@@ -6,18 +6,12 @@ $this->pageTitle=Yii::app()->name . ' :: Карта дефектов';
 		<div class="container">
 <div class="lCol">
 												<a href="/" class="logo" title="На главную"><img src="/images/logo.png"  alt="РосЯма" /></a>
+												<div class="btn">									
+													<?php echo CHtml::link('<i class="text">Добавить</i><i class="arrow"></i>',Array('/holes/add'),Array('class'=>'addFact', 'id'=>'addFactButton')); ?>
+												</div>
 											</div>
 						<div class="rCol">
-				<script language="javascript">
-<!--
-
-function GetCheckNull()
-{
-
-}
--->
-</script>
-<h1>Карта дефектов</h1>
+<h1>Карта дефектов<?php if ($usermodel) echo ' в зоне наблюдения <br /> пользователя '.CHtml::link(CHtml::encode($usermodel->fullname), Array('profile/view', 'id'=>$usermodel->id)); ?></h1>
 
 <?php $form=$this->beginWidget('CActiveForm',Array(
 	'id'=>'map-form',
@@ -33,16 +27,28 @@ function GetCheckNull()
 <div class="filterCol filterType">
 <p class="title">Показать тип дефектов</p>
 <?php foreach ($types as $i=>$type) : ?>
-<label class="col2"><span><input id="ch0" name="Holes[type][]" type="checkbox" value="<?php echo $type->id; ?>"   /></span>
-<ins class="<?php echo $type->alias; ?>"><?php echo Yii::t('holes','HOLES_TYPE_'.strtoupper($type->alias)); ?></ins></label>
+<label class="col2"><span><input id="ch0" name="Holes[type][]" type="checkbox" value="<?php echo $type->id; ?>"   /></span><ins class="<?php echo $type->alias; ?>"><?php echo $type->name; ?></ins></label>
 <?php endforeach; ?>
 <input id="MAPLAT" name="MAPLAT" type="hidden" value="" />
 <input id="MAPZOOM" name="MAPZOOM" type="hidden" value="" />
 
-
+<div class="clear"></div>
+<br />
+<div class="chekboxes" style="float:right;">
+<?php echo $form->checkBox($model,"archive",Array('class'=>'filter_checkbox')); ?>	
+<?php echo $form->labelEx($model,'archive',Array('label'=>'Показывать ямы из архива', 'class'=>'archive')); ?>
 
 </div>
-<div class="submit"><input type="submit" name="button" id="button" value="Показать" /><input type="reset" name="reset" id="reset_button" value="Сбросить" type="button" /></div>
+
+</div>
+<div class="submit"><input type="submit" name="button" id="button" value="Показать" /><input type="reset" name="reset" id="reset_button" value="Сбросить" type="button" />
+<div style="float:right;">
+<?php if (!Yii::app()->user->isGuest && Yii::app()->user->userModel->hole_area) : ?>
+<label><span class="myarea_check"><input id="myarea_check_inp" name="myarea_check_inp" type="checkbox" <?php if (!$usermodel) echo 'checked="true"' ?> /></span><ins>Показать мою зону наблюдения</ins></label>
+<?php endif; ?>
+<label style="padding-left:10px;"><span class="gibdd_check"><input id="ibdd_check_inp" name="ibdd_check_inp" type="checkbox" /></span><ins>Показывать границы наблюдения подразделений ГИБДД</ins></label>
+</div>
+</div>
 <?php $this->endWidget(); ?>			</div>
 		</div>
 	</div>
@@ -68,12 +74,15 @@ function GetCheckNull()
 <script type="text/javascript">
 history.navigationMode = 'compatible';
 $(document).ready( function(){
-                                init_MAP_DzDvWLBsil();
+                                init_MAP_DzDvWLBsil(<?php if ($usermodel) echo "null, 'userarea'"; elseif(!Yii::app()->user->isGuest && Yii::app()->user->userModel->hole_area)  echo "null, 'bigmap_with_area'"?>);
                              }
                  );
 
 
 </script>
+<?php if ($usermodel) : ?>
+	<?php echo CHtml::hiddenField('user_id', $usermodel->id); ?>
+<?php endif; ?>
 <?php
 					$this->widget('application.extensions.ymapmultiplot.YMapMultiplot', array(
 							'key'=>$this->mapkey,

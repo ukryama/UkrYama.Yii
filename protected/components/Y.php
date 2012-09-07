@@ -18,11 +18,11 @@ class Y
 		
 	public function dateFromTime($time)
 		{
-    		return Yii::app()->dateFormatter->formatDateTime($time, 'long', false);
+    		return Yii::app()->dateFormatter->format('d MMMM yyyy', $time);
 		}
 	public function dateFromTimeShort($time)
 		{
-    		return Yii::app()->dateFormatter->formatDateTime($time,'short','short');
+    		return date('d.m.Y H:i',$time);
 		}		
 	
 }

@@ -92,13 +92,44 @@ class RfSubjects extends CActiveRecord
 	}	 
 	
 	public function SearchID($subject_name)
-	{	
-		$s=mb_substr(mb_strtolower(trim($subject_name),'UTF-8'),0,4,'UTF-8');
-		if (strlen($s)) {
-			$subj=self::find('LOWER(name_full) LIKE :name', array(':name'=>'%'.$s.'%'));
-			return $subj->id;
+	{
+
+		$subject_name = trim($subject_name, " \n\t");	
+		if ($subject_name=='республика Чувашская') $subject_name='Чувашская республика';
+		if ($subject_name=='республика Удмуртская') $subject_name='Удмуртская республика';
+		if ($subject_name=='Республика Саха (Якутия)') $subject_name='Республика Саха';
+
+		$subjects=$this->findAll();
+		$_RF_SUBJECTS=CHtml::listData($subjects, 'id','name');
+		$result = $this->gs_array_search($subject_name, $_RF_SUBJECTS);
+		if (!$result){
+			$_RF_SUBJECTS=CHtml::listData($subjects, 'id','name_full');
+			$result = $this->gs_array_search($subject_name, $_RF_SUBJECTS);
 		}
-		return false;
+		if(!$result)
+		{
+			$subject_name = explode(' ', $subject_name);
+			foreach($subject_name as $s)
+			{
+				$ls = mb_strtolower($s,'UTF-8');				
+				if
+				(
+					$ls == 'республика'
+					|| $ls == 'край'
+					|| $ls == 'область'
+					|| $ls == 'округ'
+				)
+				{
+					continue;
+				}
+				$result = $this->gs_array_search($s, $_RF_SUBJECTS);
+				if($result)
+				{
+					break;
+				}
+			}
+		}
+		return $result;
 	}
 	
 	public function Address($address)

@@ -100,7 +100,23 @@ class HoleAnswers extends CActiveRecord
 	}	
 	
 	public function getuppload_files(){
-		if (!$this->isimport) return CUploadedFile::getInstancesByName('');
+		$session=new CHttpSession;
+		$session->open();
+		
+		$folder=$_SERVER['DOCUMENT_ROOT'].'/upload/tmp/'.$session->SessionID;
+		$files=Array();
+		if (is_dir($folder)){		
+			foreach(glob($folder . '/*') as $file) {
+				$files[]=$file;
+			}
+		}
+		
+		if (!$this->isimport) {
+			if (!$files)
+				return CUploadedFile::getInstancesByName('');
+			else 
+				return $files;
+			}
 		else return Array(123,321);
 	}
 	
@@ -108,7 +124,7 @@ class HoleAnswers extends CActiveRecord
 	{			
 		parent::afterSave();
 		
-		if ($this->scenario=="insert"){
+		if ($this->scenario=="insert" || $this->scenario=="update"){
 			$dir=$_SERVER['DOCUMENT_ROOT'].$this->filesFolder;
 			if (!is_dir($_SERVER['DOCUMENT_ROOT'].'/upload/st1234/answers/'))
 				mkdir($_SERVER['DOCUMENT_ROOT'].'/upload/st1234/answers/');
@@ -122,16 +138,23 @@ class HoleAnswers extends CActiveRecord
 			$files=$this->uppload_files;			
 			if($files && !$this->firstAnswermodel){							
 				foreach ($files as $file){
-				if(!$file->hasError){
+				$isstr=is_string($file);
+				$fileHelper=new CFileHelper;
+				if($isstr || !$file->hasError){
 					$model=new HoleAnswerFiles;
 					$model->answer_id=$this->id;
-					$model->file_name=rand().'.'.$file->extensionName;
-					$filetypeArr=explode('/', $file->type);
+					$ext = $isstr ? $fileHelper->getExtension($file) : $file->extensionName;
+					$model->file_name=rand().'.'.$ext;
+					
+					$type = $isstr ? $fileHelper->getMimeType($file) : $file->type;
+					
+					$filetypeArr=explode('/', $type);
 					if ($filetypeArr[0]=='image') $filetype='image';
-					else $filetype=$file->type;
+					else $filetype=$type;
 					$model->file_type=$filetype;
 					if ($model->save()){
-						if ($file->saveAs($dir.'/'.$model->file_name)){
+						$copied=$isstr ? copy($file, $dir.'/'.$model->file_name) : $file->saveAs($dir.'/'.$model->file_name);
+						if ($copied){
 							if ($model->file_type=='image'){						
 								$image = Yii::app()->image->load($dir.'/'.$model->file_name);
 								$image->resize(600, 450)->rotate(0)->quality(90)->sharpen(20);
@@ -142,13 +165,12 @@ class HoleAnswers extends CActiveRecord
 							}
 						}
 						else {
-						$model->delete();
-						$die();
+							$model->delete();						
 						}
 					}
 				}
 			}
-			else {
+			else if ($this->firstAnswermodel) {
 				foreach ($this->firstAnswermodel->files as $file){
 					$model=new HoleAnswerFiles;
 					$model->answer_id=$this->id;
@@ -163,6 +185,7 @@ class HoleAnswers extends CActiveRecord
 				
 			}
 		}
+		Yii::app()->controller->flushUploadDir();
 	}	
 	
 	public function beforeDelete(){
@@ -178,7 +201,7 @@ class HoleAnswers extends CActiveRecord
 		parent::afterDelete();
 		$requests=CHtml::listData( $this->request->hole->requests_gibdd, 'id', 'id' );
 		if (!count ($this->findAll('request_id IN ('.implode(',',$requests).')'))){						
-			$this->request->hole->STATE='inprogress';				
+			if ($this->request->hole->STATE=='gibddre') $this->request->hole->STATE='inprogress';				
 			$this->request->hole->update();
 			}
 		return true;	

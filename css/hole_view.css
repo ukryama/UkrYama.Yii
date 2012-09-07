@@ -9,27 +9,22 @@ div#ymapcontainer_big_map { height: 600px; width: 1000px; }
 .h .social .like {padding:20px 20px 15px}
 #fb_like {margin-bottom: 7px;}
 .h .social .share { color: #4c4c4c; border-top: 1px solid #e0e0e0; font-size: 0.92em; line-height: 21px; padding: 15px 15px 20px 15px}
-.social .share span, .social .share a { float: left; margin: 0 7px 0 0; }
-.social .share a { background-image: url(../images/social_icons.png); height: 21px; overflow: hidden; text-indent: -10000px; width: 21px; }
-.social .share .fb { background-position: -21px 0 }
-.social .share .vk { background-position: -42px 0 }
-.social .share .twitter-share-button { background-position: -84px 0 }
 
 div.rCol .h p { margin-bottom:0.31em }
 div.rCol .h .date { color: #aaa; font-style: italic; font-size: 0.85em; margin-right: 7px; }
 div.rCol .h .type { font-size: 1.15em; padding: 0 0 0 30px; background-repeat: no-repeat; background-position: left; height: 22px; line-height: 22px; margin-bottom:0.47em }
-div.rCol .h .address { background: url(../images/marker.gif) no-repeat 2px center; padding-left: 19px;}
+div.rCol .h .address { background: url(/images/marker.gif) no-repeat 2px center; padding-left: 19px;}
 
-div.rCol .h .type_crossing { background-image: url("../images/st1234/crossing.png"); }
-div.rCol .h .type_badroad { background-image: url("../images/st1234/badroad.png"); }
-div.rCol .h .type_holeonroad { background-image: url("../images/st1234/holeonroad.png"); }
-div.rCol .h .type_holeinyard { background-image: url("../images/st1234/holeinyard.png"); }
-div.rCol .h .type_rails { background-image: url("../images/st1234/rails.png"); }
-div.rCol .h .type_light { background-image: url("../images/st1234/light.png"); padding-left: 23px; }
-div.rCol .h .type_fence { background-image: url("../images/st1234/fence.png"); }
-div.rCol .h .type_hatch { background-image: url("../images/st1234/hatch.png"); }
-div.rCol .h .type_nomarking { background-image: url("../images/st1234/nomarking.png"); }
-div.rCol .h .type_policeman { background-image: url("../images/st1234/policeman.png"); }
+div.rCol .h .type_crossing { background-image: url("/images/st1234/crossing.png"); }
+div.rCol .h .type_badroad { background-image: url("/images/st1234/badroad.png"); }
+div.rCol .h .type_holeonroad { background-image: url("/images/st1234/holeonroad.png"); }
+div.rCol .h .type_holeinyard { background-image: url("/images/st1234/holeinyard.png"); }
+div.rCol .h .type_rails { background-image: url("/images/st1234/rails.png"); }
+div.rCol .h .type_light { background-image: url("/images/st1234/light.png"); padding-left: 23px; }
+div.rCol .h .type_fence { background-image: url("/images/st1234/fence.png"); }
+div.rCol .h .type_hatch { background-image: url("/images/st1234/hatch.png"); }
+div.rCol .h .type_nomarking { background-image: url("/images/st1234/nomarking.png"); }
+div.rCol .h .type_policeman { background-image: url("/images/st1234/policeman.png"); }
 div.rCol .h .status {position: relative; padding-left: 19px; }
 div.rCol .h span.bull { font-size: 26px; left: 0; line-height: 12px; position: absolute; top: 0;  }
 div.rCol .h span.fresh { color: #aaa; }
@@ -107,18 +102,23 @@ div.rCol .h .progress .rc span ins {
 
 div.rCol .h .progress .excl { cursor: pointer; }
 
-div.rCol .h .edit {
-	font-size: 0.92em;
-	line-height: 1.54em;
-	position: absolute;
-	right: 0;
-	top: -3px;
-	*top:-15px;
-	text-align: right;
-	width: 145px;
+div.rCol .errortext {
+	width: 60%;
+	top: 10px;
+	display: block;
+	padding-bottom: 10px;
 }
 
-div.rCol .h .edit a {margin-left:8px}
+div.rCol .edit {
+	display: block;
+	position: absolute;
+	right: 0;
+	top: 10px;
+	text-align: right;
+	width: 40%;
+	padding-bottom: 10px;
+}
+
 div.rCol .h .days { font-size: 1.38em; font-weight: bold; line-height: 1em; }
 
 div.rCol .before {
@@ -219,3 +219,8 @@ div.rCol .before:after, div.rCol .after:after {
 	resize:none;
 	margin-bottom:10px;
 }
+
+.answer_file{width: 105px; height: 150px; float:left; margin-right: 10px; text-align: right;}
+.answer_file .delfileBtn {position: absolute; width: 16px; margin-left: 92px;}
+.picture_info{padding:5px; border: 1px solid #DDD; border-color: #aaa; width: 555px; height: 15px; border-bottom:none;}
+.picture_info div, .picture_info .declarationBtn{float:left;}

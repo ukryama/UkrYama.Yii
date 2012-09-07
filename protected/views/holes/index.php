@@ -1,5 +1,5 @@
 <?
-$this->pageTitle=Yii::app()->name;
+$this->pageTitle=Yii::app()->name . ' :: Список дефектов';
 ?>
 <?php
 if(Yii::app()->user->isModer)
@@ -65,7 +65,7 @@ $all_elements=implode(',',$dataProvider->keys);
 			{
 				id : 0,
 				PREMODERATE_ALL: '{$all_elements}',
-				ajax: 1, 
+				ajax: 1,
 			},
 			function(data)
 			{
@@ -77,6 +77,7 @@ $all_elements=implode(',',$dataProvider->keys);
 					{
 						$('#premoderate_' + id[key]).fadeOut()
 					}
+					window.location.reload();
 				}
 			}
 		)
@@ -163,8 +164,7 @@ EOD
       'autoCompleteLength'=>60,
       // any attributes of CJuiAutoComplete and jQuery JUI AutoComplete widget may 
       // also be defined.  read the code and docs for all options
-      'defaultVal'=>'Область',
-      'defaultVal'=>Yii::t("holes", "WIDGET_DEFAULT_REGION"),
+      'defaultVal'=>'Субъект РФ',
       'cssClass'=>$model->ADR_SUBJECTRF ? '' : 'disabled',
       
       //'scriptFile'=>'jquery.autocomplete.js',      
@@ -181,7 +181,7 @@ EOD
 			<div id="filter_rf_subject_tip" class="filter_roller"></div>
 			<p>
 			<?php
-			$defval= Yii::t('holes', "WIDGET_DEFAULT_CITY");
+			$defval='Город';
 			if ($model->ADR_CITY) $val=$model->ADR_CITY;
 			else $val= $defval;
 			$this->widget('zii.widgets.jui.CJuiAutoComplete', array(
@@ -214,26 +214,41 @@ EOD
 			</p>
 			<div id="filter_city_tip" class="filter_roller"></div>
 			<p>
-			<?php echo $form->dropDownList($model, 'TYPE_ID', CHtml::listData( HoleTypes::model()->findAll(Array('condition'=>'published=1', 'order'=>'ordering')), 'id','name'), array('prompt'=>Yii::t("holes", "WIDGET_TYPE_DEFECT"))); ?>
+			<?php echo $form->dropDownList($model, 'TYPE_ID', CHtml::listData( HoleTypes::model()->findAll(Array('condition'=>'published=1', 'order'=>'ordering')), 'id','name'), array('prompt'=>'Тип дефекта')); ?>
 			</p>
 			<p>
-			<?php echo $form->dropDownList($model, 'STATE', $model->Allstates, array('prompt'=>Yii::t("holes", "WIDGET_STATUS_DEFECT"))); ?>
+			<?php echo $form->dropDownList($model, 'STATE', $model->Allstates, array('prompt'=>'Статус дефекта')); ?>
 			</p>
+				<p>
+				<?php echo $form->labelEx($model,'archive',Array('label'=>'Искать в архиве')); ?>
+				<?php echo $form->checkBox($model,"archive",Array('class'=>'filter_checkbox')); ?>				
+				</p>
 			<?php if(Yii::app()->user->isModer) : ?>
 				<p>
 				<?php echo $form->labelEx($model,'NOT_PREMODERATED'); ?>
-				<?php echo $form->checkBox($model,"NOT_PREMODERATED",Array('class'=>'filter_checkbox')); ?>
+				<?php echo $form->checkBox($model,"NOT_PREMODERATED",Array('class'=>'filter_checkbox')); ?>				
 				</p>
 			<?php endif; ?>
 			<span class="filterBtn" onclick="$(this).parents('form').submit();">
-				<i class="text"><?php echo(Yii::t("holes", "WIDGET_SUBMIT_DEFECT"))?></i>
+				<i class="text">Показать</i>
 				<i class="arrow"></i>
 			</span>
 			<br>
 			<?php 
-			if(!$model->isEmptyAttribs): ?><span class="reset" onclick="document.location='/';"><?php echo(Yii::t("holes", "WIDGET_CLEAR_DEFECT"))?></span><?php endif; ?>
+			if(!$model->isEmptyAttribs): ?><span class="reset" onclick="document.location='/';">Сбросить</span><?php endif; ?>	
 		<?php $this->endWidget(); ?>
 </div>
+
+<table style="background-color: rgb(241, 109, 126)"> 
+  <tbody> 
+    <tr><td style="padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px"> <b> 
+      <p>Сбор средств на развитие РосЯмы:</p>
+        <p>Яндекс-деньги: 41001550415485</p>
+        <p><a href="/page/donations/">Подробнее</a></p>
+      </b>
+    </td></tr>
+  </tbody>
+</table>
 
 <?php $this->widget('application.widgets.news.newsWidget'); ?>
 <?php $this->widget('application.widgets.social.socialWidget'); ?>
@@ -241,15 +256,23 @@ EOD
 </div>
 
 <div class="rCol">
-
+<?php if(Yii::app()->user->isModer) : ?>
+	<?php if($this->action->id!='moderPhotoFix') : ?>
+		<?php echo CHtml::link('Ямы с неотмодерированными фото устраненного дефекта ('.Holes::model()->with('pictures_fixed_not_moderated')->count(Array('condition'=>'t.deleted=0 AND t.PREMODERATED=1 AND t.STATE!="fixed"')).')', Array('/holes/moderPhotoFix/'));?><br /><br />
+	<?php else : ?>
+	<h2><?php echo 'Ямы с неотмодерированными фото устраненного дефекта ('.Holes::model()->with('pictures_fixed_not_moderated')->count(Array('condition'=>'t.deleted=0 AND t.PREMODERATED=1 AND t.STATE!="fixed"')).')'; ?></h2>
+	<?php endif; ?>	
+<?php endif; ?>	
 <?php $this->widget('zii.widgets.CListView', array(
-		'dataProvider'=>$dataProvider,
-		'itemView'=>'_view',
-		'itemsTagName'=>'ul',
-		'cssFile'=>Yii::app()->request->baseUrl.'/css/holes_list.css',
-		'itemsCssClass'=>'holes_list',
-		'summaryText'=>false,
-		'viewData'=>Array('user'=>Yii::app()->user),
+	'dataProvider'=>$dataProvider,
+	'itemView'=>'_view',
+	'itemsTagName'=>'ul',
+	'cssFile'=>'/css/holes_list.css',
+	'itemsCssClass'=>'holes_list',
+	'summaryText'=>false,
+	'emptyText'=>!$model->archive ? 'Ничего не найдено. Может быть попробовать '.CHtml::link('поискать в архиве',$model->archiveSearchLink).'?' : 'Ничего не найдено.',
+	'viewData'=>Array('user'=>Yii::app()->user),
+	
 )); ?>
 <?php if (Yii::app()->user->isModer && $model->NOT_PREMODERATED && $dataProvider->totalItemCount > 0) : ?>
 	<input type="button" id="all_right" value="Разрешить все дефекты" />

@@ -99,8 +99,17 @@ class StaticsController extends Controller
 		$arResult['STATE'][]=Holes::model()->findAll(Array('select'=>'avg(DATE_STATUS-DATE_SENT) as time','condition'=>'STATE="fixed" and ADR_CITY!="" and PREMODERATED=1','limit'=>10));
 		
 		// по пользователям
-		$arResult['user'][]=Holes::model()->with('user')->findAll(Array('select'=>'count(*) as counts','condition'=>'PREMODERATED=1','group'=>'USER_ID','order'=>'counts desc','limit'=>10));
-		$arResult['user'][]=Holes::model()->with('user')->findAll(Array('select'=>'count(*) as counts','condition'=>'STATE="fixed" and PREMODERATED=1','group'=>'USER_ID','order'=>'counts desc','limit'=>10));		
+		$arResult['user'][]=Holes::model()->with('user')->findAll(Array('select'=>'count(*) as counts','condition'=>'PREMODERATED=1 AND deleted=0','group'=>'USER_ID','order'=>'counts desc','limit'=>10));
+		$arResult['user'][]=Holes::model()->with('user')->findAll(Array('select'=>'count(*) as counts','condition'=>'STATE="fixed" and PREMODERATED=1 AND deleted=0','group'=>'USER_ID','order'=>'counts desc','limit'=>10));		
+
+		if (Yii::app()->user->level >= 90) {
+			$arResult['moders']=Holes::model()->with('moder')->findAll(Array('select'=>'count(*) as counts','condition'=>'PREMODERATED=1 AND deleted=0 AND moder.id > 0','group'=>'premoderator_id', 'together'=>true,'order'=>'counts desc','limit'=>10));	
+
+				foreach($arResult['moders'] as $k=>$v)
+				{
+					$arResult['moders'][$k]['moder'] = CHtml::link(CHtml::encode((!empty($v->moder->name) && !empty($v->moder->last_name)) ? $v->moder->name.' '.$v->moder->last_name : $v->moder->username), Array('profile/view','id'=>$v->moder->id));
+				}
+		}
 	
 		
 		$ru = array(
@@ -140,7 +149,7 @@ class StaticsController extends Controller
 		for($i = 0; $i < 2; $i++){
 			foreach($arResult['user'][$i] as $k=>$v)
 			{
-				$arResult['user'][$i][$k]['user'] = (!empty($v->user->name) && !empty($v->user->last_name)) ? $v->user->name.' '.$v->user->last_name : $v->user->username;
+				$arResult['user'][$i][$k]['user'] = CHtml::link(CHtml::encode((!empty($v->user->name) && !empty($v->user->last_name)) ? $v->user->name.' '.$v->user->last_name : $v->user->username), Array('profile/view','id'=>$v->user->id));
 			}
 		}
 		$this->render('index',array(

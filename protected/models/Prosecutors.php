@@ -40,6 +40,7 @@ class Prosecutors extends CActiveRecord
 			array('name, subject_id, preview_text, gibdd_name', 'required'),
 			array('subject_id', 'numerical', 'integerOnly'=>true),
 			array('name, gibdd_name', 'length', 'max'=>255),
+			array('url_priemnaya', 'url','allowEmpty'=>true),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, name, subject_id, preview_text, gibdd_name', 'safe', 'on'=>'search'),
@@ -54,7 +55,6 @@ class Prosecutors extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'subject'=>array(self::BELONGS_TO, 'RfSubjects', 'subject_id'),
 		);
 	}
 
@@ -65,10 +65,11 @@ class Prosecutors extends CActiveRecord
 	{
 		return array(
 			'id' => 'ID',
-			'name' => 'Полное название',
-			'subject_id' => 'Область',
-			'preview_text' => 'Контакты',
+			'name' => 'Расширенное название для вставки в заявление',
+			'subject_id' => 'Subject',
+			'preview_text' => 'Описание',
 			'gibdd_name' => 'Название',
+			'url_priemnaya'=>'Интернет-приемная',
 		);
 	}
 
@@ -92,11 +93,5 @@ class Prosecutors extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 		));
-	}
-	
-	protected function beforeSave() {
-		if ($this->preview_text)
-			$this->preview_text=nl2br($this->preview_text);
-		return parent::beforeSave();
 	}
 }

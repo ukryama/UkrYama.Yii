@@ -72,9 +72,6 @@ class UserGroupsUser extends CActiveRecord
 	 * @var string
 	 */
 	public $rememberMe;
-
-    public $language;
-
 	private $_identity;
 	/**
 	 * this constant rappresent the root id
@@ -109,6 +106,8 @@ class UserGroupsUser extends CActiveRecord
 	const VIEW = 'view';
 	const EDIT = 'edit';
 	const REGISTRATION = 'registration';
+	
+	public $notUseAfrefind=false;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -165,7 +164,7 @@ class UserGroupsUser extends CActiveRecord
 			array('username', 'length', 'min'=>4, 'on'=>array('changePassword')),
 			array('email', 'required', 'on'=>array('registration','admin','mailRequest','changeMisc','invitation')),
 			array('username, email', 'unique', 'on'=>array('registration','admin', 'recovery','changeMisc', 'invitation')),
-			array('username', 'match', 'pattern'=>'/^[A-Za-z0-9-_\-]{4,}$/', 'on'=>array('registration','admin','recovery'),
+			array('username', 'match', 'pattern'=>'/^[A-Za-z0-9-_\-]{3,}$/', 'on'=>array('registration','admin','recovery', 'changePassword'),
 				'message' => 'Имя пользователя может состоять из латинских букв и символов "-" и "_"'),
 			array('password', 'required', 'on'=>array('recovery','changePassword')),
 			array('password', 'passwordStrength', 'on'=>array('registration','admin','recovery','changePassword')),
@@ -174,7 +173,7 @@ class UserGroupsUser extends CActiveRecord
 				'message' => 'Пароли не совпадают'),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, group_name, group_id, username, home, status', 'safe', 'on'=>'search'),
+			array('id, group_name, group_id, username, home, status, name, second_name, last_name', 'safe', 'on'=>'search'),
 		);
 
 		if (UserGroupsConfiguration::findRule('simple_password_reset') === false)
@@ -325,11 +324,12 @@ class UserGroupsUser extends CActiveRecord
 		// define basic relation with groups
 		$relations = array(
 			'relUserGroupsGroup' => array(self::BELONGS_TO, 'UserGroupsGroup', 'group_id'),
-			'holes' => array(self::HAS_MANY, 'Holes', 'USER_ID'),
-			'holes_cnt' => array(self::STAT, 'Holes', 'USER_ID'),
-			'holes_fixed_cnt' => array(self::STAT, 'Holes', 'USER_ID', 'condition'=>'STATE="fixed"'),
-			'holes_fresh_cnt' => array(self::STAT, 'Holes', 'USER_ID', 'condition'=>'STATE="fresh"'),
+			'holes' => array(self::HAS_MANY, 'Holes', 'USER_ID', 'condition'=>'deleted=0'),
+			'holes_cnt' => array(self::STAT, 'Holes', 'USER_ID', 'condition'=>'deleted=0'),
+			'holes_fixed_cnt' => array(self::STAT, 'Holes', 'USER_ID', 'condition'=>'STATE="fixed" AND deleted=0'),
+			'holes_fresh_cnt' => array(self::STAT, 'Holes', 'USER_ID', 'condition'=>'STATE="fresh" AND deleted=0'),
 			'hole_area'=> array(self::HAS_MANY, 'UserAreaShapes', 'ug_id', 'with'=>'points'),
+			'requests'=>array(self::HAS_MANY, 'HoleRequests', 'user_id'),
 			'selected_holes_lists'=> array(self::HAS_MANY, 'UserSelectedLists', 'user_id', 'order'=>'selected_holes_lists.date_created desc'),
 			);
 		// extract profile models list
@@ -400,7 +400,8 @@ class UserGroupsUser extends CActiveRecord
 			'readable_home' => 'Домашняя страница',
 			'captcha' => 'Введите слово на картинке',
 			'rememberMe' => 'Запомнить меня на этом компьютере',
-			'params'=>'Другим пользователям :'
+			'params'=>'Другим пользователям :',
+			'activation_code'=>'Код активации',
 		);
 	}
 	
@@ -412,6 +413,15 @@ class UserGroupsUser extends CActiveRecord
 			'showContactForm' => 'Разрешать пользователям отправлять сообщения на e-mail',
 			'showMyarea'=>'Показывать границы моего участка',
 		);
+	}
+	
+	public function getDefParams()
+	{
+		$def=Array();
+		foreach ($this->ParamsFields as $key=>$val){
+			$def[$key]=1;
+		}
+		return $def;
 	}
 	
 	
@@ -445,6 +455,9 @@ class UserGroupsUser extends CActiveRecord
 		$criteria->compare('id',$this->id,true);
 		$criteria->compare('group_id',$this->group_id,true);
 		$criteria->compare('username',$this->username,true);
+		$criteria->compare('name',$this->name,true);
+		$criteria->compare('second_name',$this->second_name,true);
+		$criteria->compare('last_name',$this->last_name,true);
 		$criteria->compare('email',$this->email,true);
 		$criteria->compare('home',$this->home,true);
 		// set the default to status active unless the person loading the view has
@@ -518,6 +531,7 @@ class UserGroupsUser extends CActiveRecord
 					$this->status = self::WAITING_APPROVAL;
 				else
 					$this->status = self::ACTIVE;
+				$this->params=serialize($this->defParams);	
 			}
 			// erese the activation code for security reasons
 			if ((int)$this->status !== self::WAITING_ACTIVATION && (int)$this->status !== self::WAITING_APPROVAL && (int)$this->status !== self::PASSWORD_CHANGE_REQUEST && $this->scenario !== 'passRequest')
@@ -555,31 +569,39 @@ class UserGroupsUser extends CActiveRecord
 	 */
 	public function afterFind()
 	{
-		// retrieve the group name
-		$this->group_name = $this->relUserGroupsGroup->groupname;
-		// retrieve the user access permission's arra
-		if ((int)$this->id === self::ROOT)
-			$this->access = self::ROOT_ACCESS;
-		else {
-			$this->access = UserGroupsAccess::findRules(UserGroupsAccess::USER, $this->id);
+		if (!$this->notUseAfrefind){	
+			if (!$this->relProfile){
+				$this->relProfile=new Profile;
+				$this->relProfile->ug_id=$this->id;
+				$this->relProfile->save();
+			}
+		
+			// retrieve the group name
+			$this->group_name = $this->relUserGroupsGroup->groupname;
+			// retrieve the user access permission's arra
+			if ((int)$this->id === self::ROOT)
+				$this->access = self::ROOT_ACCESS;
+			else {
+				$this->access = UserGroupsAccess::findRules(UserGroupsAccess::USER, $this->id);
+			}
+	
+			// copy the level of it's own group
+			$this->level = $this->relUserGroupsGroup->level;
+	
+			// copy the group home
+			$this->group_home = $this->relUserGroupsGroup->home;
+			
+			//Получение параметров
+			if ($this->params) $this->params=unserialize($this->params);
+			else $this->params=array_keys($this->ParamsFields);
+			
+			// get the user readable home
+			$home_array = UserGroupsAccess::homeList();
+			if ($this->home)
+				$this->readable_home = isset($home_array[$this->home]) ? $home_array[$this->home] : $this->home;
+			else
+				$this->readable_home = isset($home_array[$this->group_home]) ? $home_array[$this->group_home].' - <i><b>Inherited from Group</b></i>' : $this->group_home;
 		}
-
-		// copy the level of it's own group
-		$this->level = $this->relUserGroupsGroup->level;
-
-		// copy the group home
-		$this->group_home = $this->relUserGroupsGroup->home;
-		
-		//Получение параметров
-		if ($this->params) $this->params=unserialize($this->params);
-		else $this->params=array_keys($this->ParamsFields);
-		
-		// get the user readable home
-		$home_array = UserGroupsAccess::homeList();
-		if ($this->home)
-			$this->readable_home = isset($home_array[$this->home]) ? $home_array[$this->home] : $this->home;
-		else
-			$this->readable_home = isset($home_array[$this->group_home]) ? $home_array[$this->group_home].' - <i><b>Inherited from Group</b></i>' : $this->group_home;
 		parent::afterFind();
 	}
 

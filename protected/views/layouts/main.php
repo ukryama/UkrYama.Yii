@@ -1,12 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="language" content="ru" />
-<meta name="copyright" content="ukryama" />
+<meta name="copyright" content="rosyama" />
 <meta name="robots" content="index, follow" />
-<link rel="icon" href="<?php echo Yii::app()->request->baseUrl; ?>/favicon.ico" type="image/x-icon" />
+<title><?php echo CHtml::encode($this->pageTitle); ?></title>
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/styles.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/template_styles.css" />
@@ -28,38 +28,7 @@
 							{
 								$('.grad').show()
 							}
-
-
 					})
-
-
-                    //$(".change-language").click( function(){
-                     function changeLanguage($lang){
-
-                        //$lang = $(this).attr("lang");
-                        var theDate = new Date();
-                        var oneWeekLater = new Date(theDate.getTime() + 1000 * 60 * 60 * 24 * 100);
-                        var expiryDate = oneWeekLater.toString();
-
-                        document.cookie = 'prefLang=' + $lang + '; expires=' + expiryDate + '; path=/;';
-
-                        $.ajax({
-                            type: "POST",
-                            url: "<?php echo $this->createUrl("site/changelang")?>",
-                            cache: false,
-                            data: "lang="+$lang,
-                            dataType: "html",
-                            timeout: 5000,
-                            success: function (data) {
-                                window.location.reload();
-                            }
-                        });
-
-
-
-                         return false;
-
-                    }
 				</script>
 
 <div class="wrap">
@@ -67,38 +36,21 @@
 		<div class="container">
 			<?php $this->widget('zii.widgets.CMenu',array(
 			'items'=>array(
-				//array('label'=>'О проекте', 'url'=>array('/site/page', 'view'=>'about')),
-				//array('label'=>'Карта', 'url'=>array('/holes/map')),
-				//array('label'=>'Нормативы', 'url'=>array('/site/page', 'view'=>'regulations')),
-				//array('label'=>'Статистика', 'url'=>array('/statics/index')),
-				//array('label'=>'FAQ', 'url'=>array('/site/page', 'view'=>'faq')),
-				//array('label'=>'Сообщество', 'url'=>array('/sprav/index')),
-				array('label'=>Yii::t("template", "MENU_TOP_ABOUT"), 'url'=>array('/site/page', 'view'=>'about')),
-				array('label'=>Yii::t("template", "MENU_TOP_MAP"), 'url'=>array('/holes/map')),
-				array('label'=>Yii::t("template", "MENU_TOP_STANDARDS"), 'url'=>array('/site/page', 'view'=>'regulations')),
-				array('label'=>Yii::t("template", "MENU_TOP_STATISTICS"), 'url'=>array('/statics/index')),
-				array('label'=>Yii::t("template", "MENU_TOP_FAQ"), 'url'=>array('/site/page', 'view'=>'faq')),
-				array('label'=>Yii::t("template", "MENU_TOP_MANUALS"), 'url'=>array('/sprav/index')),
+				array('label'=>'О проекте', 'url'=>array('/site/page', 'view'=>'about')),
+				array('label'=>'Карта', 'url'=>array('/holes/map')),
+				array('label'=>'Нормативы', 'url'=>array('/site/page', 'view'=>'regulations')),
+				array('label'=>'Статистика', 'url'=>array('/statics/index')),
+				array('label'=>'FAQ', 'url'=>array('/site/page', 'view'=>'faq')),
+				array('label'=>'Справочники', 'url'=>array('/sprav/index')),
 				//array('label'=>'Logout ('.$this->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!$this->user->isGuest)
 			),
-			'htmlOptions'=>array('class'=>'menu'), 
+			'htmlOptions'=>array('class'=>'menu'),
 			'firstItemCssClass'=>'first',
 			'activeCssClass'=>'selected',
 		)); ?>
-
-            <div style="float: left; margin-right: 10px;padding-top: 3px; cursor: pointer;">
-
-                <?php if(Yii::app()->language == "ru"):?>
-                <a href="#" onclick="changeLanguage('ua');"><img src="/images/flags/ua.png" alt="Українською" lang="ua" class="change-language" ></a>
-                 <?php else: ?>
-                 <a href="#" onclick="changeLanguage('ru');"><img src="/images/flags/ru.png" alt="По-русски"  lang="ru" class="change-language"></a>
-                     <?php endif;?>
-            </div>
-
-            
 			<div class="search">
 				<form action="/map">
-			<input type="image" name="s" src="<?php echo Yii::app()->request->baseUrl; ?>/images/search_btn.gif" class="btn" /><input type="text" class="textInput inactive" name="q"  value="<?php echo Yii::t("template", "FIND_BY_ADRESS");?>" />
+			<input type="image" name="s" src="/images/search_btn.gif" class="btn" /><input type="text" class="textInput inactive" name="q"  value="Поиск по адресу" />
 	<script type="text/javascript">
 		$(document).ready(function(){
 			var startSearchWidth=$('.search').width();
@@ -115,7 +67,7 @@
 					searchWidth+=5;
 					}
 				$('.search .textInput').click(function(){
-					if ($(this).val()=='<?php echo Yii::t("template", "FIND_BY_ADRESS");?>')
+					if ($(this).val()=='Поиск по адресу')
 					{
 						$(this).val('').removeClass('inactive');
 					}
@@ -126,7 +78,7 @@
 					
 					if ($(this).val()=='')
 					{
-						$(this).val('<?php echo Yii::t("template", "FIND_BY_ADRESS");?>').addClass('inactive');
+						$(this).val('Поиск по адресу').addClass('inactive');
 					}
 					$('.search').animate({width:startSearchWidth},time);
 					$('.search .textInput').animate({width:startSearchInputWidth},time);
@@ -137,12 +89,12 @@
 			</div>
 			<div class="auth">
 			<?php if(!$this->user->isGuest) : ?>
-					<?php echo CHtml::link('<img src="'.Yii::app()->request->baseUrl.'/images/logout.png" alt="'.Yii::t("template", "LOGOUT").'" />',Array('/site/logout'),Array('title'=>Yii::t("template", "LOGIN"))); ?>
+					<?php echo CHtml::link('<img src="/images/logout.png" alt="Выйти" />',Array('/site/logout'),Array('title'=>'Выйти')); ?>
 					<div class="name">
 						<p><?php echo CHtml::link($this->user->fullname,Array('/holes/personal')); ?></p><span class="grad"></span>
 					</div>
 				<?php else: ?>
-					<?php echo CHtml::link(Yii::t("template", "LOGIN"),Array('/holes/personal'),Array('title'=>Yii::t("template", "LOGOUT"), 'class'=>'profileBtn')); ?>
+					<?php echo CHtml::link('Войти',Array('/holes/personal'),Array('title'=>'Войти', 'class'=>'profileBtn')); ?>
 				<? endif; ?>
 					<style type="text/css">
 						.auth .name
@@ -158,35 +110,31 @@
 		<?php echo $content; ?>
 
 	<div class="footer">
+
 		<div class="container">
-			<p class="rosyama">
-				<noindex><a target="_blank" href="http://rosyama.ru/" title="РосЯма">РосЯма</a></noindex><br>Яму мне запили!<br/>			
-				<a href="http://novus.org.ua/" style="background:none;" target="_blank"><img src="<?php echo Yii::app()->request->baseUrl;?>/images/logo-novus.png"></a> 
-			</p>
-			<p class="copy">Идея - <noindex><a href="http://navalny.ru/">Алексей Навальный</a></noindex>, 2011<br />
-			Дизайн </noindex><a href="http://greensight.ru">Greensight</a></noindex>. <br/>
-			Хостинг — «<noindex><a href="http://ihc.com.ua/" target="_blank">ihc</a></noindex>»<br />
-			
-			<br/>Разработано в <a href="http://pixelsmedia.ru">Pixelsmedia</a><br/>
-			Powered by Yii Framework.
+		<div class="left_footer">
+			&copy; <a href="http://navalny.ru/" target="_blank">Алексей Навальный</a>, 2011-2012
+			<br /><a href="mailto:rossyama@gmail.com">rossyama@gmail.com</a>
 			<br />
-			
-			</p>
+			<br/>Разработано в <a href="http://pixelsmedia.ru" target="_blank">Pixelsmedia</a>
+			<br/>Powered by <a href="http://www.yiiframework.com/" target="_blank">Yii Framework</a>
+		</div>
+		<div class="center_footer">
 			<?php if($this->beginCache('countHoles', array('duration'=>3600))) { ?>
 			<?php $this->widget('application.widgets.collection.collectionWidget'); ?>			
 			<?php $this->endCache(); } ?>
-			<p class="friends">Информация:<br />
-				<a href="<?php echo $this->createUrl('site/page',array('view'=>'donate'))?>">Помочь проекту</a><br />
-				<a href="http://ukryama.info" target="_blank">Сообщество</a><br />
-				<a href="<?php echo $this->createUrl('site/page',array('view'=>'partners'))?>" title="Наши партнеры">Партнеры</a><br />
-				<a href="<?php echo $this->createUrl('site/page',array('view'=>'thanks'))?>" title="Все те, кто нам помог">Благодарности</a><br />
-				<a href="<?php echo $this->createUrl('site/page',array('view'=>'smi'))?>" title="Сми об «УкрЯме»">СМИ</a><br />
-			</p>
-			<p class="info"></p>
+
+			<p class="friends">Чиним ямы в <i class="flag-UA"></i> <a href="http://ukryama.com/">Украине</a>, <i class="flag-BY"></i> <a href="http://belyama.by/">Беларуси</a> и <i class="flag-KZ"></i> <a href="http://kazyama.kz/">Казахстане</a></p>
+		</div>
+		<div class="right_footer">
+			<p class="autochmo"><a target="_blank" href="http://autochmo.ru/" title="Доска позора водителей &aring;вточмо">&aring;utochmo</a><br>Доска позора водителей</p>
+			Разработка прототипа и дизайна - <a href="http://greensight.ru">Greensight</a>
+		</div>
+
 		</div>
 	</div>
 	
-<!--	<script type="text/javascript">
+	<script type="text/javascript">
                 var reformalOptions = {
                         project_id: 43983,
                         project_host: "rosyama.reformal.ru",
@@ -203,9 +151,9 @@
                         document.getElementsByTagName('head')[0].appendChild(script);
                 })();
         </script>
-               	-->
+               	
 	
-<!--	<script type="text/javascript">
+	<script type="text/javascript">
 	  var _gaq = _gaq || [];
 	  _gaq.push(['_setAccount', 'UA-21943923-3']);
 	  _gaq.push(['_trackPageview']);
@@ -216,8 +164,7 @@
 		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 	  })();
 	
-	</script> 
-	-->
+	</script>
 	<? if (!$this->user->isGuest && $flash=$this->user->getFlash('user')):?>
 		<div id="addDiv">
 			<div id="fon">

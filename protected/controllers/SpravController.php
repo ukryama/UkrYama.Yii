@@ -14,7 +14,7 @@ class SpravController extends Controller
 	public function filters()
 	{
 		return array(
-			'accessControl', // perform access control for CRUD operations
+			'userGroupsAccessControl', // perform access control for CRUD operations
 		);
 	}
 
@@ -27,12 +27,16 @@ class SpravController extends Controller
 	{
 		return array(
 			array('allow',
-				'actions'=>array('index','view','fill_gibdd_reference', 'fill_prosecutor_reference','local'),
+				'actions'=>array('index','view','fill_gibdd_reference', 'fill_prosecutor_reference','local', 'jsonGibddMap'),
 				'users'=>array('*'),
 			),		
 			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('add','update','delete', 'moderate'),
+				'actions'=>array('add','update','delete', 'moderate', 'updateprosecutor'),
 				'users'=>array('@'),
+			),
+			array('allow', // allow admin user to perform 'admin' and 'delete' actions
+				'actions'=>array('saveAllPolygions'),
+				'groups'=>array('root'), 
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -54,90 +58,254 @@ class SpravController extends Controller
 		return trim($nanoyandex_reply, "\n\t ");
 	}	
 	
-	//local - использовать данные из сохранённых файлов
-	//http://www.sai.gov.ua иногда перестаёт отвечать при частых запросах, поэтому предпочтительнее использовать локальные копии
-	public function actionFill_gibdd_reference($local=1)
+	public function actionSaveAllPolygions()
+	{
+		if (isset($_POST['GibddAreaName'])){
+			foreach ($_POST['GibddAreaName'] as $i=>$region){
+				$points=$_POST['GibddAreaPoints'][$i];
+				$subjId=RfSubjects::model()->SearchID($region);
+				if ($subjId){
+				$subj=RfSubjects::model()->findByPk($subjId);
+				echo '<font color="green">Обновлено: '.$subj->name.'</font><br />';
+					if ($subj && $subj->gibdd){
+						foreach ($subj->gibdd->areas as $item) $item->delete();
+						$areamodel=new GibddAreas;
+						$areamodel->gibdd_id=$subj->gibdd->id;					
+
+						if ($points && $areamodel->save()){
+							foreach ($points as $ii=>$point){
+								if ($point['lat'] && $point['lng']){
+											$pointmodel=new GibddAreaPoints;
+											$pointmodel->lat=$point['lat'];
+											$pointmodel->lng=$point['lng'];
+											$pointmodel->area_id=$areamodel->id;
+											$pointmodel->point_num=$ii;
+											$pointmodel->save(); 
+								}
+							}
+						}
+					}
+				}
+				else echo '<font color="red">Не найдено: '.$region.'</font><br />';
+				
+			}
+		
+		}
+		
+	}	
+	
+	public function actionFill_gibdd_reference()
 	{
 		set_time_limit(0);
-		// список номеров областей http://www.sai.gov.ua/ru/regions.htm
 		
-		$_gibdd=array();
-		for ($i=1; $i<=25; $i++) {
-			$data=array('isajax'=>'true', 'module'=>'regions', 'showid'=>$i);
-			$context=stream_context_create(array(
-				'http' => array(
-					'method' => 'POST',
-					'header' => 'Content-Type: application/x-www-form-urlencoded' . PHP_EOL .
-								'Accept-Charset: windows-1251,utf-8'. PHP_EOL .
-								'Cookie: PHPSESSID=040871b5897bc61d4392d7adb586d843; b=b; __utma=203730194.478985925.1333561827.1334640103.1334740301.6; __utmb=203730194.4.10.1334740301; __utmc=203730194; __utmz=203730194.1333561827.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)'.PHP_EOL .
-								'X-Requested-With: XMLHttpRequest'. PHP_EOL .
-								'User-Agent: Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.162 Safari/535.19'. PHP_EOL .
-								'Referer: http://www.sai.gov.ua/ru/regions.htm'. PHP_EOL .
-								'Accept-Encoding: gzip,deflate,sdch'. PHP_EOL,
-					'content' => http_build_query($data),
-				),
-			));
-					
-			if ($local=='0') $text=file_get_contents('http://www.sai.gov.ua/index.php?lang=ru',$use_include_path = false, $context);
-			else $text=file_get_contents(Yii::app()->basePath.'/gibdd/'.$i.'.txt');
-			
-			preg_match_all('/<.*?>\s*(.*\sобласть|.*Крым.*)\s*<\/.*?>/U',$text,$matches);	//названия областей
-			$_gibdd['region']=trim(strip_tags(preg_replace('/г.Киев и/U','',$matches[1][0])));
-			
-			//название подразделения
-			preg_match_all('/<p>\s*(.*ГАИ.*\s(области|Крым))\s*.*<\/p>\s*<p>\s*(.*)\s*<\/p>\s*<p>\s*(.*\s*.*)<\/p>/U',$text,$matches);
-			$_gibdd['department']=trim(strip_tags($matches[1][0]));
-			$t=trim(preg_replace('/(Адрес:)|(&nbsp;)/U','',$matches[3][0]));
-			if (!strlen($t)) $_gibdd['address']=trim($matches[4][0]);
-			else $_gibdd['address']=$t;
-			
-			//телефон
-			preg_match_all('/<p>\s*Телефон\s.*(<\/p>\s*<p>|<br\s*.*>)\s*(.*)<\/p>/U',$text,$matches);
-			$_gibdd['phone']=trim($matches[2][0]);
-			
-			//ссылка
-			preg_match_all('<a\s*href="(.*)">',$text,$matches);
-			$_gibdd['url']=trim($matches[1][0]);
+		$bufer=GibddHeadsBuffer::model()->findAll();
 		
-			$gibdd[]=$_gibdd;
+		if (!$bufer){
+			$gibds=GibddHeads::model()->findAll('is_regional=1');
+			foreach ($gibds as $gibd){
+				$model=new GibddHeadsBuffer;
+				$model->attributes=$gibd->attributes;
+				$model->id=$gibd->id;
+				$model->save();
+			}
 		}
-
-		//Заполнение списка регионов
-		foreach ($gibdd as $g) {
-			//проверяем существование региона
-			$region=RfSubjects::model()->find('name_full LIKE :name',array(':name'=>'%'.$g['region'].'%'));
-			if (!$region) {
-				$region=new RfSubjects();
-				$region->name_full=$g['region'];
-				$region->save(false);
+		
+		// 1) достать список регионов
+		$text = file_get_contents('http://www.gibdd.ru/regions/');
+		$text = substr($text, strpos($text, '<table cellpadding="0" cellspacing="0" width="730">'));
+		$text = substr($text, 0, strpos($text, '</table>'));
+		$text = explode('<tr>', $text);
+		$i = 0;
+		$_regions = array();
+		foreach($text as &$item)
+		{
+			if($i > 2)
+			{
+				$item = explode('<td', $item);
+				preg_match('/\<a[\s\S]*href=(\"|\')([\s\S]*)\1[\s\S]*\>([\s\S]*)\<\/a\>/U', $item[1], $_m);
+				$region_id = substr($_m[2], 14);
+				$_regions[$region_id] = array
+				(
+					'id'   => $region_id,
+					'name' => $_m[3],
+					'href' => $_m[2]
+				);
+			}
+			$i++;
+		}
+		
+		// 2) сопоставить всем регионам субъект РФ
+		$myRegions=CHtml::listData(RfSubjects::model()->findAll(), 'id','name_full');
+		foreach($_regions as &$r)
+		{
+			foreach($myRegions as $k => &$s)
+			{
+		
+				
+				if(strtolower($s) == strtolower($r['name']))
+				{
+					$r['subject_id']   = $k;
+					$r['subject_name'] = $s;
+					continue;
+				}
+				else
+				{
+					$name = explode(' ', $r['name']);
+					$sname = explode(' ', strtolower($s));
+					foreach($name as $part)
+					{
+						$part = strtolower($part);
+						if
+						(
+							$part != ''
+							&& $part != 'Республика' // на промышленном сервере strtolower на срабатывает на слове "республика"
+							&& $part != 'республика'
+							&& $part != 'край'
+							&& $part != 'область'
+							&& $part != 'автономная'
+							&& $part != 'округ'
+							&& $part != 'автономный'
+						)
+						{
+							//if(stripos($s, $part) !== false)
+							if(in_array($part, $sname))
+							{
+								$r['subject_id']   = $k;
+								$r['subject_name'] = $s;
+								continue;
+							}
+						}
+					}
+				}
+			}
+			foreach($_regions as $rr)
+			{
+				if($rr['id'] != $r['id'] && isset($rr['subject_id']) && $rr['subject_id'] == $r['subject_id'])
+				{
+					echo 'коллизия '.$r['name'].'-'.$rr['name'].'<br>';
+					die();
+				}
+			}
+			if(!$r['subject_id'])
+			{
+				echo 'нет ид '.$r['name'].'<br>';
+				die();
+			}
+		}
+		
+		// 3) для каждого региона достать его главу и контакты		
+		foreach($_regions as &$r)
+		{
+			if(!$r['subject_id'] || !$r['href'])
+			{
+				echo 'нет ссылки или ид субъекта '.$r['name'].'<br>';
+				die();
+			}	
+			$regionnum=str_replace('/regions/show/', '', $r['href']);
+			$subjmodel=RfSubjects::model()->findByPk($r['subject_id']);
+			if ($subjmodel && !$subjmodel->region_num) {
+			$subjmodel->region_num=(int)$regionnum;
+			$subjmodel->update();
 			}
 			
-			//ищем запись с главами гибдд
-			$model=GibddHeads::model()->find('subject_id=:s_id',array(':s_id'=>$region->id));
-			if (!$model) $model=new GibddHeads();
-			$model->setAttributes(array(
-				'name'=>$g['region'],
-				'subject_id'=>$region->id,
-				'is_regional'=>1,
-				'moderated'=>1,
-				'post'=>'Начальник',
-				'post_dative'=>'Начальнику '.$g['department'],
-				'gibdd_name'=>$g['department'],
-				'address'=>$g['address'],
-				'tel_degurn'=>$g['phone'],
-				'url'=>$g['url'],
-			));
-			$model->save(false);
-			//echo $region->id;
-			//get RFSubject id;
+			$text = file_get_contents('http://www.gibdd.ru'.$r['href']);
+			$text = substr($text, strpos($text, '<p class="bold" style="padding-bottom:15px;">'));
+			$text = substr($text, 0, strpos($text, '</div>'));
+			$text = explode('<p class="bold">', $text);
+			
+			$r['gibdd_name']=strip_tags(trim($text[0]));
+			
+			$text[0] = str_replace('УПРАВЛЕНИЕ', 'УПРАВЛЕНИЯ', strip_tags($text[0]));
+			$text[1] = explode('</p>', $text[1]);
+			$text[1][0] = str_replace(':', '', strip_tags($text[1][0]));
+			$text[1][1] = str_replace(':', '', strip_tags($text[1][1]));
+			
+			$r['gibbd_name_dative']=$text[0];
+			$r['post']     = trim($text[1][0]);
+			$r['fio']      = trim($text[1][1]);
+			$r['post_dative'] = trim($text[1][0].'у '.$text[0]);
+			$r['fio_dative']  = $this->sklonyator($text[1][1]);
+			$r['contacts'] = '';
+			$contact_fiels=Array('','','address', 'tel_degurn', 'tel_dover','url');
+			for($i = 2; $i < 6; $i++)
+			{
+				$r['contacts'] .= strip_tags(trim($text[$i])).'<br>';
+				$text[$i] = explode('</p>', $text[$i]);
+				$text[$i][0] = str_replace(':', '', strip_tags($text[$i][0]));
+				$text[$i][1] = str_replace(':', '', strip_tags($text[$i][1]));
+				$r[$contact_fiels[$i]]=trim($text[$i][1]);
+				
+			}
+			$r['url']='http://'.$r['url'];
 		}
 		
-		Yii::app()->user->setFlash('user', 'Справочник загружен');
-		$this->redirect(array('sprav/index'));
+		// 4) занести всё в базу
+		foreach($_regions as &$r)
+		{			
+			$model=GibddHeadsBuffer::model()->find('subject_id='.(int)$r['subject_id'].' AND is_regional=1');
+			//if (!$model) $model=new GibddHeads;
+			
+			if ($model){
+				foreach ($r as $key=>$val){
+					unset ($r['href']);
+					unset ($r['subject_name']);
+					unset ($r['gibbd_name_dative']);
+					unset ($r['id']);
+					if (isset($model->$key) && $model->$key == $val) unset ($r[$key]);
+				}
+				if ($r){
+					$curmodel=GibddHeads::model()->findByPk($model->id);
+					if ($curmodel){
+						$model->scenario='fill';
+						$model->attributes=$r;	
+						$model->modified=time();
+						if ($model->update()){
+							$curmodel->scenario='fill';
+							$curmodel->attributes=$r;	
+							$curmodel->modified=time();
+							$curmodel->update();
+							echo 'Обновлено '.$curmodel->gibdd_name;
+							print_r($r);
+							echo '<br />';
+						}
+					}
+				}
+			}
+			else {
+				$model=new GibddHeads;
+				$model->scenario='fill';
+				$model->attributes=$r;
+				$model->is_regional=1;
+				$model->level=1;
+				$model->moderated=1;
+				$model->created=time();
+				if ($model->save()){
+					$bufer=new GibddHeadsBuffer;
+					$bufer->attributes=$model->attributes;
+					$bufer->id=$model->id;
+					$bufer->save();
+				}
+			}			
+
+		}
+		
 	}	
 
 	public function actionFill_prosecutor_reference(){
 		set_time_limit(0);
+		
+		$bufer=ProsecutorsBuffer::model()->findAll();
+		
+		if (!$bufer){
+			$gibds=Prosecutors::model()->findAll();
+			foreach ($gibds as $gibd){
+				$model=new ProsecutorsBuffer;
+				$model->attributes=$gibd->attributes;
+				$model->id=$gibd->id;
+				$model->save();
+			}
+		}
+		
 		$raw_html = file_get_contents('http://genproc.gov.ru/structure/subjects/');
 		preg_match_all('`<select([\s\S]+)</select>`U', $raw_html, $_matches);
 		preg_match_all('`<option value="([\d]+)"[\s\S]*>([\s\S]+)</option>`U', $_matches[0][0], $_matches, PREG_SET_ORDER);
@@ -147,6 +315,7 @@ class SpravController extends Controller
 		foreach($_matches as &$set)
 		{
 			$raw_html = file_get_contents('http://genproc.gov.ru/structure/subjects/district-'.$set[1].'/');
+			//echo 'http://genproc.gov.ru/structure/subjects/district-'.$set[1].'/<br />';
 			if(!$raw_html)
 			{
 				echo $set[1].' - fail<br>';
@@ -168,9 +337,10 @@ class SpravController extends Controller
 					if (isset($subjects[2])){
 					$itemname=$subjects[2];
 					$subjects[1]=preg_replace('/\(.*\)/i', '', $subjects[1]);
-					$subjectmodel = RfSubjects::model()->find("name_full LIKE '%".trim($subjects[1])."%'");
+					//echo $subjects[1].'<br />';
+					$subjectmodel = RfSubjects::model()->find("name_full LIKE '".trim($subjects[1])."'");
 					if ($subjectmodel) $subject=$subjectmodel->id;
-					else $subject=$subject=RfSubjects::model()->SearchID($subjects[1]);
+					else $subject=$subject=RfSubjects::model()->SearchID($subjects[1]);					
 					}
 					else {
 						$itemname=$subjects[0];
@@ -182,13 +352,50 @@ class SpravController extends Controller
 					$r['preview_text'] = trim(str_replace("\t", ' ', strip_tags($office[1], '<br>')));
 					$r['subject_id']=$subject;
 					
-					$model=Prosecutors::model()->find('subject_id='.(int)$subject);
-					if (!$model) $model=new Prosecutors;		
-					$model->attributes=$r;
-					$model->save();					
+					if($r['subject_id']==0) continue;
+					
+					$model=ProsecutorsBuffer::model()->find('subject_id='.(int)$subject);
+					
+					
+					if ($model){
+						foreach ($r as $key=>$val){
+							unset ($r['href']);
+							unset ($r['subject_name']);
+							unset ($r['id']);
+							if (isset($model->$key) && trim ($model->$key) == trim($val)) unset ($r[$key]);
+							
+						}
+						if ($r){
+							$curmodel=Prosecutors::model()->findByPk($model->id);
+							if ($curmodel){
+								$model->attributes=$r;	
+								if (!$model->subject_id) $model->subject_id=0;
+								if ($model->update()){
+									$curmodel->attributes=$r;	
+									$curmodel->save();
+									echo 'Обновлено '.$curmodel->gibdd_name;
+									print_r($r);
+									echo '<br />';
+								}
+								print_r($model->errors);
+							}
+						}
+					}
+					else {
+						$model=new Prosecutors;
+						$model->attributes=$r;
+						if ($model->save()){
+							$bufer=new ProsecutorsBuffer;
+							$bufer->attributes=$model->attributes;
+							$bufer->id=$model->id;
+							$bufer->save();
+						}
+					}			
+
+					
 				}
 			}
-			echo $set[1].' - ok<br>';
+			//echo $set[1].' - ok<br>';
 		}
 	}
 
@@ -207,7 +414,7 @@ class SpravController extends Controller
 	{
 	
 		$cs=Yii::app()->getClientScript();
-        $cs->registerCssFile(Yii::app()->request->baseUrl.'/css/hole_view.css'); 
+        $cs->registerCssFile('/css/hole_view.css'); 
         $cs->registerScriptFile('http://api-maps.yandex.ru/1.1/index.xml?key='.$this->mapkey);
        	$jsFile = CHtml::asset($this->viewPath.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'view_script.js');
         $cs->registerScriptFile($jsFile); 
@@ -228,7 +435,31 @@ class SpravController extends Controller
 		));
 	}
 	
-	public function actionAdd()
+	public function actionJsonGibddMap()
+	{
+		$model=GibddHeads::model()->findAll('lat > 0 AND lng > 0');
+		$gibds=Array();
+		foreach ($model as $item) {
+			$areas=Array();
+			if ($item->areas)
+				foreach ($item->areas as $i=>$area){
+					foreach ($area->points as $point)
+						$areas[$i][]=Array('lat'=>$point->lat, 'lng'=>$point->lng);
+				}		
+			
+			$descr=$this->renderPartial('_view_gibdd', array('data'=>$item), true);
+			
+			$gibds[]=Array('lat'=>$item->lat, 'lng'=>$item->lng, 'name'=>$item->name, 'id'=>$item->id, 'descr'=>$descr.($areas ? CHtml::link('Показать границу наблюдения', '#', Array('class'=>'show_gibdd_area', 'gibddid'=>$item->id)) : '' ),
+			'areas'=>$areas, 
+			);
+		}
+		echo $_GET['jsoncallback'].'({"gibdds": '.CJSON::encode($gibds).'})';
+		
+		Yii::app()->end();		
+		
+	}	
+	
+	public function actionAdd($subject_id)
 	{
 		$model=new GibddHeads;
 
@@ -236,27 +467,38 @@ class SpravController extends Controller
 		// $this->performAjaxValidation($model);
 		
 		$cs=Yii::app()->getClientScript();
-        $cs->registerCssFile(Yii::app()->request->baseUrl.'/css/add_form.css');
+        $cs->registerCssFile('/css/add_form.css');
         $cs->registerScriptFile('http://api-maps.yandex.ru/1.1/index.xml?key='.$this->mapkey);
         $jsFile = CHtml::asset($this->viewPath.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'ymap.js');
         $cs->registerScriptFile($jsFile);     
-
+		
+		$subj=RfSubjects::model()->findByPk((int)$subject_id);
+		if($subj) $model->subject_id=$subj->id;
+		
 		if(isset($_POST['GibddHeads']))
 		{
 			$model->attributes=$_POST['GibddHeads'];
 			$model->author_id=Yii::app()->user->id;	
-			$model->created=time();
-			$subj=RfSubjects::model()->SearchID(trim($model->str_subject));
-			if($subj) $model->subject_id=$subj;
-			else $model->subject_id=0;
+			$model->created=time();			
+			
+			if ($subj) $model->subject_id=$subj->id;
+			else if ($model->str_subject){
+				$subjct=RfSubjects::model()->SearchID(trim($model->str_subject));
+				if($subjct) $model->subject_id=$subjct;
+				else $model->subject_id=0;
+			}
+			
+			
 			if (Yii::app()->user->level > 50) $model->moderated=1;
 			else $model->moderated=0;
+			if ($model->level < 2) $model->level=2;
 			if($model->save())
 				$this->redirect(array('local','id'=>$model->id));
 		}		
 
 		$this->render('add',array(
-			'model'=>$model,			
+			'model'=>$model,
+			'subject'=>$subj,
 		));
 	}	
 	
@@ -268,22 +510,25 @@ class SpravController extends Controller
 		if (Yii::app()->user->id!=$model->author_id && Yii::app()->user->level <= 50)
 			throw new CHttpException(403,'Доступ запрещен.');
 		
+		if ($model->is_regional && Yii::app()->user->level <= 90)
+			throw new CHttpException(403,'Доступ запрещен.');
 		
 		$cs=Yii::app()->getClientScript();
-        $cs->registerCssFile(Yii::app()->request->baseUrl.'/css/add_form.css');
-        $cs->registerScriptFile('http://api-maps.yandex.ru/1.1/index.xml?key='.$this->mapkey);
+        $cs->registerCssFile('/css/add_form.css');
+        $cs->registerScriptFile('http://api-maps.yandex.ru/1.1/index.xml?key='.$this->mapkey.';modules=regions');
         $jsFile = CHtml::asset($this->viewPath.DIRECTORY_SEPARATOR.'js'.DIRECTORY_SEPARATOR.'ymap.js');
         $cs->registerScriptFile($jsFile);     
 
 		if(isset($_POST['GibddHeads']))
 		{
-			$model->attributes=$_POST['GibddHeads'];
+			$model->attributes=$_POST['GibddHeads'];			
 			$model->modified=time();
 			if ($model->str_subject){
 				$subj=RfSubjects::model()->SearchID(trim($model->str_subject));
 				if($subj) $model->subject_id=$subj;
 				else $model->subject_id=0;
 			}
+			if ($model->level < 2 && !$model->is_regional) $model->level=2; 
 			if($model->save())
 				$this->redirect(array('local','id'=>$model->id));
 		}		
@@ -292,6 +537,29 @@ class SpravController extends Controller
 			'model'=>$model,			
 		));
 	}
+	
+public function actionUpdateprosecutor($id)
+	{
+	
+		$model=$this->loadProsecutorModel($id);
+		
+		if (Yii::app()->user->level <= 90)
+			throw new CHttpException(403,'Доступ запрещен.');
+		
+		$cs=Yii::app()->getClientScript();
+        $cs->registerCssFile('/css/add_form.css');
+
+		if(isset($_POST['Prosecutors']))
+		{
+			$model->attributes=$_POST['Prosecutors'];			
+			if($model->save())
+				$this->redirect(array('view','id'=>$model->subject_id));
+		}		
+
+		$this->render('update_prosecutor',array(
+			'model'=>$model,			
+		));
+	}	
 	
 	public function actionModerate($id)
 	{	
@@ -334,6 +602,14 @@ class SpravController extends Controller
 	public function loadGibddModel($id)
 	{
 		$model=GibddHeads::model()->findByPk($id);
+		if($model===null)
+			throw new CHttpException(404,'The requested page does not exist.');
+		return $model;
+	}
+	
+	public function loadProsecutorModel($id)
+	{
+		$model=Prosecutors::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;

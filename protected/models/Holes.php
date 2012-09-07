@@ -47,7 +47,10 @@ class Holes extends CActiveRecord
 	public $type_alias;
 	public $showUserHoles;
 	public $username;
-
+	public $selecledList;
+	public $polygonIds;
+	public $keys=Array();
+	public $polygons=Array();
 	/**
 	 * @return string the associated database table name
 	 */
@@ -79,16 +82,18 @@ class Holes extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('USER_ID, LATITUDE, LONGITUDE, ADDRESS, DATE_CREATED, TYPE_ID, gibdd_id', 'required'),
-			array('GIBDD_REPLY_RECEIVED, PREMODERATED, TYPE_ID, NOT_PREMODERATED', 'numerical', 'integerOnly'=>true),
+			array('USER_ID, ADDRESS, DATE_CREATED, TYPE_ID, gibdd_id', 'required'),
+			array('LATITUDE, LONGITUDE', 'required', 'message' => 'Поставьте метку на карте двойным щелчком мыши!'),	
+			array('GIBDD_REPLY_RECEIVED, PREMODERATED, TYPE_ID, NOT_PREMODERATED, archive, deleted', 'numerical', 'integerOnly'=>true),
 			array('LATITUDE, LONGITUDE', 'numerical'),
 			array('USER_ID, STATE, DATE_CREATED, DATE_SENT, DATE_STATUS, ADR_SUBJECTRF, DATE_SENT_PROSECUTOR', 'length', 'max'=>10),
 			array('ADR_CITY', 'length', 'max'=>50),
-			array('STR_SUBJECTRF, username', 'length'),
+			array('STR_SUBJECTRF, username, description_locality, description_size', 'length'),
 			array('COMMENT1, COMMENT2, COMMENT_GIBDD_REPLY, deletepict, upploadedPictures, request_gibdd, showUserHoles', 'safe'),	
 			array('upploadedPictures', 'file', 'types'=>'jpg, jpeg, png, gif','maxFiles'=>10, 'allowEmpty'=>true, 'on' => 'update, import, fix'),
 			array('upploadedPictures', 'file', 'types'=>'jpg, jpeg, png, gif','maxFiles'=>10, 'allowEmpty'=>false, 'on' => 'insert'),
-			array('upploadedPictures', 'required', 'on' => 'insert', 'message' => 'Необходимо загрузить фотографии'),			
+			array('upploadedPictures', 'unsafe', 'on' => 'add'),
+			array('upploadedPictures', 'required', 'on' => 'insert, add', 'message' => 'Необходимо загрузить фотографии'),			
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('ID, USER_ID, LATITUDE, LONGITUDE, ADDRESS, STATE, DATE_CREATED, DATE_SENT, DATE_STATUS, COMMENT1, COMMENT2, TYPE_ID, ADR_SUBJECTRF, ADR_CITY, COMMENT_GIBDD_REPLY, GIBDD_REPLY_RECEIVED, PREMODERATED, DATE_SENT_PROSECUTOR', 'safe', 'on'=>'search'),
@@ -105,21 +110,28 @@ class Holes extends CActiveRecord
 		return array(
 			'subject'=>array(self::BELONGS_TO, 'RfSubjects', 'ADR_SUBJECTRF'),
 			'requests'=>array(self::HAS_MANY, 'HoleRequests', 'hole_id'),
-			'pictures'=>array(self::HAS_MANY, 'HolePictures', 'hole_id', 'order'=>'pictures.type, pictures.ordering'),
-			'pictures_fresh'=>array(self::HAS_MANY, 'HolePictures', 'hole_id', 'condition'=>'pictures_fresh.type="fresh"','order'=>'pictures_fresh.ordering'),
-			'pictures_fixed'=>array(self::HAS_MANY, 'HolePictures', 'hole_id', 'condition'=>'pictures_fixed.type="fixed"','order'=>'pictures_fixed.ordering'),
+			'requests_with_answers'=>array(self::HAS_MANY, 'HoleRequests', 'hole_id', 'with'=>'answers', 'condition'=>'answers.id > 0', 'order'=>'requests_with_answers.date_sent, answers.date'),
+			'pictures'=>array(self::HAS_MANY, 'HolePictures', 'hole_id', 'order'=>'pictures.type, pictures.ordering AND pictures.premoderated=1'),
+			'pictures_fresh'=>array(self::HAS_MANY, 'HolePictures', 'hole_id', 'condition'=>'pictures_fresh.type="fresh" AND pictures_fresh.premoderated=1','order'=>'pictures_fresh.ordering'),
+			'pictures_fixed'=>array(self::HAS_MANY, 'HolePictures', 'hole_id', 'condition'=>'pictures_fixed.type="fixed" AND pictures_fixed.premoderated=1','order'=>'pictures_fixed.ordering'),
 			'user_pictures_fixed'=>array(self::HAS_MANY, 'HolePictures', 'hole_id', 'condition'=>'user_pictures_fixed.type="fixed" AND user_pictures_fixed.user_id='.Yii::app()->user->id,'order'=>'user_pictures_fixed.ordering'),
+			'pictures_fixed_not_moderated'=>array(self::HAS_MANY, 'HolePictures', 'hole_id', 'condition'=>'pictures_fixed_not_moderated.type="fixed" AND pictures_fixed_not_moderated.premoderated=0','order'=>'pictures_fixed_not_moderated.ordering'),
 			'request_gibdd'=>array(self::HAS_ONE, 'HoleRequests', 'hole_id', 'condition'=>'request_gibdd.type="gibdd" AND request_gibdd.user_id='.Yii::app()->user->id),
 			'request_prosecutor'=>array(self::HAS_ONE, 'HoleRequests', 'hole_id', 'condition'=>'request_prosecutor.type="prosecutor" AND user_id='.Yii::app()->user->id),
 			'requests_gibdd'=>array(self::HAS_MANY, 'HoleRequests', 'hole_id', 'condition'=>'requests_gibdd.type="gibdd"','order'=>'requests_gibdd.date_sent ASC'),
 			'requests_prosecutor'=>array(self::HAS_MANY, 'HoleRequests', 'hole_id', 'condition'=>'requests_prosecutor.type="prosecutor"','order'=>'date_sent ASC'),
-			'fixeds'=>array(self::HAS_MANY, 'HoleFixeds', 'hole_id','order'=>'fixeds.date_fix DESC'),
+			'requests_with_answer_comment'=>array(self::HAS_MANY, 'HoleRequests', 'hole_id', 'with'=>'answers','condition'=>'answers.comment !=""','order'=>'requests_with_answer_comment.date_sent DESC'),
+			'fixeds'=>array(self::HAS_MANY, 'HoleFixeds', 'hole_id','order'=>'fixeds.date_fix ASC'),
 			'user_fix'=>array(self::HAS_ONE, 'HoleFixeds', 'hole_id', 'condition'=>'user_fix.user_id='.Yii::app()->user->id),
 			'type'=>array(self::BELONGS_TO, 'HoleTypes', 'TYPE_ID'),
 			'user'=>array(self::BELONGS_TO, 'UserGroupsUser', 'USER_ID'),		
+			'moder'=>array(self::BELONGS_TO, 'UserGroupsUser', 'premoderator_id'),
+			'deletor'=>array(self::BELONGS_TO, 'UserGroupsUser', 'deletor_id'),
 			'gibdd'=>array(self::BELONGS_TO, 'GibddHeads', 'gibdd_id'),
 			'selected_lists'=>array(self::MANY_MANY, 'UserSelectedLists',
                '{{user_selected_lists_holes_xref}}(hole_id,list_id)'),
+            'comments_cnt'=> array(self::STAT, 'Comment', 'owner_id', 'condition'=>'owner_name="Holes" AND status < 2'),   
+            'comments'=> array(self::HAS_MANY, 'Comment', 'owner_id', 'condition'=>'owner_name="Holes"'), 
 		);
 	}
 	
@@ -131,36 +143,36 @@ class Holes extends CActiveRecord
 	public static function getAllstates()	
 	{
 	$arr=Array();
-	$arr['fresh']      = Yii::t('holes','HOLES_STATE_FRESH_FULL');
-	$arr['inprogress'] = Yii::t('holes','HOLES_STATE_INPROGRESS_FULL');
-	$arr['fixed']      = Yii::t('holes','HOLES_STATE_FIXED_FULL');
-	$arr['achtung']    = Yii::t('holes','HOLES_STATE_ACHTUNG_FULL');
-	$arr['gibddre']    = Yii::t('holes','HOLES_STATE_GIBDDRE_FULL');
-	$arr['prosecutor'] = Yii::t('holes','HOLES_STATE_PROSECUTOR_FULL');
+	$arr['fresh']      = 'Добавлен на сайт';
+	$arr['inprogress'] = 'Заявление отправлено в ГИБДД';
+	$arr['fixed']      = 'Исправлен';
+	$arr['achtung']    = 'Просрочен';
+	$arr['gibddre']    = 'Получен ответ из ГИБДД';
+	$arr['prosecutor'] = 'Жалоба отправлена в прокуратуру';
 	return $arr;
 	}
 	
 	public static function getAllstatesShort()	
 	{
 	$arr=Array();
-	$arr['fresh']      = Yii::t('holes','HOLES_STATE_FRESH_SHORT');
-	$arr['inprogress'] = Yii::t('holes','HOLES_STATE_INPROGRESS_SHORT');
-	$arr['fixed']      = Yii::t('holes','HOLES_STATE_FIXED_SHORT');
-	$arr['achtung']    = Yii::t('holes','HOLES_STATE_ACHTUNG_SHORT');
-	$arr['gibddre']    = Yii::t('holes','HOLES_STATE_GIBDDRE_SHORT');
-	$arr['prosecutor'] = Yii::t('holes','HOLES_STATE_PROSECUTOR_SHORT');
+	$arr['fresh']      = 'Добавлено на сайт';
+	$arr['inprogress'] = 'В ГАИ';
+	$arr['fixed']      = 'Отремонтировано';
+	$arr['achtung']    = 'В ГАИ';
+	$arr['gibddre']    = 'Получен ответ';
+	$arr['prosecutor'] = 'Заявление в прокуратуре';
 	return $arr;
 	}	
 	
 	public static function getAllstatesMany()	
 	{
 	$arr=Array();
-	$arr['fresh']      = Yii::t('holes','HOLES_STATE_FRESH_MANY');
-	$arr['inprogress'] = Yii::t('holes','HOLES_STATE_INPROGRESS_MANY');
-	$arr['fixed']      = Yii::t('holes','HOLES_STATE_FIXED_MANY');
-	$arr['achtung']    = Yii::t('holes','HOLES_STATE_ACHTUNG_MANY');
-	$arr['gibddre']    = Yii::t('holes','HOLES_STATE_GIBDDRE_MANY');
-	$arr['prosecutor'] = Yii::t('holes','HOLES_STATE_PROSECUTOR_MANY');
+	$arr['fresh']      = 'Новые';
+	$arr['inprogress'] = 'Отправлено заявление';
+	$arr['fixed']      = 'Сделаны';
+	$arr['achtung']    = 'Не сделаны';
+	$arr['gibddre']    = 'Получен ответ';
+	$arr['prosecutor'] = 'Жалоба в прокуратуре';
 	return $arr;
 	}	
 	
@@ -187,10 +199,10 @@ class Holes extends CActiveRecord
 	const EARTH_RADIUS_KM = 6373;
 	public function getTerritorialGibdd()	
 	{	
-		if (!$this->subject) return Array();
+		//if (!$this->subject) return Array();
 		$longitude=$this->LONGITUDE;
 		$latitude=$this->LATITUDE;		
-		$numerator = 'POW(COS(RADIANS(lat)) * SIN(ABS(RADIANS('.$longitude.')-RADIANS(lng))),2)';		
+		/* $numerator = 'POW(COS(RADIANS(lat)) * SIN(ABS(RADIANS('.$longitude.')-RADIANS(lng))),2)';		
 		$numerator .= ' + POW(
 		COS(RADIANS('.$latitude.')) * SIN(RADIANS(lat)) - SIN(RADIANS('.$latitude.'))
 		* COS(RADIANS(lat))*COS(ABS(RADIANS('.$longitude.')-RADIANS(lng)))
@@ -210,13 +222,69 @@ class Holes extends CActiveRecord
 		$criteria->having='ABS(distance) < 1000';
 		$criteria->limit=5;
 		$gibdds=GibddHeads::model()->findAll($criteria);
-		if ($this->subject) array_unshift ($gibdds, $this->subject->gibdd);
-		return $gibdds;
+		if ($this->subject) array_unshift ($gibdds, $this->subject->gibdd);*/
+		
+		
+		$gibdds=GibddHeads::model()->with('areas')->findAll(Array('order'=>'t.level DESC, t.subject_id DESC'));
+		
+		$regionalGibdds=Array();
+		$regkey=0;
+		foreach ($gibdds as $i=>$gibdd){
+			$inpolyg=false;
+			foreach ($gibdd->areas as $area){
+				$inpolyg=$this->inPolygon($area, $this, 'points');
+				if ($inpolyg) break;
+			}	
+			if (!$inpolyg) unset ($gibdds[$i]);
+			else if ($gibdd->level==1) {$regionalGibdds[$i]=$gibdd; $regkey=$i;}
+		}
+		
+		if ($regionalGibdds){			
+			if (count($regionalGibdds) > 1){				
+				foreach ($regionalGibdds as $i=>$gibdd){
+					$mindist=999999999*9999999;
+					foreach ($gibdd->areas as $area){
+						foreach ($area->points as $point){
+						$dist=sqrt(pow($point->lat - $this->LATITUDE, 2) + pow($point->lng - $this->LONGITUDE, 2));
+						if ($dist < $mindist) $mindist=$dist;
+						}
+					}
+					$regionalGibdds[$i]->mindist=$mindist;
+				}
+				
+				$mindist=$regionalGibdds[$regkey]->mindist;
+				
+				foreach ($regionalGibdds as $i=>$gibdd){						
+						if ($gibdd->mindist <= $mindist) $mindist=$gibdd->mindist;
+						else unset($gibdds[$i]);
+					}
+			}	
+		}	
+		
+		$newArr=Array();		
+		foreach ($gibdds as $gibdd) $newArr[]=$gibdd;		
+		return $newArr;
 	}
 		
 	
 	public function getUpploadedPictures(){
-		return CUploadedFile::getInstancesByName('');
+		$session=new CHttpSession;
+		$session->open();
+		
+		$folder=$_SERVER['DOCUMENT_ROOT'].'/upload/tmp/'.$session->SessionID;
+		$files=Array();
+		if (is_dir($folder)){		
+			foreach(glob($folder . '/*') as $file) {
+				$files[]=$file;
+			}
+		}
+		
+		
+		
+		if (!$files)
+			return CUploadedFile::getInstancesByName('');
+		else 
+			return $files;	
 	}
 	
 	public function savePictures(){						
@@ -224,8 +292,8 @@ class Holes extends CActiveRecord
 			$pictmodel=HolePictures::model()->findByPk((int)$pictid);  
 			if ($pictmodel)$pictmodel->delete();
 		}
-
 		$imagess=$this->UpploadedPictures;
+		//print_r($imagess); die();
 		$id=$this->ID;
 		$prefix='';						
 		if (!is_dir($_SERVER['DOCUMENT_ROOT'].'/upload/st1234/original/'.$id)){
@@ -255,10 +323,11 @@ class Holes extends CActiveRecord
 		$pictdir=$_SERVER['DOCUMENT_ROOT'].'/upload/st1234/';
 						
         foreach ($imagess as $_file){
-			if(!$_file->hasError)
+			if(is_string($_file) || !$_file->hasError)
 			{	
 				$imgname=rand().'.jpg';
-				$image = $this->imagecreatefromfile($_file->getTempName(), &$_image_info);
+				$tempname=is_string($_file) ? $_file : $_file->getTempName();
+				$image = $this->imagecreatefromfile($tempname, &$_image_info);
 				if(!$image)
 				{
 					$this->addError('pictures',Yii::t('errors', 'GREENSIGHT_ERROR_UNSUPPORTED_IMAGE_TYPE'));
@@ -305,7 +374,8 @@ class Holes extends CActiveRecord
 				imagedestroy($image);
 							
 				$imgmodel=new HolePictures;
-				$imgmodel->type=$this->scenario=='fix'?'fixed':'fresh'; 
+				$imgmodel->type=$this->scenario=='fix' || $this->scenario=='addFixedFiles' ?'fixed':'fresh'; 
+				if ($this->scenario=='addFixedFiles') $imgmodel->premoderated=0;
 				$imgmodel->filename=$imgname;
 				$imgmodel->hole_id=$this->ID;
 				$imgmodel->user_id=Yii::app()->user->id;
@@ -313,6 +383,7 @@ class Holes extends CActiveRecord
 				$imgmodel->save();
 			}
 		}
+		Yii::app()->controller->flushUploadDir();
 		return true;			
 	}
 
@@ -354,6 +425,7 @@ class Holes extends CActiveRecord
 	$this->DATE_STATUS= time();
 	$this->DATE_SENT_PROSECUTOR = time();
 	$this->STATE='prosecutor';
+	$this->archive=0;
 	$this->update();
 	return true;
 	}
@@ -366,6 +438,7 @@ class Holes extends CActiveRecord
 						$this->DATE_STATUS= time();
 						$this->DATE_SENT_PROSECUTOR = null;
 						$this->STATE='achtung';
+						$this->archive=0;
 						$this->update();
 					}
 		return true;			
@@ -403,9 +476,9 @@ class Holes extends CActiveRecord
 					return false;
 				}
 		else {			
-			if ($this->user_fix) $this->user_fix->delete();			
-			if (count ($this->fixeds) == 0) {
-					$this->DATE_STATUS=time();
+			if ($this->user_fix) $this->user_fix->delete();	
+			$this->DATE_STATUS=time();
+			if (count ($this->fixeds) == 0) {					
 					if($this->STATE == 'fresh')  
 					{
 						if (!$this->DATE_SENT) {
@@ -438,7 +511,7 @@ class Holes extends CActiveRecord
 						}
 					}
 				}
-				
+			$this->archive=0;	
 			if ($this->update()) return true;
 			else return false;
 		}	
@@ -460,6 +533,7 @@ class Holes extends CActiveRecord
 				else {
 					$this->DATE_SENT = $this->requests_gibdd[0]->date_sent;
 				}	
+			$this->archive=0;	
 			if ($this->update()) return true;
 			else return false;
 	}		
@@ -500,6 +574,9 @@ class Holes extends CActiveRecord
 				//Потом все отметки об исправленности
 				foreach ($this->fixeds as $fixed) $fixed->delete();
 				
+				//Потом все комментарии к яме
+				foreach ($this->comments as $comment) $comment->delete();
+				
 				$this->selected_lists=Array();
 				$this->update();
 	
@@ -508,7 +585,14 @@ class Holes extends CActiveRecord
 	
 	public function BeforeSave(){
 				parent::beforeSave();
-				$this->ADR_CITY=trim($this->ADR_CITY);
+				$this->DATE_STATUS = time();
+				
+				$Subs = array(
+						'Город' => '',
+						'город' => '',
+						);
+				$this->ADR_CITY = trim(strtr($this->ADR_CITY,$Subs));		
+
 					if ($this->scenario=='fix'){
 						$fixmodel=new HoleFixeds;
 						$fixmodel->user_id=Yii::app()->user->id;
@@ -523,6 +607,22 @@ class Holes extends CActiveRecord
 	public function getIsUserHole(){				
 				if ($this->USER_ID==Yii::app()->user->id) return true;
 				else return false;
+	}	
+	
+	public function newCommentInHole($comment){				
+		if($this->user->email && $this->user->id!=$comment->user->id){
+			$headers = "MIME-Version: 1.0\r\nFrom: \"Rosyama\" <".Yii::app()->params['adminEmail'].">\r\nReply-To: ".Yii::app()->params['adminEmail']."\r\nContent-Type: text/html; charset=utf-8";
+			Yii::app()->request->baseUrl='http://'.$_SERVER['HTTP_HOST'];
+			$mailbody=Yii::app()->controller->renderPartial('//ugmail/newComment', Array(
+						'hole'=>$this,
+						'comment'=>$comment,
+						'user'=>$this->user,
+						),true);
+			if (mail($this->user->email,"=?utf-8?B?" . base64_encode('Новый комментарий к Вашей яме') . "?=",$mailbody,$headers)){
+							return true;
+						}		
+			}	
+			return false;
 	}	
 	
 	public function getmodering(){
@@ -541,14 +641,14 @@ class Holes extends CActiveRecord
 		return array(
 			'ID' => 'ID',
 			'USER_ID' => 'Пользователь',
-			'LATITUDE' => 'Latitude',
-			'LONGITUDE' => 'Longitude',
+			'LATITUDE' => 'Широта',
+			'LONGITUDE' => 'Долгота',
 			'ADDRESS' => 'Адрес дефекта',
 			'gibdd_id'=>'Отдел ГИБДД',
 			'STATE' => 'Статус',
 			'DATE_CREATED' => 'Дата создания',
 			'DATE_SENT' => 'Дата отправки в ГИБДД',
-			'DATE_STATUS' => 'Date Status',
+			'DATE_STATUS' => 'Дата изменения',
 			'COMMENT1' => 'Комментарии',
 			'COMMENT2' => 'Комментарии',
 			'TYPE_ID' => 'Тип дефекта',
@@ -561,7 +661,11 @@ class Holes extends CActiveRecord
 			'DATE_SENT_PROSECUTOR' => 'Date Sent Prosecutor',
 			'deletepict'=>'Удалить фотографию?',
 			'replуfiles'=>'Необходимо добавить отсканированный ответ из ГИБДД',
-			'upploadedPictures'=>$this->scenario=='fix' ? 'Желательно добавить фотографии исправленного дефекта' : 'Нужно загрузить фотографии'
+			'upploadedPictures'=>$this->scenario=='fix' ? 'Желательно добавить фотографии исправленного дефекта' : 'Нужно загрузить фотографии (не больше 10 штук)',
+			'description_size'=>'Описание дефекта (размеры и прочая информация)',
+			'description_locality'=>'Подробное описание расположения дефекта на местности',
+			'archive'=>'Архив',
+			'deleted'=>'Удалено'
 		);
 	}
 
@@ -583,10 +687,11 @@ class Holes extends CActiveRecord
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
-		$userid=Yii::app()->user->id;
+		$user=Yii::app()->user;
+		$userid=$user->id;
 		$criteria=new CDbCriteria;
 		//$criteria->with=Array('pictures_fresh','pictures_fixed');
-		$criteria->with=Array('type','pictures_fresh');
+		$criteria->with=Array('type','pictures_fresh', 'comments_cnt');
 		$criteria->compare('t.ID',$this->ID,false);
 		if (!$this->showUserHoles || $this->showUserHoles==1) $criteria->compare('t.USER_ID',$userid,false);
 		elseif ($this->showUserHoles==2) {
@@ -594,12 +699,25 @@ class Holes extends CActiveRecord
 			$criteria->addCondition('t.USER_ID!='.$userid);
 			$criteria->compare('requests.user_id',$userid,true);
 			$criteria->together=true;
-			}		
+			}
+			
+		//Вытаскиваем все Айдишники для селектора фильтра по ГИБДД	
+		if (!$this->selecledList){
+			$tmpcriteria=clone $criteria;
+			$tmpcriteria->select='ID';
+			$this->keys=CHtml::listData($this->findAll($tmpcriteria),'ID','ID');	
+		}
+		$criteria->compare('t.deleted',0);
 		$criteria->compare('t.STATE',$this->STATE,true);	
 		$criteria->compare('t.TYPE_ID',$this->TYPE_ID,false);
+		$criteria->compare('t.gibdd_id',$this->gibdd_id,false);
 		$criteria->compare('type.alias',$this->type_alias,true);	
-		//
-		//$criteria->addCondition('t.USER_ID='.$userid);
+		
+		if (!$user->userModel->relProfile->show_archive_holes) $criteria->compare('t.archive',0,false);
+		
+		if ($this->selecledList)
+			$criteria->join='INNER JOIN {{user_selected_lists_holes_xref}} ON {{user_selected_lists_holes_xref}}.hole_id=t.id AND {{user_selected_lists_holes_xref}}.list_id='.$this->selecledList;
+		
 	
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
@@ -612,40 +730,173 @@ class Holes extends CActiveRecord
 		));
 	}	
 	
+	public function inPolygon($polygon, $point, $relname='points'){
+			$i=0;
+			$j=count ($polygon->$relname)-1;			
+			$c = 0;
+			$points=$polygon->$relname;
+			for ($i=0; $i<count($polygon->$relname); $j=$i++){
+				if (((($points[$i]->lat <= $point->LATITUDE) && ($point->LATITUDE < $points[$j]->lat)) || (($points[$j]->lat <= $point->LATITUDE) && ($point->LATITUDE < $points[$i]->lat))) && 
+						 ($point->LONGITUDE > ($points[$j]->lng - $points[$i]->lng) * ($point->LATITUDE - $points[$i]->lat) / ($points[$j]->lat - $points[$i]->lat) + $points[$i]->lng)
+						 ) {
+						 $c = !$c;
+					 }	
+					 
+				}
+				
+		return $c;
+	}
+	
+	public function inPolygonArray($polygon, $point){
+			$i=0;
+			$j=count ($polygon)-1;			
+			$c = 0;
+			$points=$polygon;
+			for ($i=0; $i<count($polygon); $j=$i++){
+				if (((($points[$i]['lat'] <= $point->LATITUDE) && ($point->LATITUDE < $points[$j]['lat'])) || (($points[$j]['lat'] <= $point->LATITUDE) && ($point->LATITUDE < $points[$i]['lat']))) && 
+						 ($point->LONGITUDE > ($points[$j]['lng'] - $points[$i]['lng']) * ($point->LATITUDE - $points[$i]['lat']) / ($points[$j]['lat'] - $points[$i]['lat']) + $points[$i]['lng'])
+						 ) {
+						 $c = !$c;
+					 }	
+					 
+				}
+				
+		return $c;
+	}	
+	
+	public function findPkeysInAreaByUser($userModel)
+	{
+	
+		$area=$userModel->hole_area;		
+
+		//Вытаскиваем айдишники ям в полигонах		
+		$polygonHolesIds=Array();
+		foreach ($area as $shape){
+			$polygonCriteria=new CDbCriteria;
+			$cond='LONGITUDE >= '.$shape->corners['left']
+			.' AND LONGITUDE <= '.$shape->corners['right']
+			.' AND LATITUDE >= '.$shape->corners['bottom']
+			.' AND LATITUDE <= '.$shape->corners['top'];		
+			
+			$polygonCriteria->addCondition($cond);					
+			
+			$polygonCriteria->select='ID, LATITUDE, LONGITUDE';
+			$polygonHoles=$this->findAll($polygonCriteria);
+			foreach ($polygonHoles as $item)
+					if ($this->inPolygon($shape, $item)) $polygonHolesIds[]=$item->ID;			
+			}	
+		
+		return $polygonHolesIds;
+	
+	}
+	
+	public function findPkeysNotInAreaByUser($userModel)
+	{
+	
+		$area=$userModel->hole_area;		
+		
+		//Вытаскиваем айдишники ям не в полигонах		
+		$polygonHolesIds=Array();
+		foreach ($area as $i=>$shape){
+			$polygonCriteria=new CDbCriteria;
+			$cond='LONGITUDE >= '.$shape->corners['left']
+			.' AND LONGITUDE <= '.$shape->corners['right']
+			.' AND LATITUDE >= '.$shape->corners['bottom']
+			.' AND LATITUDE <= '.$shape->corners['top'];		
+			
+			$polygonCriteria->addCondition($cond);					
+			
+			$polygonCriteria->select='ID, LATITUDE, LONGITUDE';
+			$polygonHoles=$this->findAll($polygonCriteria);
+			foreach ($polygonHoles as $item){
+					$inPolygon=$this->inPolygon($shape, $item);
+					if (!$inPolygon) $polygonHolesIds[$item->ID]=$item->ID;
+					else unset ($polygonHolesIds[$item->ID]);
+						
+			}	
+		}			
+		return $polygonHolesIds;
+	
+	}
+	
+	public function findPkeysNotInArea($polygons, $corners)
+	{
+	
+		//Вытаскиваем айдишники ям не в полигонах		
+		$polygonHolesIds=Array();
+		foreach ($polygons as $i=>$polygon){
+			$polygonCriteria=new CDbCriteria;
+			$cond='LONGITUDE >= '.$corners[$i]['left']
+			.' AND LONGITUDE <= '.$corners[$i]['right']
+			.' AND LATITUDE >= '.$corners[$i]['bottom']
+			.' AND LATITUDE <= '.$corners[$i]['top'];		
+			
+			$polygonCriteria->addCondition($cond);					
+			
+			$polygonCriteria->select='ID, LATITUDE, LONGITUDE';
+			$polygonHoles=$this->findAll($polygonCriteria);
+			foreach ($polygonHoles as $item){
+					$inPolygon=$this->inPolygonArray($polygon, $item);
+					if (!$inPolygon) $polygonHolesIds[$item->ID]=$item->ID;
+					else unset ($polygonHolesIds[$item->ID]);
+						
+			}	
+		}			
+		return $polygonHolesIds;
+	
+	}	
+	
+	
 	public function areaSearch($user)
 	{
 		// Warning: Please modify the following code to remove attributes that
-		// should not be searched.
+		// should not be searched.		
+
+		$userid=$user->id;		
+		
+		$criteria=new CDbCriteria;
+		$criteria->with=Array('type','pictures_fresh', 'comments_cnt');		
 		
 		$area=$user->userModel->hole_area;
 		
-		$userid=$user->id;
-		
-		$criteria=new CDbCriteria;
-		$criteria->with=Array('type','pictures_fresh');
-		$criteria->compare('t.ID',$this->ID,false);
-
 		foreach ($area as $shape){
-			$criteria->addCondition('LATITUDE >= '.$shape->points[0]->lat
-			.' AND LATITUDE <= '.$shape->points[2]->lat
-			.' AND LONGITUDE >= '.$shape->points[0]->lng
-			.' AND LONGITUDE <= '.$shape->points[2]->lng, 'OR');
+			$cond='LONGITUDE >= '.$shape->corners['left']
+			.' AND LONGITUDE <= '.$shape->corners['right']
+			.' AND LATITUDE >= '.$shape->corners['bottom']
+			.' AND LATITUDE <= '.$shape->corners['top'];					
+			$criteria->addCondition($cond,'OR');			
 			}
-
+		
+		
+		$notPolygonHolesIds=$this->findPkeysNotInAreaByUser($user->userModel);
+		if ($notPolygonHolesIds) $criteria->addNotInCondition('t.ID',$notPolygonHolesIds);	
+		
+		//Вытаскиваем все Айдишники для селектора фильтра по ГИБДД	
+		$tmpcriteria=clone $criteria;
+		$tmpcriteria->with=Array();
+		$tmpcriteria->select='ID';
+		$this->keys=CHtml::listData($this->findAll($tmpcriteria),'ID','ID');		
+		
 		if ($this->showUserHoles==1) $criteria->compare('t.USER_ID',$userid,false);
 		elseif ($this->showUserHoles==2) {
 			$criteria->with=Array('type','pictures_fresh','requests');
 			$criteria->addCondition('t.USER_ID!='.$userid);
 			$criteria->compare('requests.user_id',$userid,true);
 			$criteria->together=true;
-			}		
+			}			
+		
+			
+		if (!$user->userModel->relProfile->show_archive_holes) $criteria->compare('t.archive',0,false);
+		
+		$criteria->compare('t.deleted',0);
 		$criteria->compare('t.STATE',$this->STATE,true);	
 		$criteria->compare('t.TYPE_ID',$this->TYPE_ID,false);
-		$criteria->compare('type.alias',$this->type_alias,true);	
+		$criteria->compare('type.alias',$this->type_alias,true);
+		$criteria->compare('t.gibdd_id',$this->gibdd_id,false);
 		//
 		//$criteria->addCondition('t.USER_ID='.$userid);
 	
-		return new CActiveDataProvider($this, array(
+		$provider=new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
 				        'pageSize'=>$this->limit ? $this->limit : 12,				        
@@ -653,19 +904,58 @@ class Holes extends CActiveRecord
 			'sort'=>array(
 			    'defaultOrder'=>'t.DATE_CREATED DESC',
 				)
-		));
-	}	
+		));		
+
+		return $provider;
+	}		
 	
 	
-	
-	public function search()
+	public function search($fixeds=false)
 	{
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
 
 		$criteria=new CDbCriteria;
 		//$criteria->with=Array('pictures_fresh','pictures_fixed');
-		$criteria->with=Array('type','pictures_fresh');
+		$criteria->with=Array('type','pictures_fresh', 'comments_cnt');
+		
+		if ($fixeds){
+			$with=$criteria->with;
+			$with[1]='pictures_fixed_not_moderated';
+			$criteria->with=$with;
+			$criteria->addCondition('t.STATE!="fixed"');
+			$criteria->together=true;
+		}
+		
+		if ($this->polygons){
+			$corners=Array();
+			foreach ($this->polygons as $i=>$polygon){
+				$corners[$i]['left']=$polygon[0]['lng'];
+				$corners[$i]['right']=$polygon[0]['lng'];
+				$corners[$i]['top']=$polygon[0]['lat'];
+				$corners[$i]['bottom']=$polygon[0]['lat'];
+				foreach ($polygon as $point){
+					if ($point['lng'] < $corners[$i]['left']) $corners[$i]['left']=$point['lng'];
+					if ($point['lng'] > $corners[$i]['right']) $corners[$i]['right']=$point['lng'];
+					if ($point['lat'] > $corners[$i]['top']) $corners[$i]['top']=$point['lat'];
+					if ($point['lat'] < $corners[$i]['bottom']) $corners[$i]['bottom']=$point['lat'];
+				}	
+			}
+			
+			foreach ($corners as $corner){
+				$cond='LONGITUDE >= '.$corner['left']
+				.' AND LONGITUDE <= '.$corner['right']
+				.' AND LATITUDE >= '.$corner['bottom']
+				.' AND LATITUDE <= '.$corner['top'];					
+				$criteria->addCondition($cond,'OR');			
+			}
+			
+			$notPolygonHolesIds=$this->findPkeysNotInArea($this->polygons, $corners);
+			if ($notPolygonHolesIds) $criteria->addNotInCondition('t.ID',$notPolygonHolesIds);				
+		
+		}
+		
+		$criteria->compare('t.deleted',0);
 		$criteria->compare('t.ID',$this->ID,false);
 		$criteria->compare('t.USER_ID',$this->USER_ID,false);
 		$criteria->compare('t.LATITUDE',$this->LATITUDE);
@@ -683,15 +973,16 @@ class Holes extends CActiveRecord
 		$criteria->compare('t.ADR_CITY',$this->ADR_CITY,true);
 		$criteria->compare('t.COMMENT_GIBDD_REPLY',$this->COMMENT_GIBDD_REPLY,true);
 		$criteria->compare('t.GIBDD_REPLY_RECEIVED',$this->GIBDD_REPLY_RECEIVED);
-		if ($this->NOT_PREMODERATED) $criteria->compare('PREMODERATED',0);
-		if (!Yii::app()->user->isModer) $criteria->compare('PREMODERATED',$this->PREMODERATED,true);
+		if ($this->NOT_PREMODERATED) $criteria->compare('t.PREMODERATED',0);
+		$criteria->compare('archive',$this->archive ? $this->archive : 0);
+		if (!Yii::app()->user->isModer) $criteria->compare('t.PREMODERATED',$this->PREMODERATED,true);
 		$criteria->compare('DATE_SENT_PROSECUTOR',$this->DATE_SENT_PROSECUTOR,true);
 		//$criteria->together=true;
 	
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
-				        'pageSize'=>$this->limit ? $this->limit : 27,				        
+				        'pageSize'=>$this->limit ? $this->limit : 12,				        
 				    ),
 			'sort'=>array(
 			    'defaultOrder'=>'t.DATE_CREATED DESC',
@@ -718,10 +1009,15 @@ class Holes extends CActiveRecord
 			$criteria->addCondition('t.DATE_CREATED >='.$DATE_CREATED.' AND t.DATE_CREATED <='.($DATE_CREATED+86400));
 			}		
 		$criteria->compare('t.DATE_SENT',$this->DATE_SENT,true);
-		$criteria->compare('t.DATE_STATUS',$this->DATE_STATUS,true);
+		if ($this->DATE_STATUS) {
+			$DATE_STATUS=CDateTimeParser::parse($this->DATE_STATUS, 'dd.MM.yyyy');
+			$criteria->addCondition('t.DATE_STATUS <='.$DATE_STATUS);
+			
+			}
 		$criteria->compare('t.COMMENT1',$this->COMMENT1,true);
 		$criteria->compare('t.COMMENT2',$this->COMMENT2,true);
 		$criteria->compare('t.TYPE_ID',$this->TYPE_ID,false);
+		$criteria->compare('t.deleted',$this->deleted,false);
 		$criteria->compare('type.alias',$this->type_alias,true);
 		$criteria->compare('subject.name_full',$this->ADR_SUBJECTRF,true);
 		$criteria->compare('gibdd.name',$this->gibdd_id,true);
@@ -729,6 +1025,7 @@ class Holes extends CActiveRecord
 		$criteria->compare('t.COMMENT_GIBDD_REPLY',$this->COMMENT_GIBDD_REPLY,true);
 		$criteria->compare('t.GIBDD_REPLY_RECEIVED',$this->GIBDD_REPLY_RECEIVED);
 		$criteria->compare('t.PREMODERATED',$this->PREMODERATED,true);
+		$criteria->compare('t.archive',$this->archive,true);
 		$criteria->compare('t.DATE_SENT_PROSECUTOR',$this->DATE_SENT_PROSECUTOR,true);
 		$criteria->together=true;
 	
@@ -741,5 +1038,14 @@ class Holes extends CActiveRecord
 			    'defaultOrder'=>'t.DATE_CREATED DESC',
 				)
 		));
-	}	
+	}		
+	
+	public function getArchiveSearchLink()
+	{
+		$arr=Array('/holes/index');
+		foreach($this->attributes as $key=>$val)
+			$arr["Holes[$key]"]=$val;
+		$arr["Holes[archive]"]=1;   
+		return $arr;	
+	} 
 }

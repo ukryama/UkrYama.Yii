@@ -3,29 +3,16 @@ $this->pageTitle=Yii::app()->name . ' - Стандарты и нормативы
 $this->title='Стандарты и нормативы';
 $this->layout='//layouts/header_blank';
 ?>
-<h2><?php echo Yii::t("static", "STATIC_REGULATIONS_HEADER");?></h2>
-	<p><?php echo Yii::t("static", "STATIC_REGULATIONS_P_1");?></p>
- 	
-  <p><?php echo Yii::t("static", "STATIC_REGULATIONS_P_2");?>
-    <br />
-   		</p>
-
-  <ul class="default"> 			
-    <li><?php echo Yii::t("static", "STATIC_REGULATIONS_UL_LI_1");?></li>
-   			
-    <li><?php echo Yii::t("static", "STATIC_REGULATIONS_UL_LI_2");?></li>
-   			
-    <li><?php echo Yii::t("static", "STATIC_REGULATIONS_UL_LI_3");?></li>
-   			
-    <li><?php echo Yii::t("static", "STATIC_REGULATIONS_UL_LI_4");?></li>
-   			
-    <li><?php echo Yii::t("static", "STATIC_REGULATIONS_UL_LI_5");?></li>
-   		</ul>
- 	
-  <p></p>
- 	
-  <p><?php echo Yii::t("static", "STATIC_REGULATIONS_P_3");?></p>
- 	
-  <p><a href="/files/DSTU3587-97UA.pdf" target="_blank" ><img src="/images/pdf_doc.gif" height="14" width="14"  /></a> <a href="/files/DSTU3587-97UA.pdf" target="_blank" ><?php echo Yii::t("static", "STATIC_REGULATIONS_P_A_1");?></a> (.pdf, 380 Кб)</p>
- 	
-  <p><a href="/files/DSTU3587-97UA.pdf" target="_blank" ><img src="/images/pdf_doc.gif" height="14" width="14"  /></a> <a href="/files/P-G.1-218-113-2009.pdf" target="_blank" ><?php echo Yii::t("static", "STATIC_REGULATIONS_P_A_2");?></a> (.pdf, 15 Мб)</p>
+<h2>ГОСТ Р 50597-93 &laquo;Автомобильные дороги и улицы. Требования к эксплуатационному состоянию, допустимому по условиям обеспечения безопасности дорожного движения&raquo;</h2>
+	<p><a href="/files/GOST-R-50597-93.pdf" target="_blank"><img src="/images/pdf_doc.gif"> Прочитать или скачать ГОСТ Р 50597-93 &laquo;Автомобильные дороги и улицы ...&raquo; в формате PDF</a></p>
+	<p>Настоящий стандарт устанавливает перечень и допустимые по условиям обеспечения безопасности движения предельные значения показателей эксплуатационного состояния автомобильных дорог, улиц и дорог городов и других населенных пунктов, а также требования к эксплуатационному состоянию технических средств организации дорожного движения. Все требования стандарта являются обязательными и направлены на обеспечение безопасности дорожного движения, сохранение жизни, здоровья и имущества населения, охрану окружающей среды.</p>
+	<p>Повреждениями дорожного покрытия являются:<br>
+		<ul class="default">
+			<li>Ямы, выбоины, просадки дорожного полотна, превышающие хотя бы один из следующих параметров: ширина &mdash; 60&nbsp;см., длина &mdash; 15&nbsp;см., глубина &mdash; 5&nbsp;см.</li>
+			<li>Отклонение крышки люка смотрового колодца относительно уровня покрытия более 2,0&nbsp;см.</li>
+			<li>Отклонение верха головки рельса трамвайных или железнодорожных путей, расположенных в пределах проезжей части, относительно покрытия более 2,0&nbsp;см.</li>
+		</ul>
+	</p>
+	<p>ГОСТ Р 50597-93 действует на всех классах дорог: от федеральных автомагистралей до дворовых проездов.</p>
+	<p>ГОСТ Р 50597-93 действует только на проезжую часть дороги.</p>
+	<p>Вопрос с тротуарами в настоящее время уточняется.</p>

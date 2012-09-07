@@ -8,7 +8,7 @@ include ('appConfig.php');
 
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'УкрЯма',
+	'name'=>'Rosyama',
 	'language'=>'ru',
 	'defaultController'=>'holes',
 	// preloading 'log' component
@@ -22,8 +22,9 @@ return array(
 		'application.components.*',
 		'application.classes.*',
 		'application.modules.userGroups.*',
-		'application.modules.userGroups.models.*',
+		'application.modules.userGroups.models.*',		
         'application.modules.userGroups.components.*',
+        'application.modules.comments.models.*',
 		'application.extensions.nestedset.*',
 		'application.extensions.fpdf.*',
 		'application.extensions.*',
@@ -47,7 +48,47 @@ return array(
 				'accessCode'=>'12345',
 				'salt'=>'111',				
 				'profile'=>Array('Profile')
-			)
+			),
+			'comments'=>array(
+				//you may override default config for all connecting models
+				'defaultModelConfig' => array(
+					//only registered users can post comments
+					'registeredOnly' => true,
+					'useCaptcha' => false,
+					//allow comment tree
+					'allowSubcommenting' => true,
+					//display comments after moderation
+					'premoderate' => false,
+					//action for postig comment
+					'postCommentAction' => 'comments/comment/postComment',
+					//super user condition(display comment list in admin view and automoderate comments)
+					'isSuperuser'=>'Yii::app()->user->isModer',
+					//order direction for comments
+					'orderComments'=>'ASC',					
+				),
+				//the models for commenting
+				'commentableModels'=>array(
+					//model with individual settings
+					'Holes'=>array(
+						'registeredOnly'=>true,
+						'useCaptcha'=>false,
+						'allowSubcommenting'=>true,
+						//config for create link to view model page(page with comments)
+						'pageUrl'=>array(
+							'route'=>'holes/view',
+							'data'=>array('id'=>'ID'),
+						),
+					),
+					//model with default settings
+					'ImpressionSet',
+				),
+				//config for user models, which is used in application
+				'userConfig'=>array(
+					'class'=>'UserGroupsUser',
+					'nameProperty'=>'fullname',
+					//'emailProperty'=>'email',
+				),
+			),			
     ),
 	// application components
 	'components'=>array(
@@ -66,15 +107,18 @@ return array(
 			'rules'=>array(
 				  '/'=>'holes/index',
 				  '<id:\d+>'=>'holes/view',
+				  'map/<userid:\d+>/'=>'holes/map',				  
 				  'map'=>'holes/map',
 				  'page/<view:\w+>/' => 'site/page',
 				  'userGroups'=>'userGroups',
 				  'gii'=>'gii',
 				  'profile'=>'profile',
+				  'sprav/<subject_id:\d+>/add/'=>'sprav/add',
 				  'api/<id:\d+>'=>'api/index',
 				  'api/my/<id:\d+>/update'=>'api/update',
 				  'api/my/<id:\d+>/<type:[a-zA-Z0-9\_]+>'=>'api/setstate',
-				   '<controller:\w+>'=>'<controller>/index',
+				  'holes/cronDaily/<type:[a-zA-Z0-9\_-]+>'=>'holes/cronDaily',
+				  '<controller:\w+>'=>'<controller>/index',
 				  '<controller:\w+>/<id:\d+>'=>'<controller>/view',
 				  '<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
 				  '<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
@@ -131,12 +175,7 @@ return array(
                 ),
                 'CLinkPager'=>array(
                     'maxButtonCount'=>10,
-					'lastPageLabel'=>false, 
-					'firstPageLabel'=>false, 
-					'nextPageLabel'=>'&rarr;',
-					'prevPageLabel'=>'&larr;',
-					'cssFile'=>false,
-					'header'=>false,
+
                     //'cssFile'=>false,
                 ),
             ),

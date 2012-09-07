@@ -39,7 +39,7 @@ class HoleRequests extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('hole_id, user_id, gibdd_id, date_sent, type', 'required'),
-			array('hole_id, user_id, gibdd_id, date_sent', 'numerical', 'integerOnly'=>true),
+			array('hole_id, user_id, gibdd_id, date_sent, notification_sended', 'numerical', 'integerOnly'=>true),
 			array('type', 'length', 'max'=>30),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
@@ -55,8 +55,8 @@ class HoleRequests extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
-			'answer'=>array(self::HAS_ONE, 'HoleAnswers', 'request_id','order'=>'date DESC'),
-			'answers'=>array(self::HAS_MANY, 'HoleAnswers', 'request_id','order'=>'date DESC'),
+			'answer'=>array(self::HAS_ONE, 'HoleAnswers', 'request_id','order'=>'answer.date DESC'),
+			'answers'=>array(self::HAS_MANY, 'HoleAnswers', 'request_id','order'=>'answers.date DESC'),
 			'hole'=>array(self::BELONGS_TO, 'Holes', 'hole_id'),
 			'user'=>array(self::BELONGS_TO, 'UserGroupsUser', 'user_id'),
 		);

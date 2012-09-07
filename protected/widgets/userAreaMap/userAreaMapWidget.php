@@ -5,6 +5,8 @@ class userAreaMapWidget extends CWidget {
         public $itemview='default';
 
         public $data=array();
+        
+        public $model;
 
         public $options=array();
 
@@ -30,6 +32,20 @@ class userAreaMapWidget extends CWidget {
 
 
         public function run() {
+        	
+        	$strparams=Array();
+        	
+        	$model=$this->model;
+        	if ($model) {
+				foreach ($model->attributes as $key=>$val){
+					$strparams[]='Holes['.$key.']='.$val;	
+				}
+				if ($model->showUserHoles) $strparams[]='Holes[showUserHoles]='.$model->showUserHoles;
+        	}
+        	$params=implode('&',$strparams);
+        	
+        	$this->data['params']=$params;
+        	
             $this->registerCoreScripts();
                 $this->render($this->itemview, $this->data);
 
