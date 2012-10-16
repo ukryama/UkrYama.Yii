@@ -51,20 +51,20 @@
 			</tr>
 			<tr>
 				<td></td>
-				<td class="authorize-submit-cell"><?php echo CHtml::submitButton('Войти'); ?></td>
+				<td class="authorize-submit-cell"><?php echo CHtml::submitButton('Войти'); ?>
+					<noindex>
+				<a href="/userGroups/user/passRequest/" rel="nofollow">Забыли свой пароль?</a>
+		</noindex>
+				</td>
 			</tr>
 		</table>
 		
-		<noindex>
-			<p>
-				<a href="/userGroups/user/passRequest/" rel="nofollow">Забыли свой пароль?</a>
-			</p>
-		</noindex>
+		
 		
 		<?php if (UserGroupsConfiguration::findRule('registration')): ?>
 		<noindex>
-			<p>
-				<?php echo CHtml::link('Зарегистрироваться', array('/userGroups/user/register'))?><br />
+			<p class="bottom-text">
+				<big><?php echo CHtml::link('Зарегистрироваться', array('/userGroups/user/register'))?></big><br />
 				Если вы впервые на сайте, заполните, пожалуйста, регистрационную форму. 
 			</p>
 		</noindex>

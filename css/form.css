@@ -38,6 +38,61 @@ div.form
 {
 }
 
+div.form{
+	width:675px;
+	margin:0 auto;
+}
+
+
+
+
+div.form tr td:first-child{
+	width: 210px;
+	padding:0 20px 0 0;
+	text-align: right;
+}
+
+div.form thead tr td:first-child{
+	text-align: left;
+	font-size: 22px;
+	font-weight: normal;
+	padding:0 0 10px;
+}
+div.form thead tr td b{
+	font-weight: normal;
+	display: block;
+	width:210px;
+	text-align: right;
+}
+
+div.form input[type="submit"]{
+	font-size: 1.1em;
+	height:25px;
+	line-height: 24px;
+	background-color: #ae85a3;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#c6a6bd), to(#916284));
+  background-image: -webkit-linear-gradient(top, #c6a6bd, #916284);
+  background-image:    -moz-linear-gradient(top, #c6a6bd, #916284);
+  background-image:      -o-linear-gradient(top, #c6a6bd, #916284);
+  background-image:         linear-gradient(to bottom, #c6a6bd, #916284);
+	border-radius:2px;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border:none;
+	cursor: pointer;
+	padding:0 9px;
+	color:#fff;
+	margin:0;
+}
+div.form input[type="text"],
+div.form input[type="password"]{
+	width:250px;
+	padding:0 3px;
+	height:23px;
+	line-height: 23px;
+	border:1px solid #9aa3ab;
+}
+
 div.form input,
 div.form textarea,
 div.form select
@@ -55,9 +110,10 @@ div.form fieldset
 
 div.form label
 {
-	font-weight: bold;
-	font-size: 0.9em;
+	font-weight: normal;
+	font-size: 1.1em;
 	display: block;
+	text-align: right;
 }
 
 div.form .row
@@ -80,6 +136,17 @@ div.form .note
 div.form span.required
 {
 	color: red;
+	
+}
+
+div.form #user-groups-passrequest-form label{
+	position: relative;
+	display: inline;
+}
+div.form #user-groups-passrequest-form span.required{
+	position: absolute;
+	left:-8px;
+	top:0px;
 }
 
 div.form div.error label,
@@ -161,4 +228,14 @@ div.wide.form .buttons, div.wide.form .hint, div.wide.form .errorMessage
 div.chekboxes input { 
 float: left;
 width: 20px;
+}
+
+
+
+
+#user-groups-passrequest-form p a{
+	font-size: 11px;
+}
+#user-groups-passrequest-form p{
+	margin-left:230px;
 }

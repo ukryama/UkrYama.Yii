@@ -138,7 +138,16 @@ EOD
 
 <div class="lCol">
 
-<div class="filter">
+
+
+<?php $this->widget('application.widgets.news.newsWidget'); ?>
+<?php $this->widget('application.widgets.social.socialWidget'); ?>
+
+</div>
+
+<div class="rCol">
+
+	<div class="filter clearfix">
 		<?php
 		$form=$this->beginWidget('CActiveForm', array(
 		//'action'=>Yii::app()->createUrl("departure/out"),
@@ -146,7 +155,8 @@ EOD
 		'id'=>'filter_form',
 		'htmlOptions'=>array()
 		)); ?>
-		<p>
+		<p class="long">
+			<label class="fc">Область</label>
 			<?php
  $this->widget('EJuiAutoCompleteFkField', array(
       'model'=>$model, 
@@ -163,8 +173,6 @@ EOD
       'autoCompleteLength'=>60,
       // any attributes of CJuiAutoComplete and jQuery JUI AutoComplete widget may 
       // also be defined.  read the code and docs for all options
-      'defaultVal'=>'Область',
-      'defaultVal'=>Yii::t("holes", "WIDGET_DEFAULT_REGION"),
       'cssClass'=>$model->ADR_SUBJECTRF ? '' : 'disabled',
       
       //'scriptFile'=>'jquery.autocomplete.js',      
@@ -179,7 +187,12 @@ EOD
 			
 			</p>
 			<div id="filter_rf_subject_tip" class="filter_roller"></div>
-			<p>
+			<p class="short">
+				<label><?php echo Yii::t("holes", "WIDGET_TYPE_DEFECT"); ?></label>
+			<?php echo $form->dropDownList($model, 'TYPE_ID', CHtml::listData( HoleTypes::model()->findAll(Array('condition'=>'published=1', 'order'=>'ordering')), 'id','name'), array('prompt'=>Yii::t("holes", "WIDGET_TYPE_DEFECT"))); ?>
+			</p>
+			<p class="long">
+				<label class="fc"><?php echo Yii::t('holes', "WIDGET_DEFAULT_CITY");?></label>
 			<?php
 			$defval= Yii::t('holes', "WIDGET_DEFAULT_CITY");
 			if ($model->ADR_CITY) $val=$model->ADR_CITY;
@@ -203,9 +216,6 @@ EOD
 				),
 				'htmlOptions'=>array(
 					'class'=>$model->ADR_CITY ? '' : 'disabled',
-					'value'=>$val,
-					'onclick'=>'if ($(this).val()=="'.$defval.'") $(this).val(""); $(this).removeClass("disabled");',
-					'onblur'=>'if ($(this).val()=="") {$(this).val("'.$defval.'"); $(this).addClass("disabled");}',
 					
 				),
 			));
@@ -213,10 +223,9 @@ EOD
 					
 			</p>
 			<div id="filter_city_tip" class="filter_roller"></div>
-			<p>
-			<?php echo $form->dropDownList($model, 'TYPE_ID', CHtml::listData( HoleTypes::model()->findAll(Array('condition'=>'published=1', 'order'=>'ordering')), 'id','name'), array('prompt'=>Yii::t("holes", "WIDGET_TYPE_DEFECT"))); ?>
-			</p>
-			<p>
+			
+			<p class="short">
+				<label><?php echo Yii::t("holes", "WIDGET_STATUS_DEFECT"); ?></label>
 			<?php echo $form->dropDownList($model, 'STATE', $model->Allstates, array('prompt'=>Yii::t("holes", "WIDGET_STATUS_DEFECT"))); ?>
 			</p>
 			<?php if(Yii::app()->user->isModer) : ?>
@@ -234,13 +243,6 @@ EOD
 			if(!$model->isEmptyAttribs): ?><span class="reset" onclick="document.location='/';"><?php echo(Yii::t("holes", "WIDGET_CLEAR_DEFECT"))?></span><?php endif; ?>
 		<?php $this->endWidget(); ?>
 </div>
-
-<?php $this->widget('application.widgets.news.newsWidget'); ?>
-<?php $this->widget('application.widgets.social.socialWidget'); ?>
-
-</div>
-
-<div class="rCol">
 
 <?php $this->widget('zii.widgets.CListView', array(
 		'dataProvider'=>$dataProvider,

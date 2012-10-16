@@ -1,3 +1,8 @@
+<div class="like">
+		<noindex><script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+<div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="vkontakte,facebook,twitter,lj"></div></noindex><br />
+	
+</div>
 <!-- NEWS -->
 <div class="news-list-mainpage">
 <?php foreach ($model as $news) : ?>	

@@ -26,6 +26,6 @@ $this->layout='//layouts/header_blank';
  	
   <p><?php echo Yii::t("static", "STATIC_REGULATIONS_P_3");?></p>
  	
-  <p><a href="/files/DSTU3587-97UA.pdf" target="_blank" ><img src="/images/pdf_doc.gif" height="14" width="14"  /></a> <a href="/files/DSTU3587-97UA.pdf" target="_blank" ><?php echo Yii::t("static", "STATIC_REGULATIONS_P_A_1");?></a> (.pdf, 380 Кб)</p>
+  <p><a href="/files/DSTU3587-97UA.pdf" target="_blank" ><img src="/images/pdf_doc.gif"  /></a> <a href="/files/DSTU3587-97UA.pdf" target="_blank" ><?php echo Yii::t("static", "STATIC_REGULATIONS_P_A_1");?></a> (.pdf, 380 Кб)</p>
  	
-  <p><a href="/files/DSTU3587-97UA.pdf" target="_blank" ><img src="/images/pdf_doc.gif" height="14" width="14"  /></a> <a href="/files/P-G.1-218-113-2009.pdf" target="_blank" ><?php echo Yii::t("static", "STATIC_REGULATIONS_P_A_2");?></a> (.pdf, 15 Мб)</p>
+  <p><a href="/files/DSTU3587-97UA.pdf" target="_blank" ><img src="/images/pdf_doc.gif"  /></a> <a href="/files/P-G.1-218-113-2009.pdf" target="_blank" ><?php echo Yii::t("static", "STATIC_REGULATIONS_P_A_2");?></a> (.pdf, 15 Мб)</p>
