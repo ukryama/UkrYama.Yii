@@ -3,6 +3,9 @@
 	list-style-type: none;
 	margin: 0 0 2em -20px;
 }
+.holes_list .empty{
+	margin:0 0 0 20px;
+}
 
 	.holes_list li {
 		background: #fff;
@@ -145,7 +148,12 @@ div#ymapcontainer_big_map { height: 600px; width: 1000px; }
 
 #holes_select_list{position: absolute; }
 #scrollcontainer{position: absolute; top:0px!important;}
-.holes_select_list_box{background-color: #ffc306; width: 175px; padding:20px;}
+.holes_select_list_box{background-color: #e5e9ec; width: 200px; padding:10px;
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+	margin:0 0 3px;
+}
 .hole_check{position: absolute; z-index: 1; top:5px; left:5px;}
 
 

@@ -57,11 +57,6 @@
 	
 	<!-- правая колоночка -->
 	<div class="rCol"> 
-	<div class="f">
-	<p class="tip">
-Поставьте метку на карте двойным щелчком мыши
-<span class="required">*</span>
-</p>
 		<div class="bx-yandex-search-layout" style="padding-bottom: 0px;">
 			<div class="bx-yandex-search-form" style="padding-bottom: 0px;">				
 					<p>Введите адрес места для быстрого поиска</p>
@@ -71,6 +66,12 @@
 			</div>		
 			<div class="bx-yandex-search-results" id="results_MAP_DzDvWLBsil"></div>
 		</div>	
+	<div class="f">
+	<p class="tip">
+Поставьте метку на карте двойным щелчком мыши
+<span class="required">*</span>
+</p>
+		
 			<span id="recognized_address_str" title="Субъект РФ и населённый пункт"></span>
 			<span id="other_address_str"></span>				
 		

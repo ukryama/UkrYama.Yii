@@ -13,23 +13,24 @@ div.rCol div.picts img { max-width: 400px; }
 div.rCol div.picts label { display: inline; }
 
 .hidden { display: none; }
-.f { padding-bottom: 16px; color: #222; position: relative; }
-.rCol .f { padding-bottom: 80px; }
+.f { padding-bottom: 15px; color: #222; position: relative; }
+.rCol .f { padding-bottom: 0px; }
 
 .f .textInput { border-width: 1px; background-color: white; font: normal 1em "Trebuchet MS", sans-serif; }
 .f select { border-width: 1px; background-color: white; font: normal 1em "Trebuchet MS", sans-serif; }
 .f texarea { border-width: 1px; font: normal 1em "Trebuchet MS", sans-serif; }
-.lCol .f input, .lCol .f select, .lCol .f textarea {width: 100%;}
+.lCol .f input, .lCol .f select, .lCol .f textarea {width: 490px; margin:0;}
+.lCol .f select{width:492px; padding:1px; height: 25px;}
 .rCol .f textarea {width: 100%; height: 100px; }
 div.lCol .f textarea { height: 200px; border-width: 1px; font-size: normal; }
 div.rCol .button { float: right; margin-top: 15px; }
 .bx-yandex-search-form .textInput {width: 350px;}
 .bx-yandex-search-form p {margin-bottom: 0.34em}
-.bx-yandex-search-results {margin-bottom: 2em}
-.f label { display: block; margin-bottom: 4px; }
-.f .tip { float: right; width: 240px;}
+.bx-yandex-search-results {margin-bottom: 20px;}
+.f label { display: block; margin-bottom: 4px; width:295px; float:left; margin:0 26px 0 0;}
+.f .tip { float: left; width: 295px; text-align: right; margin:0 26px 0 0;}
 hr { margin-left: -230px; border-left: none; border-bottom-color: white; }
-span.required { color: red; }
+span.required { color: red; width: 6px; float:right; margin:0 -10px 0 0;}
 #recognized_address_str { font-weight: bold; }
 #other_address_str { color: #505050; }
 
@@ -41,13 +42,15 @@ span.required { color: red; }
 
 .addSubmit .container {
 	border-top: 1px solid #fff;
-	padding: 2em 0 0 245px;
+	padding: 17px 0 0 320px;
 	width: auto;
 }
 
 .addSubmit p {
-	float: left;
-	width: 510px;
+	/*float: left;
+	width: 510px;*/
+	color:#9aa3ab;
+	margin:0 0 17px;
 }
 
 .addSubmit .btn {
@@ -62,3 +65,60 @@ span.chekboxResult { background: #a3a3a8 url(/images/label_grey_bg.gif) repeat-x
 
 div#overshadow { position: relative; z-index: 2; }
 span.comment { font-size: 75%; color: #666; }
+
+div.f input[type="text"], div.f input[type="password"]{
+	width: 484px !important;
+}
+
+
+.bx-yandex-view-layout{
+	width:490px;
+	overflow: hidden;
+}
+.bx-yandex-search-layout{
+	clear: both;
+}
+.bx-yandex-search-form p{
+	float:left;
+	width:295px;
+	text-align: right;
+	margin:0 26px 0 0;
+}
+
+input#address_inp{
+	width:230px !important;
+}
+
+
+
+#holes-form .btn{
+	float:none;
+}
+#holes-form .btn .addFact{
+	padding:0;
+}
+#holes-form .addFact .text{
+	font-size: 22px;
+	width:auto;
+	padding:0 50px;
+	height:45px;
+	line-height:44px;
+	background-image: none;
+	background-color: #fd6800;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#ff881e), to(#e04b00)); /* Safari 4+, Chrome */
+  background-image: -webkit-linear-gradient(top, #ff881e, #e04b00); /* Chrome 10+, Safari 5.1+, iOS 5+ */
+  background-image:    -moz-linear-gradient(top, #ff881e, #e04b00); /* Firefox 3.6-15 */
+  background-image:      -o-linear-gradient(top, #ff881e, #e04b00); /* Opera 11.10-12.00 */
+  background-image:         linear-gradient(to bottom, #ff881e, #e04b00); /* Firefox 16+, IE10, Opera 12.50+ */
+  text-shadow:none;
+  border-radius:3px;
+  -moz-border-radius:3px;
+  -webkit-border-radius:3px;
+}
+
+#holes-form .hint{
+	display: block;
+	margin:5px 0 0 321px;
+	color:#9aa3ab;
+	font-style: normal;
+}
