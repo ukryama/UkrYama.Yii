@@ -16,90 +16,38 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 					<a href="/" class="logo" title="На главную"><img src="/images/logo.png"  alt="РосЯма" /></a>
 			</div>
 			<div class="rCol">
-	<div class="h">
-		<div class="info">
-			<p><span class="date"><?php echo CHtml::encode(Y::dateFromTime($hole->DATE_CREATED)); ?></span><?php echo CHtml::link(CHtml::encode($hole->user->getParam('showFullname') ? $hole->user->Fullname : $hole->user->username), array('/profile/view', 'id'=>$hole->user->id),array('class'=>""));?></p>
-			<p class="type type_<?= $hole->type->alias ?>"><?= $hole->type->name; ?></p>
-			<p class="address"><?= CHtml::encode($hole->ADDRESS) ?></p>
-			<p class="status">
-				<span class="bull <?= $hole->STATE ?>">&bull;</span>
-				<span class="state">
-					<?= CHtml::encode($hole->StateName) ?>
-					<? if($hole->STATE == 'prosecutor' && $hole->DATE_STATUS): ?>
-						<?= CHtml::encode(Y::dateFromTime($hole->DATE_STATUS)).' '.Yii::t('holes_view', 'REQUEST_TO_PROSECUTOR_SENT') ?>
-					<? elseif($hole->DATE_SENT): ?>
-						<?php if (count($hole->requests_gibdd) == 1) : ?>
-							<?= CHtml::encode(Y::dateFromTime($hole->DATE_SENT))?> отправлен запрос в ГИБДД
-						<? else : ?>
-							<?= CHtml::encode(Y::dateFromTime($hole->DATE_SENT))?> был отправлен первый запрос в ГИБДД <br/><a href="#" onclick="$('#requests_gibdd_history').toggle('slow'); return false;">история запросов</a>
-							<div id="requests_gibdd_history" style="display:none;">
-							<ul>
-							<?php foreach ($hole->requests_gibdd as $request) : ?>
-							<?php  if ($request->user) : ?>
-								<li><?php echo date('d.m.Y',$request->date_sent);?> <?php echo $userlink=CHtml::link(CHtml::encode($request->user->getParam('showFullname') ? $request->user->Fullname : ($request->user->name ? $request->user->name : $request->user->username)), array('/profile/view', 'id'=>$request->user->id),array('class'=>""));?>  отправил запрос в ГИБДД
-								<?php if ($hole->STATE == 'fixed' && $fix=$hole->getFixByUser($request->user->id)) : ?> 
-								<br /><?php echo date('d.m.Y',$fix->date_fix);?> <?php echo $userlink; ?> отметил факт исправления дефекта
-								<?php endif; ?>
-								</li>
-							<?php endif; ?>
-							<?php endforeach; ?>
-							<li>==========</li>
-							</ul>							
-							</div>
-						<? endif; ?>	
-					<? endif; ?>
-					<? if($hole->STATE == 'fixed' && $hole->DATE_STATUS): ?>
-						<?= CHtml::encode(Y::dateFromTime($hole->DATE_STATUS))?> отмечен факт исправления дефекта
-					<? endif; ?>
-				</span>
-			</p>
-			<div class="control">
+	<div class="r">
+        <?php if ( Yii::app()->user->isGuest || ($hole->user->getParam('id') && Yii::app()->user->getId() && Yii::app()->user->getId()!=$hole->user->id)):?>
+		<div class="add-by-user">
+			<span>Дефект додав:</span>
+			<?php echo CHtml::link(CHtml::encode($hole->user->getParam('showFullname') ? $hole->user->Fullname : $hole->user->username), array('/profile/view', 'id'=>$hole->user->id),array('class'=>""));?>
+		</div>
+        <?php endif;?>
+		<div class="control">
 			<div class="progress">
 			<? if($hole->WAIT_DAYS): ?>
 			<div class="lc">
 				<div class="wait">
-					<p>Ждать, когда отремонтируют</p>
-					<p class="days"><?php echo Y::declOfNum($hole->WAIT_DAYS, array('день', 'дня', 'дней')); ?></p> 
+					<span class="days"><?php echo Y::declOfNum($hole->WAIT_DAYS, array('', '', '')); ?></span>
+                    <span class="day-note"><?php echo preg_replace('/[\d]/', '', Y::declOfNum($hole->WAIT_DAYS, array('день', 'дня', 'дней'))); ?>, Ждать, когда отремонтируют</span>
 				</div>
 			</div>
 			<? elseif($hole->PAST_DAYS): ?>
 			<div class="lc">
 				<div class="wait">
-					<p>Просрочено</p>
-					<p class="days"><?php echo Y::declOfNum($hole->PAST_DAYS, array('день', 'дня', 'дней')); ?></p>
+                    <span class="days"><?php echo Y::declOfNum($hole->PAST_DAYS, array('', '', '')); ?></span>
+                    <span class="day-note"><?php echo preg_replace('/[\d]/', '', Y::declOfNum($hole->PAST_DAYS, array('день', 'дня', 'дней'))); ?> Просрочено</span>
 				</div>
 			</div>
 			<? endif; ?>
 			<? if(!Yii::app()->user->isGuest): ?>
-				<? if(Yii::app()->user->IsAdmin) : ?>
-					<p>
-						<font class="errortext">
-						Вы обладаете административными полномочиями
-						<br/>
-						</font>
-					</p>
-				<? endif; ?>
-				
-				<?php if(!$hole->PREMODERATED) : ?>
-				<p>
-						<font class="errortext">
-						<?php echo  Yii::t('holes_view', 'PREMODRATION_WARNING');?>
-						<br/>
-						</font>
-				</p>
-				<? endif; ?>
-				
-				<?			
+				<?
 				switch($hole->STATE)
 				{
 					case 'fresh':
 					{
 						?>
 						<? if($hole->IsUserHole || Yii::app()->user->IsAdmin): ?>
-						<div class="edit">
-							<?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_2'), array('update', 'id'=>$hole->ID)); ?>								
-							<?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_10'), array('personalDelete', 'id'=>$hole->ID), array('onclick'=>'return confirm("'.Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_11').'");')); ?>							
-						</div>
 						<? endif; ?>
 						<div class="progress">
 							<div class="lc">
@@ -111,9 +59,9 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 								<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_8a'), array('fix', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 								<? endif; ?>
 							</div>
+                            <div class="splitter"></div>
 							<div class="rc">
-								Также можно отправить:<br />
-								<span><ins>&mdash;</ins>с&nbsp;официального сайта <a href="http://www.gibdd.ru/letter" target="_blank">ГИБДД&nbsp;МВД&nbsp;России</a></span>
+								<span>Также можно отправить:<br /><ins>&mdash;</ins> с официального сайта <a href="http://www.gibdd.ru/letter" target="_blank">ГИБДД&nbsp;МВД&nbsp;России</a></span>
 							</div>
 						</div>
 						<?
@@ -129,7 +77,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 								<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_8'), array('fix', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 							</div>
 						<?php endif; ?>	
-							<div class="rc" style="width:145px;padding: 24px 0 24px 15px;">
+							<div class="rc">
 								<p><a class="declarationBtn" href="#" onclick="var c=document.getElementById('pdf_form');if(c){c.style.display=c.style.display=='block'?'none':'block';}return false;"><?= Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_15') ?></a></p>
 								<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_12'), array('notsent', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 								<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_GIBDD_REPLY_RECEIVED'), array('gibddreply', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
@@ -140,6 +88,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 								<p><a href="#" onclick="var c=document.getElementById('pdf_form');if(c){c.style.display=c.style.display=='block'?'none':'block';}return false;" class="declarationBtn"><?= Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_4') ?></a></p>
 								<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_6'), array('sent', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 							</div>
+                            <div class="splitter"></div>
 							<div class="rc">
 								Также можно отправить:<br />
 								<span><ins>&mdash;</ins>с&nbsp;официального сайта <a href="http://www.gibdd.ru/letter" target="_blank">ГИБДД&nbsp;МВД&nbsp;России</a></span>
@@ -158,6 +107,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 							</div>
 							<div class="cc"><?php echo CHtml::link('Ещё ответ из ГИБДД', array('gibddreply', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?>							
 							</div>
+                            <div class="splitter"></div>
 							<div class="rc" style="width:145px;padding: 24px 0 24px 15px;">
 								<p>Если вас не устраивает ответ ГИБДД, то можно</p>
 								<p><a href="#" onclick="var c=document.getElementById('prosecutor_form2');if(c){c.style.display=c.style.display=='block'?'none':'block';}return false;">подать Заявление в Прокуратуру</a></p>
@@ -183,6 +133,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 								<p><?php echo CHtml::link('Ещё ответ из ГИБДД', array('gibddreply', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 								<?php endif; ?>
 							</div>
+                            <div class="splitter"></div>
 							<div class="rc">
 								Также можно отправить <span><ins>&mdash;</ins>с&nbsp;официального сайта <a href="http://www.gibdd.ru/letter" target="_blank">ГИБДД&nbsp;МВД&nbsp;России</a></span>
 							</div>						
@@ -217,6 +168,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 								<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_12'), array('notsent', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 								<?php endif; ?>
 							</div>
+                            <div class="splitter"></div>
 							<div class="rc">
 								Также можно отправить <span><ins>&mdash;</ins>с&nbsp;официального сайта <a href="http://www.gibdd.ru/letter" target="_blank">ГИБДД&nbsp;МВД&nbsp;России</a></span>
 							</div>	
@@ -245,8 +197,8 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 								<p>Для массовости отправьте свою жалобу в прокуратуру.</p>
 								<?php endif; ?>	
 							</div>
-							
-							<div class="rc" style="width:184px;padding: 24px 0 24px 15px;">
+                            <div class="splitter"></div>
+							<div class="rc">
 								<p><?= Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_16') ?></p>
 								<p><a href="#" onclick="var c=document.getElementById('prosecutor_form');if(c){c.style.display=c.style.display=='block'?'none':'block';}return false;" class="declarationBtn"><?= Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_14') ?></a></p>
 								<p><?php echo CHtml::link('Жалоба в прокуратуру подана', array('prosecutorsent', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
@@ -277,8 +229,17 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 						<?php break;
 					}
 				}
-				?>				
-				<div class="pdf_form" id="pdf_form"<?= isset($_GET['show_pdf_form']) ? ' style="display: block;"' : '' ?>>
+				?>
+                <? if(Yii::app()->user->IsAdmin) : ?>
+                    <div class="splitter" style="padding-top: 15px;"></div>
+                    <p>
+                        <span class="errortext">
+                            Вы обладаете административными полномочиями
+                            <br/>
+                        </span>
+                    </p>
+                <? endif; ?>
+                <div class="pdf_form" id="pdf_form"<?= isset($_GET['show_pdf_form']) ? ' style="display: block;"' : '' ?>>
 				<a href="#" onclick="var c=document.getElementById('pdf_form');if(c){c.style.display=c.style.display=='block'?'none':'block';}return false;" class="close">&times;</a>
 				<?php /* echo CHtml::dropDownList('gibdd_id','',CHtml::listData($hole->territorialGibdd, 'id', 'gibdd_name' ),
 									array(
@@ -310,34 +271,12 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 			<?php endif; ?>
 			</div>
 			</div>
+	</div>
+	<div class="h">
+		<div id="ymapcontainer_big">
+			<div align="right"><span class="close" onclick="document.getElementById('ymapcontainer_big').style.display='none';$('#col').css('marginBottom',0)">&times;</span></div>
+			<div id="ymapcontainer_big_map"></div>
 		</div>
-		<div class="social">
-			<div class="like">
-				<!-- Facebook like -->
-				<div id="fb_like">
-					<iframe src="http://www.facebook.com/plugins/like.php?href=<?=Yii::app()->request->hostInfo?>/<?=Yii::app()->request->pathInfo?>&amp;layout=button_count&amp;show_faces=false&amp;width=180&amp;action=recommend&amp;font&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:180px; height:21px;" allowTransparency="true"></iframe>
-				</div>
-				<!-- Vkontakte like -->
-				<div id="vk_like"></div>
-				<script type="text/javascript">VK.Widgets.Like("vk_like", {type: "button", verb: 1});</script>
-			</div>
-			<div class="share">
-				<span>Поделиться</span>
-				<a href="http://www.facebook.com/sharer.php?u=<?=Yii::app()->request->hostInfo?>/<?=Yii::app()->request->pathInfo?>" class="fb" target="_blank">Facebook</a>
-				<a href="http://vkontakte.ru/share.php?url=<?=Yii::app()->request->hostInfo?>/<?=Yii::app()->request->pathInfo?>" class="vk" target="_blank">VK</a>
-				<a href="http://twitter.com/share" class="twitter-share-button" data-text="Обнаружен дефект на дороге по адресу <?= CHtml::encode($hole->ADDRESS) ?>" data-count="none">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-			</div>
-		</div>
-	</div> 
-	
-</div>
-<!-- CLOSE HEAD CONTAINER -->
-</div>
-<!-- CLOSE HEAD -->
-</div>
-<div class="mainCols" id="col">
-	<div class="lCol">
-		<div id="ymapcontainer_big"><div align="right"><span class="close" onclick="document.getElementById('ymapcontainer_big').style.display='none';$('#col').css('marginBottom',0)">&times;</span></div><div id="ymapcontainer_big_map"></div></div>
 		<?if($hole['LATITUDE'] && $hole['LONGITUDE']):?><div id="ymapcontainer" class="ymapcontainer"></div><?endif;?>
 		<script type="text/javascript">
 			var map_centery = <?= $hole['LATITUDE'] ?>;
@@ -355,18 +294,94 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 			YMaps.Events.observe(placemark, placemark.Events.Click, function () { toggleMap(); } );
 			map.addOverlay(placemark);
 		</script>
+		<div class="info">
+			<div>
+                <span class="date"><?php echo CHtml::encode(Y::dateFromTime($hole->DATE_CREATED)); ?></span>
+                <div class="edit-container">
+                    <?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_2'), array('update', 'id'=>$hole->ID)); ?>
+                    <?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_10'), array('personalDelete', 'id'=>$hole->ID), array('onclick'=>'return confirm("'.Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_11').'");')); ?>
+                </div>
+            </div>
+			<p class="type type_<?= $hole->type->alias ?>"><?= $hole->type->name; ?></p>
+			<p class="address"><?= CHtml::encode($hole->ADDRESS) ?></p>
+			<p class="status">
+				<span class="bull <?= $hole->STATE ?>">&bull;</span>
+				<span class="state">
+					<?= CHtml::encode($hole->StateName) ?>
+					<? if($hole->STATE == 'prosecutor' && $hole->DATE_STATUS): ?>
+						<?= CHtml::encode(Y::dateFromTime($hole->DATE_STATUS)).' '.Yii::t('holes_view', 'REQUEST_TO_PROSECUTOR_SENT') ?>
+					<? elseif($hole->DATE_SENT): ?>
+						<?php if (count($hole->requests_gibdd) == 1) : ?>
+							<?= CHtml::encode(Y::dateFromTime($hole->DATE_SENT))?> отправлен запрос в ГИБДД
+						<? else : ?>
+							<?= CHtml::encode(Y::dateFromTime($hole->DATE_SENT))?> был отправлен первый запрос в ГИБДД <br/><a href="#" onclick="$('#requests_gibdd_history').toggle('slow'); return false;">история запросов</a>
+							<div id="requests_gibdd_history" style="display:none;">
+							<ul>
+							<?php foreach ($hole->requests_gibdd as $request) : ?>
+							<?php  if ($request->user) : ?>
+								<li><?php echo date('d.m.Y',$request->date_sent);?> <?php echo $userlink=CHtml::link(CHtml::encode($request->user->getParam('showFullname') ? $request->user->Fullname : ($request->user->name ? $request->user->name : $request->user->username)), array('/profile/view', 'id'=>$request->user->id),array('class'=>""));?>  отправил запрос в ГИБДД
+								<?php if ($hole->STATE == 'fixed' && $fix=$hole->getFixByUser($request->user->id)) : ?> 
+								<br /><?php echo date('d.m.Y',$fix->date_fix);?> <?php echo $userlink; ?> отметил факт исправления дефекта
+								<?php endif; ?>
+								</li>
+							<?php endif; ?>
+							<?php endforeach; ?>
+							<li>==========</li>
+							</ul>							
+							</div>
+						<? endif; ?>	
+					<? endif; ?>
+					<? if($hole->STATE == 'fixed' && $hole->DATE_STATUS): ?>
+						<?= CHtml::encode(Y::dateFromTime($hole->DATE_STATUS))?> отмечен факт исправления дефекта
+					<? endif; ?>
+				</span>
+			</p>
+
+            <?php if(!$hole->PREMODERATED) : ?>
+                <p>
+                    <font class="errortext premoderate">
+                        <?php echo  Yii::t('holes_view', 'PREMODRATION_WARNING');?>
+                        <br/>
+                    </font>
+                </p>
+            <? endif; ?>
+
+			<div class="social">
+				<div class="like">
+					<!-- Facebook like -->
+					<div id="fb_like">
+						<iframe src="http://www.facebook.com/plugins/like.php?href=<?=Yii::app()->request->hostInfo?>/<?=Yii::app()->request->pathInfo?>&amp;layout=button_count&amp;show_faces=false&amp;width=180&amp;action=recommend&amp;font&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:180px; height:21px;" allowTransparency="true"></iframe>
+					</div>
+					<!-- Vkontakte like -->
+					<div id="vk_like"></div>
+					<script type="text/javascript">VK.Widgets.Like("vk_like", {type: "button", verb: 1});</script>
+				</div>
+				<div class="share">
+					<span>Поделиться</span>
+                    <div class="likenew">
+                        <noindex><script type="text/javascript" src="//yandex.st/share/share.js" charset="utf-8"></script>
+                            <div class="yashare-auto-init" data-yashareL10n="ru" data-yashareType="button" data-yashareQuickServices="vkontakte,facebook,twitter,lj"></div></noindex><br />
+                    </div>
+				</div>
+			</div>
+			
+		</div>
+
+
+
+
 		
+	</div> 
+	
+</div>
+<!-- CLOSE HEAD CONTAINER -->
+</div>
+<!-- CLOSE HEAD -->
+</div>
+<div class="mainCols" id="col">
+	<div class="lCol">
 		<div class="comment">
 			<?= $hole['COMMENT1'] ?>
-		</div>
-		<div class="bbcode">
-			<p><b>Ссылка на эту страницу:</b></p>
-			<input onfocus="selectAll(this)" type="text" value='<a href="<?=Yii::app()->request->hostInfo?>/<?=Yii::app()->request->pathInfo?>">РосЯма :: <?= CHtml::encode($hole->ADDRESS) ?></a>'/>
-			<p><b>BBcode для форума:</b></p>
-			<textarea onfocus="selectAll(this)" rows="3">[url=<?=Yii::app()->request->hostInfo?>/<?=Yii::app()->request->pathInfo?>]<?php if ($hole->pictures_fresh) : ?>[img]<?=Yii::app()->request->hostInfo.'/'.$hole->pictures_fresh[0]->medium?>[/img]<?php endif; ?>[/url][url=<?=Yii::app()->request->hostInfo?>/<?=Yii::app()->request->pathInfo?>] 
-			РосЯма :: <?=CHtml::encode($hole['ADDRESS'])?>[/url]</textarea>
-			
-			
 		</div>
 </div>
 <div class="rCol">
@@ -376,8 +391,11 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 				<h2><?= Yii::t('holes_view', 'HOLE_ITWAS') ?></h2>
 			<? endif; ?>
 			<? foreach($hole->pictures_fresh as $i=>$picture): ?>
-				<?php echo CHtml::link(CHtml::image($picture->medium), $picture->original, 
-					Array('class'=>'holes_pict','rel'=>'hole', 'title'=>CHtml::encode($hole->ADDRESS))); ?>
+                <?php
+                    $imageContent = '<span class="zoom-pic"></span>' . CHtml::image($picture->small);
+                    echo CHtml::link($imageContent, $picture->medium,
+					    array('class'=>'holes_pict','rel'=>'hole', 'title'=>CHtml::encode($hole->ADDRESS)));
+                ?>
 			<? endforeach; ?>
 		</div>
 		<?php foreach($hole->requests_gibdd as $request): ?>

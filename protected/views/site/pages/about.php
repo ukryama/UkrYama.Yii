@@ -1,5 +1,6 @@
 <?
 $this->pageTitle = Yii::app()->name . ' :: О проекте';
+$this->layout='//layouts/header_blank';
 ?>
 <h1><?php echo Yii::t("template", "MENU_TOP_ABOUT");?></h1>
 <p class="intro"> <?php echo Yii::t("static", "STATIC_ABOUT_P_1");?> «<a

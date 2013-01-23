@@ -18,13 +18,10 @@
 	
 	<!-- правая колоночка -->
 	<div class="rCol"> 
-	<div class="f">	
-	<?php if (!$model->hole_area) : ?>
-	<h2>На карте, отметте прямоугольником границы своего участка</h2>
-	<?php endif; ?>
+	<div class="f">
 		<div class="bx-yandex-view-layout">
 			<div class="bx-yandex-view-map">
-			<p><a href="#" id="add_shape">Добавить прямоугольник</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Для удаления прямоугольника кликните по нему 2 раза</p>
+			<p><a href="#" id="add_shape">Добавить прямоугольник</a><span class="map-note">Для удаления прямоугольника кликните по нему 2 раза</span></p>
 			<div id="ymapcontainer" class="ymapcontainer"></div>
 			<?php Yii::app()->clientScript->registerScript('add_shape','
 			function reorder(){

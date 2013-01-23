@@ -33,7 +33,7 @@ function GetCheckNull()
 <div class="filterCol filterType">
 <p class="title">Показать тип дефектов</p>
 <?php foreach ($types as $i=>$type) : ?>
-<label class="col2"><span><input id="ch0" name="Holes[type][]" type="checkbox" value="<?php echo $type->id; ?>"   /></span>
+<label class="col2"><input id="ch0" name="Holes[type][]" type="checkbox" value="<?php echo $type->id; ?>"   />
 <ins class="<?php echo $type->alias; ?>"><?php echo Yii::t('holes','HOLES_TYPE_'.strtoupper($type->alias)); ?></ins></label>
 <?php endforeach; ?>
 <input id="MAPLAT" name="MAPLAT" type="hidden" value="" />

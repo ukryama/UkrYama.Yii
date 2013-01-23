@@ -38,8 +38,23 @@ $this->pageTitle=Yii::app()->name . ' :: Мой участок';
 	Array('label'=>'Изменить границы моего участка', 'url'=>array('/profile/myarea'), 'linkOptions'=>array('class'=>'profileBtn')),
 ); ?>
 
-<div class="lCol">
+<?php $form=$this->beginWidget('CActiveForm', array(
+	'action'=>Yii::app()->createUrl($this->route),
+	//'method'=>'get',
+	'id'=>'holes_selectors',
+)); ?>			
+			<?php echo $form->dropDownList($model, 'TYPE_ID', CHtml::listData( HoleTypes::model()->findAll(Array('condition'=>'published=1', 'order'=>'ordering')), 'id','name'), array('prompt'=>'Тип дефекта')); ?>
+			<?php echo $form->dropDownList($model, 'STATE', $model->Allstates, array('prompt'=>'Статус дефекта')); ?>
+			<?php echo $form->dropDownList($model, 'showUserHoles', Array(1=>'Мои ямы', 2=>'Чужие, на которые я отправил заявление'),Array('prompt'=>'Все ямы')); ?>
+			<?php echo CHtml::submitButton('Найти'); ?><br/>
+			
+			
+	<?php $this->endWidget(); ?>		
 
+<div class="lCol">
+<div class="select-all-wrap">
+<?php echo CHtml::checkBox('selectAll', false, Array('id'=>'selectAll','class'=>'state_check')); ?><?php echo CHtml::label('Выбрать все', 'selectAll'); ?>
+</div>
 <?php $this->widget('application.widgets.userAreaMap.userAreaMapWidget',Array('data'=>Array('area'=>$area))); ?>
 
 <?php if ($user->userModel->areaNeighbors) : ?> 
@@ -71,20 +86,7 @@ $this->pageTitle=Yii::app()->name . ' :: Мой участок';
 				<div id="gibdd_form"></div>
 				</div>
 			<p>
-<?php $form=$this->beginWidget('CActiveForm', array(
-	'action'=>Yii::app()->createUrl($this->route),
-	//'method'=>'get',
-	'id'=>'holes_selectors',
-)); ?>			
-			<?php echo $form->dropDownList($model, 'TYPE_ID', CHtml::listData( HoleTypes::model()->findAll(Array('condition'=>'published=1', 'order'=>'ordering')), 'id','name'), array('prompt'=>'Тип дефекта')); ?>
-			<?php echo $form->dropDownList($model, 'STATE', $model->Allstates, array('prompt'=>'Статус дефекта')); ?>
-			<?php echo $form->dropDownList($model, 'showUserHoles', Array(1=>'Мои ямы', 2=>'Чужие, на которые я отправил заявление'),Array('prompt'=>'Все ямы')); ?>
-			<?php echo CHtml::submitButton('Найти'); ?><br/>
-			<div style="text-align:right;">
-			<?php echo CHtml::checkBox('selectAll', false, Array('id'=>'selectAll','class'=>'state_check')); ?><?php echo CHtml::label('Выбрать все', 'selectAll'); ?>
-			</div>
-			
-	<?php $this->endWidget(); ?>		
+
 			</p>
 				
 <?php $this->widget('zii.widgets.CListView', array(

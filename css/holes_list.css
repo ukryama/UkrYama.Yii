@@ -146,13 +146,16 @@ div#ymapcontainer_big_map { height: 600px; width: 1000px; }
 
 .state_block.checked {background-color: #ddd;}
 
-#holes_select_list{position: absolute; }
+#holes_select_list{position: static; }
 #scrollcontainer{position: absolute; top:0px!important;}
 .holes_select_list_box{background-color: #e5e9ec; width: 200px; padding:10px;
 	border-radius:3px;
 	-moz-border-radius:3px;
 	-webkit-border-radius:3px;
 	margin:0 0 3px;
+}
+.holes_select_list_box br + br{
+	display: none;
 }
 .hole_check{position: absolute; z-index: 1; top:5px; left:5px;}
 

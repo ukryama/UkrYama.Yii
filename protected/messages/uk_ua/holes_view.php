@@ -28,9 +28,9 @@ $MESS['DAYS2'] = 'дня';
 $MESS['DAY']   = 'день';
 $MESS['CLOSE'] = 'Закрити';
 
-$MESS['HOLE_REQUEST_FORM_TO']                  = 'Начальнику...';
+$MESS['HOLE_REQUEST_FORM_TO']                  = 'Кому';
 $MESS['HOLE_REQUEST_FORM_FROM']                = 'Від';
-$MESS['HOLE_REQUEST_FORM_POSTADDRESS']         = 'Поштова адреса заявника з індексом (для листування та отримання повідомлень)';
+$MESS['HOLE_REQUEST_FORM_POSTADDRESS']         = 'Поштова адреса заявника з індексом <span class="hint">(для листування та отримання повідомлень)</span>';
 $MESS['HOLE_REQUEST_FORM_ADDRESS']             = 'Адреса дефекту';
 $MESS['HOLE_REQUEST_FORM_COMMENT']             = 'Якщо дефект дороги являє собою працює в поганому режимі або непрацюючий світлофор,';
 $MESS['HOLE_REQUEST_FORM_SIGNATURE']           = 'Підпис';

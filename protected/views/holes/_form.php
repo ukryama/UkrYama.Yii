@@ -57,7 +57,7 @@
 	
 	<!-- правая колоночка -->
 	<div class="rCol"> 
-		<div class="bx-yandex-search-layout" style="padding-bottom: 0px;">
+		<div class="bx-yandex-search-layout wide" style="padding-bottom: 0px;">
 			<div class="bx-yandex-search-form" style="padding-bottom: 0px;">				
 					<p>Введите адрес места для быстрого поиска</p>
 					<input type="text" id="address_inp" name="address" class="textInput" value="" style="width: 300px;" />

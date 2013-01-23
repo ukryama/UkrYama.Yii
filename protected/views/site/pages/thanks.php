@@ -1,4 +1,7 @@
-<?php $this->pageTitle=Yii::app()->name . ' :: Благодарности';?>
+<?php
+    $this->pageTitle=Yii::app()->name . ' :: Благодарности';
+    $this->layout='//layouts/header_blank';
+?>
 
  <h2>Все те, кто так или иначе помог УкрЯме</h2>
  	

@@ -102,6 +102,11 @@
 			<span class="placeholder"><?php echo Yii::t("template", "FIND_BY_ADRESS");?></span>
 	</form>
 			</div>
+            <?php if ((Yii::app()->getController()->getAction()->controller->getId() != 'holes') || (Yii::app()->getController()->getAction()->controller->action->id != 'index')): ?>
+                <div class="add-yama-container">
+                    <?php echo CHtml::link('<span>Додати дефект</span>',Array('/holes/add')); ?>
+                </div>
+            <?php endif;?>
 			<div class="auth">
 			<?php if(!$this->user->isGuest) : ?>
 					<?php echo CHtml::link('<img src="'.Yii::app()->request->baseUrl.'/images/logout.png" alt="'.Yii::t("template", "LOGOUT").'" />',Array('/site/logout'),Array('title'=>Yii::t("template", "LOGIN"))); ?>

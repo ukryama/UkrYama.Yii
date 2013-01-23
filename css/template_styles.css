@@ -186,13 +186,25 @@ textarea{
 			width:225px;
 		}
 		
-			.auth .name {
-				float: right;
-				overflow: hidden;
-				width: 220px;
-				padding-top: 2px;
-				white-space:nowrap;
-				text-align:right;
+			.container .auth .name {
+				position: absolute;
+				width: auto !important;
+				left:0px;
+				top:104px;
+			}
+			.auth .name a{
+				position: relative;
+				padding:0 20px 0 0;
+			}
+			.auth .name a:before{
+				content:'';
+				position: absolute;
+				width:14px;
+				height:15px;
+				background: url(../images/log-out-icon.png) 0 0 no-repeat;
+				top:50%;
+				right:0px;
+				margin:-7px 0 0;
 			}
 			
 				.auth .name p {
@@ -219,6 +231,7 @@ textarea{
 				margin-left: 6px;
 				padding-top: 12px;
 				vertical-align: middle;
+				display:none;
 			}
 			
 			.auth a, .auth a:hover {
@@ -355,17 +368,38 @@ textarea{
 		}
 		
 		.head #head_user_info .info {
-			margin: 0 0 16px 80px;
+			margin: 0 0 9px 80px;
 		}
 		
 		.head #head_user_info .counter {
-			font-size: 1.38em;
-			font-weight: bold;
-			margin-left: 80px;
+			font-size: 14px;
+			font-weight: normal;
+			float:right;
+		}
+		.head .counter .count-class{
+			width:54px;
+			height:48px;
+			line-height:48px;
+			font-size: 36px;
+			text-align: center;
+			background:#e5e9ec;
+			border-radius:3px;
+			-moz-border-radius:3px;
+			-webkit-border-radius:3px;
+			display:inline-block;
+			vertical-align: middle;
+		}
+		.head .counter .counter-text{
+			width:100px;
+			text-align: right;
+			display: inline-block;
+			vertical-align: middle;
+			margin:0 10px 0 20px;
 		}
 		
 		.head #head_user_info .buttons {
-			float: right;
+			float: left;
+			margin:0 0 0 15px;
 			padding-top: 4px;
 		}
 
@@ -425,6 +459,28 @@ textarea{
 
 ul.usermenu li {float:left;}
 ul.usermenu li.active .profileBtn{background: #f88100;}
+
+    ul.operations {
+        clear: both;
+        padding-top: 10px;
+    }
+
+    ul.operations li {
+        float:left;
+        padding-right: 6px;
+        font-size: 13px;
+        line-height: 1;
+    }
+
+    .operations li + li {
+        padding-left: 6px;
+        border-left: 1px solid #d0d5d9;
+    }
+
+    .submenu.buttons {
+        clear: both;
+        padding:10px 0;
+    }
 
 	.filterBtn {
 		background-color: #ae85a3;
@@ -569,7 +625,7 @@ ul.usermenu li.active .profileBtn{background: #f88100;}
 }
 .mainCols .lCol{
 	float:right;
-	width:215px;
+	width:225px;
 }
 .mainCols .rCol{
 	float:left;
@@ -631,7 +687,7 @@ ul.usermenu li.active .profileBtn{background: #f88100;}
 			vertical-align: middle;
 		}
 		
-		.filterStatus .fresh { background: #a3a3a8 url(../images/label_grey_bg.gif) repeat-x top;}
+		.filterStatus .fresh { background: #a3a3a8;}
 		.filterStatus .achtung { background: #d84528;} 
 		.filterStatus .inprogress { background: #e5ae2b;}
 		.filterStatus .prosecutor { background: #d84528;} 
@@ -654,9 +710,9 @@ ul.usermenu li.active .profileBtn{background: #f88100;}
 	.filterType .col3 {width:118px}
 	.filterType .col4 {width:133px}
 		
-		.filterType span {
+		.filterType input[type="checkbox"] {
 			float: left;
-			padding: 4px;
+			margin: 4px;
 			position: relative;
 			top:2px;
 		}
@@ -679,6 +735,20 @@ ul.usermenu li.active .profileBtn{background: #f88100;}
 		.holeinyard {background: url(../images/st1234/holeinyard.png) no-repeat 0 0;}
 		.fence {background: url(../images/st1234/fence.png) no-repeat 0 -3px;}
 		.snow {background: url(../images/st1234/snow.png) no-repeat 0 0;}
+
+
+		.filterType input[type="checkbox"]:checked + ins.badroad{background: url(../images/st1234/badroad-active.png) no-repeat 0 0;}
+		.filterType input[type="checkbox"]:checked + ins.hatch {background: url(../images/st1234/hatch-active.png) no-repeat 0 0;}
+		.filterType input[type="checkbox"]:checked + ins.nomarking {background: url(../images/st1234/nomarking-active.png) no-repeat 0 0;}
+		.filterType input[type="checkbox"]:checked + ins.light {background: url(../images/st1234/light-active.png) no-repeat 3px -2px;}
+		.filterType input[type="checkbox"]:checked + ins.holeonroad {background: url(../images/st1234/holeonroad-active.png) no-repeat 0 0;}
+		.filterType input[type="checkbox"]:checked + ins.crossing {background: url(../images/st1234/crossing-active.png) no-repeat 0 0;}
+		.filterType input[type="checkbox"]:checked + ins.rails {background: url(../images/st1234/rails-active.png) no-repeat 0 0;}
+		.filterType input[type="checkbox"]:checked + ins.policeman {background: url(../images/st1234/policeman-active.png) no-repeat 0 -3px;}
+		.filterType input[type="checkbox"]:checked + ins.holeinyard {background: url(../images/st1234/holeinyard-active.png) no-repeat 0 0;}
+		.filterType input[type="checkbox"]:checked + ins.fence {background: url(../images/st1234/fence-active.png) no-repeat 0 -3px;}
+		.filterType input[type="checkbox"]:checked + ins.snow {background: url(../images/st1234/snow-active.png) no-repeat 0 0;}
+
 
 .filterCol {
 	font-size: 0.92em;
@@ -1001,7 +1071,12 @@ div.news-list-mainpage
 		white-space: -pre-wrap;
 		white-space: -o-pre-wrap;
 		word-wrap: break-word;
+        margin: 0;
 	}
+
+a.arrow {
+    text-decoration: none;
+}
 
 div.news-list-mainpage a, div.news-list a
 {
@@ -1871,6 +1946,23 @@ div.form #user-groups-passrequest-form label{
 }
 
 
+.news-list.sprav-list{
+	padding:0 0 0 40px;
+	font-size: 14px;
+	-moz-column-count: 2;
+	-moz-column-gap: 0;
+	-webkit-column-count: 2;
+	-webkit-column-gap: 0;
+	column-count: 2;
+	column-gap: 0;
+	margin:-30px 0 0;
+}
+.news-list.sprav-list .news-item{
+	margin:0;
+}
+
+
+
 .bx-yandex-search-form .textInput{
 	width:450px;
 	height:23px;
@@ -1996,8 +2088,9 @@ div.form #user-groups-passrequest-form label{
 
 
 
-#holes-form{
-
+#holes-form{}
+#holes-form #ymapcontainer{
+	width:960px;
 }
 #holes-form .lCol{
 	width:auto;
@@ -2009,16 +2102,17 @@ div.form #user-groups-passrequest-form label{
 }
 
 #holes_selectors{
-	padding:7px;
+	padding:8px;
 	background: #eae7d2;
 	border-radius:5px;
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	width:945px;
+	margin:-6px 0 20px;
 }
 
 #holes_selectors select{
-	height:23px;
+	height:25px;
 	padding:1px;
 }
 #holes_selectors > div{
@@ -2057,7 +2151,7 @@ h2+.bx-yandex-view-layout #ymapcontainer{
 	padding-top:17px;
 	border-top: 1px solid #d0d5d9;
 }
-#userGroups-container div.form input[type="submit"]{
+#user-groups-misc-form input[type="submit"]{
 	font-size: 22px;
 	width:auto;
 	padding:0 50px;
@@ -2074,4 +2168,189 @@ h2+.bx-yandex-view-layout #ymapcontainer{
   border-radius:3px;
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
+}
+
+#contact-form{
+	width:360px;
+	float:left;
+	margin: 0 40px 0 0;
+}
+
+#contact-form label{
+	float:none;
+	text-align: left;
+}
+#contact-form #ContactForm_body{
+	width:358px;
+}
+#contact-form #ContactForm_subject{
+	width:352px;
+}
+#contact-form .buttons{
+	padding-left:0;
+}
+
+
+a.button{
+	display: inline-block;
+	text-decoration: none;
+	font-size: 1.1em;
+	height:25px;
+	line-height: 24px;
+	background-color: #ae85a3;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#c6a6bd), to(#916284));
+  background-image: -webkit-linear-gradient(top, #c6a6bd, #916284);
+  background-image:    -moz-linear-gradient(top, #c6a6bd, #916284);
+  background-image:      -o-linear-gradient(top, #c6a6bd, #916284);
+  background-image:         linear-gradient(to bottom, #c6a6bd, #916284);
+	border-radius:2px;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border:none;
+	cursor: pointer;
+	padding:0 9px;
+	color:#fff !important;
+	margin:0;
+}
+*+ html a.button{display:inline;zoom:1;}
+
+.sprav-detail h2{
+	font-size: 24px;
+	font-weight: normal;
+	line-height: 1;
+	margin: 0 0 22px;
+}
+
+
+.MultiFile-wrap{
+	overflow: hidden;
+}
+
+
+.progress .edit{
+	margin:0 0 5px;
+}
+.progress .edit a{
+	font-size: 12px;
+}
+.progress .edit a + a{
+	color:#db0000;
+	position: relative;
+	padding:0 0 0 12px;
+	margin:0 0 0 12px;
+}
+.progress .edit a + a:before{
+	content: '';
+	background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAJBJREFUeNpivM0ABvxA/AWI/zIgADMQc4LEmYCEEBAfBuJFUAmYgvlAvAtkAEjRRyC+DMRRUIVsUAWxQHwfZBIL1Io4qAkghTZALAfEy6DifxlvI9wAMuEGECsC8SMgVgXiXyAJJiQ3zEFSIAe1khmmiBnJDcugJixDciMzC9T7BshuQHKjChDzMBITTgABBgAtLiDOrJoWxgAAAABJRU5ErkJggg==) 0 0 no-repeat;
+	width:9px;
+	height:9px;
+	display: block;
+	position: absolute;
+	top:4px;
+	left:0px;
+}
+
+.printDeclaration{
+	display: inline-block;
+	text-decoration: none;
+	font-size: 18px;
+	height:37px;
+	line-height: 36px;
+	background-color: #ae85a3;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#c6a6bd), to(#916284));
+  background-image: -webkit-linear-gradient(top, #c6a6bd, #916284);
+  background-image:    -moz-linear-gradient(top, #c6a6bd, #916284);
+  background-image:      -o-linear-gradient(top, #c6a6bd, #916284);
+  background-image:         linear-gradient(to bottom, #c6a6bd, #916284);
+	border-radius:2px;
+	-moz-border-radius:2px;
+	-webkit-border-radius:2px;
+	border:none;
+	cursor: pointer;
+	padding:0 20px;
+	color:#fff !important;
+	margin:0 0 20px;
+	border:none !important;
+}
+*+ html .printDeclaration{display:inline;zoom:1;}
+
+
+.select-all-wrap{
+	margin: 0 0 20px;
+}
+.select-all-wrap input[type="checkbox"]{
+	vertical-align: middle;
+	position: relative;
+	top:-2px;
+	margin:0 5px 0 0;
+}
+
+#head_user_info .portlet{
+	margin:0 0 0 80px;
+}
+
+.map-note {
+    color: #637280;
+    font-size: 13px;
+    padding-left: 24px;
+}
+
+.submenu-element div.portlet {margin: 0 0 0 6px !important; padding-top: 6px; clear: both;}
+.admin {padding-top: 20px; clear: both;}
+
+.add-yama-container {
+    padding-top: 2px;
+    top: 82px;
+    position: absolute;
+    right: 0;
+    font-size: 1.2em;
+    z-index: 3;
+    width: 225px;
+    color: #fff;
+}
+
+.add-yama-container a {
+    background-image: url('../images/top-btn-bg.png');
+    padding: 4px 10px 6px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 1.2em;
+    color: #fff;
+    text-decoration: none;
+}
+
+.rc span { line-height:     1.5em; }
+.splitter {
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.likenew {
+    padding-left: 3px;
+}
+
+.days {
+    background: url('../images/cal-bg.png') no-repeat;
+    width: 50px;
+    height: 47px;
+    font-size: 32px;
+    text-align: center;
+    line-height: 1.7;
+    display: block;
+    float: left;
+}
+
+.day-note {
+    padding: 4px 0 0 8px;
+    font-size: 0.92em;
+    width: 155px;
+    height: 47px;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.wait {
+    margin-bottom: 10px;
 }

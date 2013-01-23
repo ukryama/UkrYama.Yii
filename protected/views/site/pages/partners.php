@@ -1,4 +1,7 @@
-<?php $this->pageTitle=Yii::app()->name . ' :: Партнёры';?>
+<?php
+    $this->pageTitle=Yii::app()->name . ' :: Партнёры';
+    $this->layout='//layouts/header_blank';
+?>
 
  <h2>Наши партнеры:</h2>
  		

@@ -42,8 +42,9 @@ span.required { color: red; width: 6px; float:right; margin:0 -10px 0 0;}
 
 .addSubmit .container {
 	border-top: 1px solid #fff;
-	padding: 17px 0 0 320px;
+	padding: 17px 0 0 0;
 	width: auto;
+	text-align: center;
 }
 
 .addSubmit p {
@@ -72,11 +73,14 @@ div.f input[type="text"], div.f input[type="password"]{
 
 
 .bx-yandex-view-layout{
-	width:490px;
+	width:100%;
 	overflow: hidden;
 }
 .bx-yandex-search-layout{
 	clear: both;
+}
+.bx-yandex-search-layout.wide #ymapcontainer{
+	width:960px;
 }
 .bx-yandex-search-form p{
 	float:left;
@@ -121,4 +125,9 @@ input#address_inp{
 	margin:5px 0 0 321px;
 	color:#9aa3ab;
 	font-style: normal;
+}
+
+
+h2 + .bx-yandex-view-layout, h2 + .bx-yandex-view-layout #ymapcontainer{
+	width:960px;
 }
