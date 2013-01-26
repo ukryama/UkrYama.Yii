@@ -5,7 +5,7 @@ class SiteController extends Controller
 	/**
 	 * Declares class-based actions.  
 	 */
-	public $layout='//layouts/header_default'; 
+	public $layout='//layouts/header_blank';
 	
 	public function actions()
 	{

@@ -109,9 +109,12 @@
             <?php endif;?>
 			<div class="auth">
 			<?php if(!$this->user->isGuest) : ?>
-					<?php echo CHtml::link('<img src="'.Yii::app()->request->baseUrl.'/images/logout.png" alt="'.Yii::t("template", "LOGOUT").'" />',Array('/site/logout'),Array('title'=>Yii::t("template", "LOGIN"))); ?>
 					<div class="name">
-						<p><?php echo CHtml::link($this->user->fullname,Array('/holes/personal')); ?></p><span class="grad"></span>
+						<p>
+                            <?php echo CHtml::link($this->user->fullname,Array('/holes/personal')); ?>
+                            <?php echo CHtml::link('',Array('/site/logout'),Array('title'=>Yii::t("template", "LOGOUT"), 'class' => 'logout')); ?>
+                        </p>
+                        <span class="grad"></span>
 					</div>
 				<?php else: ?>
 					<?php echo CHtml::link(Yii::t("template", "LOGIN"),Array('/holes/personal'),Array('title'=>Yii::t("template", "LOGOUT"), 'class'=>'profileBtn')); ?>

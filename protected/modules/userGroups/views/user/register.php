@@ -3,7 +3,6 @@ $this->breadcrumbs=array(
 	Yii::t('UserGroupsModule.general','User Registration'),
 );
 ?>
-<p>На указанный в форме e-mail придет запрос на подтверждение регистрации.</p>
 <noindex>
 <div class="form">
 		<?php $form=$this->beginWidget('CActiveForm', array(
@@ -21,33 +20,47 @@ $this->breadcrumbs=array(
 	<tbody>
 		<tr>
 			<td><?php echo $form->labelEx($model,'name'); ?></td>
-			<td><?php echo $form->textField($model,'name'); ?>
-			<?php echo $form->error($model,'name'); ?></td>
+			<td>
+                <?php echo $form->textField($model,'name'); ?>
+			    <?php echo $form->error($model,'name'); ?>
+            </td>
 		</tr>
 		<tr>
 			<td><?php echo $form->labelEx($model,'last_name'); ?></td>
-			<td><?php echo $form->textField($model,'last_name'); ?>
-			<?php echo $form->error($model,'last_name'); ?></td>
+			<td>
+                <?php echo $form->textField($model,'last_name'); ?>
+			    <?php echo $form->error($model,'last_name'); ?>
+            </td>
 		</tr>
 		<tr>
 			<td><?php echo $form->labelEx($model,'username'); ?></td>
-			<td>			<?php echo $form->textField($model,'username'); ?>
-			<?php echo $form->error($model,'username'); ?></td>
+			<td>
+                <?php echo $form->textField($model,'username'); ?>
+			    <?php echo $form->error($model,'username'); ?>
+            </td>
 		</tr>
 		<tr>
 			<td><?php echo $form->labelEx($model,'password'); ?></td>
-			<td>			<?php echo $form->passwordField($model,'password'); ?>
-			<?php echo $form->error($model,'password'); ?></td>
+			<td>
+                <?php echo $form->passwordField($model,'password'); ?>
+			    <?php echo $form->error($model,'password'); ?>
+                <span class="form-hint">Пароль должен быть не менее 6 символов длиной.</span>
+            </td>
 		</tr>
 		<tr>
 			<td><?php echo $form->labelEx($model,'password_confirm'); ?></td>
-			<td><?php echo $form->passwordField($model,'password_confirm'); ?>
-			<?php echo $form->error($model,'password_confirm'); ?></td>
+			<td>
+                <?php echo $form->passwordField($model,'password_confirm'); ?>
+			    <?php echo $form->error($model,'password_confirm'); ?>
+            </td>
 		</tr>
 		<tr>
 			<td><?php echo $form->labelEx($model,'email'); ?></td>
-			<td><?php echo $form->textField($model,'email'); ?>
-			<?php echo $form->error($model,'email'); ?></td>
+			<td>
+                <?php echo $form->textField($model,'email'); ?>
+			    <?php echo $form->error($model,'email'); ?>
+                <span class="form-hint">На указанный в форме e-mail придет запрос на подтверждение регистрации.</span>
+            </td>
 		</tr>
 		<tr>
 			<td colspan="2"><b>Защита от автоматической регистрации</b></td>
@@ -65,18 +78,21 @@ $this->breadcrumbs=array(
 		</tr>
 		<tr>
 			<td><?php echo $form->labelEx($model,'captcha'); ?></td>
-			<td><?php echo $form->textField($model,'captcha'); ?>
-			<?php echo $form->error($model,'captcha'); ?></td>
+			<td>
+                <?php echo $form->textField($model,'captcha'); ?>
+			    <?php echo $form->error($model,'captcha'); ?>
+            </td>
 		</tr>
 			</tbody>
 	<tfoot>
 		<tr>
 			<td></td>
-			<td><?php echo CHtml::submitButton('Регистрация'); ?></td>
+			<td>
+                <?php echo CHtml::submitButton('Регистрация'); ?>
+            </td>
 		</tr>
 	</tfoot>
 </table>
-<p>Пароль должен быть не менее 6 символов длиной.</p>
 <p><span class="required">*</span>Обязательные поля</p>
 
 <p>
