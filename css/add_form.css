@@ -1,4 +1,4 @@
-div#ymapcontainer { width: 745px; height: 400px; }
+div#ymapcontainer { width: 745px; height: 500px; }
 .rCol .f #bx_address_search_control_map_yandex_COORDINATES_COORDINATES input { display: block }
 .rCol p, .rCol #bx_map_hint_novalue_map_yandex_COORDINATES_COORDINATES, .rCol #bx_address_search_control_map_yandex_COORDINATES_COORDINATES { color: #4c4c4c }
 #bx_address_search_control_map_yandex_COORDINATES_COORDINATES { padding-top: 1.38em }

@@ -29,14 +29,14 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 			<div class="lc">
 				<div class="wait">
 					<span class="days"><?php echo Y::declOfNum($hole->WAIT_DAYS, array('', '', '')); ?></span>
-                    <span class="day-note"><?php echo preg_replace('/[\d]/', '', Y::declOfNum($hole->WAIT_DAYS, array('день', 'дня', 'дней'))); ?>, Ждать, когда отремонтируют</span>
+                    <span class="day-note"><?php echo trim(preg_replace('/[\d]/', '', Y::declOfNum($hole->WAIT_DAYS, array('день', 'дня', 'дней'))),'&nbsp;'); ?> ждать, когда отремонтируют</span>
 				</div>
 			</div>
 			<? elseif($hole->PAST_DAYS): ?>
 			<div class="lc">
 				<div class="wait">
                     <span class="days"><?php echo Y::declOfNum($hole->PAST_DAYS, array('', '', '')); ?></span>
-                    <span class="day-note"><?php echo preg_replace('/[\d]/', '', Y::declOfNum($hole->PAST_DAYS, array('день', 'дня', 'дней'))); ?> Просрочено</span>
+                    <span class="day-note"><?php echo trim(preg_replace('/[\d]/', '', Y::declOfNum($hole->PAST_DAYS, array('день', 'дня', 'дней'))),'&nbsp;'); ?> просрочено</span>
 				</div>
 			</div>
 			<? endif; ?>
@@ -72,7 +72,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 						?>
 						<? if($hole->request_gibdd): ?>
 						<?php if ($hole->IsUserHole || Yii::app()->user->level > 40) : ?>
-							<div class="cc" style="width:150px">
+							<div class="cc">
 								<p><?=  Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_7') ?></p>
 								<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_8'), array('fix', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 							</div>
@@ -101,14 +101,15 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 					{
 						?>
 						<? if($hole->request_gibdd && $hole->request_gibdd->answers): ?>
-							<div class="lc" style="width:150px">
+							<div class="lc">
 								<p><?=  Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_7') ?></p>
 								<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_8'), array('fix', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 							</div>
-							<div class="cc"><?php echo CHtml::link('Ещё ответ из ГИБДД', array('gibddreply', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?>							
+							<div class="cc">
+                                <p><?php echo CHtml::link('Ещё ответ из ГИБДД', array('gibddreply', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 							</div>
                             <div class="splitter"></div>
-							<div class="rc" style="width:145px;padding: 24px 0 24px 15px;">
+							<div class="rc">
 								<p>Если вас не устраивает ответ ГИБДД, то можно</p>
 								<p><a href="#" onclick="var c=document.getElementById('prosecutor_form2');if(c){c.style.display=c.style.display=='block'?'none':'block';}return false;">подать Заявление в Прокуратуру</a></p>
 								<div class="pdf_form" id="prosecutor_form2"<?= isset($_GET['show_prosecutor_form2']) ? ' style="display: block;"' : '' ?>>								
@@ -116,7 +117,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 								</div>
 							</div>
 						<? else : ?>							
-							<div class="lc" style="width:150px">
+							<div class="lc">
 							<?php if (!$hole->request_gibdd) : ?>
 								<p>Вы тоже можете отправить свой запрос в ГИБДД по этому дефекту</p>
 							<?php elseif(!$hole->request_gibdd->answers) : ?>
@@ -145,13 +146,14 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 					{
 						?>
 						<? if($hole->request_gibdd): ?>
-						<div class="cc" style="width:150px">
+						<div class="cc">
 							<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_GIBDD_REPLY_RECEIVED'), array('gibddreply', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 							<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_12'), array('notsent', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 							<p><?= Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_7') ?></p>
-							<?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_8'), array('fix', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?>
+							<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_8'), array('fix', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 						</div>
-						<div class="rc" style="width:184px;padding: 24px 0 24px 15px;">
+                        <div class="splitter"></div>
+						<div class="rc">
 							<p><?= Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_16') ?></p>
 							<p><a href="#" onclick="var c=document.getElementById('prosecutor_form');if(c){c.style.display=c.style.display=='block'?'none':'block';}return false;" class="declarationBtn"><?= Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_14') ?></a></p>
 							<p><?php echo CHtml::link('Жалоба в прокуратуру подана', array('prosecutorsent', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
@@ -180,19 +182,19 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 					{
 						?>
 						<? if($hole->request_prosecutor): ?>
-						<div class="lc" style="width:150px">
+						<div class="lc">
 							<p><?= Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_7') ?></p>
-							<?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_8'), array('fix', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?>
+							<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_8'), array('fix', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 						</div>
 						<div class="cc">
-							<?php echo CHtml::link('Аннулировать факт отправки заявления в прокуратуру', array('prosecutornotsent', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?>
+							<p><?php echo CHtml::link('Аннулировать факт отправки заявления в прокуратуру', array('prosecutornotsent', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 						</div>
 						<? else : ?>
 							
-							<div class="cc" style="width:150px">
+							<div class="cc">
 								<? if($hole->request_gibdd): ?>
 									<p><?= Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_7') ?></p>
-									<?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_8'), array('fix', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?>
+									<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_8'), array('fix', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 								<?php else: ?>	
 								<p>Для массовости отправьте свою жалобу в прокуратуру.</p>
 								<?php endif; ?>	
@@ -216,7 +218,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 						if(!$hole->pictures_fixed)
 						{
 							?>
-							<?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_13'), array('defix', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?>
+							<p><?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_13'), array('defix', 'id'=>$hole->ID),array('class'=>"declarationBtn")); ?></p>
 							<?
 						}?>
 												

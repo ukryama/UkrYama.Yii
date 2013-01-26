@@ -1,4 +1,4 @@
-div#ymapcontainer { border: 1px solid #d0d5d9; height: 225px; width: 225px; float:left; margin:0 37px 20px 0;}
+div#ymapcontainer { border: 1px solid #d0d5d9; height: 300px; width: 280px; float:left; margin:0 37px 20px 0;}
 div#ymapcontainer_big { display: none; position: relative; margin:0 0 25px; border-top: 0; z-index: 5; background-color: white; }
 div#ymapcontainer_big span.close { color: #333; font-size: 1.5em; font-weight: bold; cursor: pointer; padding: 0 5px; }
 div#ymapcontainer_big span.close:hover {color:#edb209}
@@ -8,7 +8,7 @@ div#ymapcontainer_big_map { height: 600px; width: 960px; }
 .h{float:left;}
 .r{float:right; width:225px;}
 
-.h .info { float: left; width: 390px; }
+.h .info { float: left; width: 375px; }
 .h .social { float:none; overflow: hidden; margin:30px 0 0;}
 .h .social .like {float:right; width: 150px;}
 #fb_like {margin-bottom: 7px;}
@@ -294,7 +294,7 @@ div.rCol .before:after, div.rCol .after:after {
 }
 
 .holes_pict img{
-	margin: 10px;
+	margin: 0 20px 20px 0;
     width: 215px;
 }
 
@@ -312,11 +312,20 @@ span.zoom-pic {
     left: 50%;
     top: 50%;
     position: absolute;
-    margin-top: -26px;
-    margin-left: -26px;
+    margin-top: -36px;
+    margin-left: -36px;
 }
 
 a.holes_pict:hover span.zoom-pic { display: block; }
+
+.pdf_form {
+    border: 1px solid #c9c9c9;
+    left: 50%;
+    box-shadow: 0 11px 65px -15px rgba(0, 0, 0, 1);
+    -moz-box-shadow:0 11px 65px -15px rgba(0, 0, 0, 1);
+    -webkit-box-shadow:0 11px 65px -15px rgba(0, 0, 0, 1);
+    margin-left: -400px;
+}
 
 .pdf_form table td { text-align: left; }
 .pdf_form span.hint { font-size: 0.7em; color:#637280; font-style: normal; }
@@ -334,6 +343,12 @@ a.holes_pict:hover span.zoom-pic { display: block; }
     padding-top: 16px;
     font-size: 0.9em;
 }
+
+.progress .pdf_form p {
+    margin-bottom: 1em;
+}
+
+#prosecutor_form table { margin-top: 2.5em; }
 
 .errortext.premoderate {
     background: #f8ea91;

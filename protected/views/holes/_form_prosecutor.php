@@ -29,8 +29,11 @@
 												<td><?php echo $form->textArea($model,'from',array('rows'=>3, 'cols'=>40)); ?></td>
 											</tr>
 											<tr>
-												<th><?= Yii::t('holes_view', 'HOLE_PROSECUTOR_FORM_POSTADDRESS') ?><span class="comment"><?= Yii::t('holes_view', 'HOLE_PROSECUTOR_FORM_POSTADDRESS_COMMENT') ?></span></th>
-												<td><?php echo $form->textArea($model,'postaddress',array('rows'=>3, 'cols'=>40)); ?></td>
+												<th><?= Yii::t('holes_view', 'HOLE_PROSECUTOR_FORM_POSTADDRESS') ?></th>
+												<td>
+                                                    <?php echo $form->textArea($model,'postaddress',array('rows'=>3, 'cols'=>40)); ?>
+                                                    <span class="comment"><?= Yii::t('holes_view', 'HOLE_PROSECUTOR_FORM_POSTADDRESS_COMMENT') ?></span>
+                                                </td>
 											</tr>
 											<tr>
 												<th><?= Yii::t('holes_view', 'HOLE_PRESECUTOR_FORM_ADDRESS') ?></th>
@@ -38,20 +41,29 @@
 												<?php /*<textarea rows="3" cols="40" id="prosecutor_form_address" name="address"><?= CHtml::encode($hole['ESS']) ?></textarea> */ ?></td>
 											</tr>
 											<tr>
-												<th><?= Yii::t('holes_view', 'HOLE_PRESECUTOR_FORM_GIBDD') ?><span class="comment"><?= Yii::t('holes_view', 'HOLE_PRESECUTOR_FORM_GIBDD_COMMENT') ?></span></th>
-												<td><?php echo $form->textArea($model,'gibdd',array('rows'=>3, 'cols'=>40)); ?><?//= $arResult['PROSECUTOR_GIBDD'] ?></td>
+												<th><?= Yii::t('holes_view', 'HOLE_PRESECUTOR_FORM_GIBDD') ?></th>
+												<td>
+                                                    <?php echo $form->textArea($model,'gibdd',array('rows'=>3, 'cols'=>40)); ?><?//= $arResult['PROSECUTOR_GIBDD'] ?>
+                                                    <span class="comment"><?= Yii::t('holes_view', 'HOLE_PRESECUTOR_FORM_GIBDD_COMMENT') ?></span>
+                                                </td>
 											</tr>
 											<tr>
-												<th><?= Yii::t('holes_view', 'HOLE_PRESECUTOR_FORM_GIBDD_REPLY') ?><span class="comment"><?= Yii::t('holes_view', 'HOLE_PRESECUTOR_FORM_GIBDD_COMMENT2') ?></span></th>
-												<td><?php echo $form->textArea($model,'gibdd_reply',array('rows'=>3, 'cols'=>40)); ?></td>
+												<th><?= Yii::t('holes_view', 'HOLE_PRESECUTOR_FORM_GIBDD_REPLY') ?></th>
+												<td>
+                                                    <?php echo $form->textArea($model,'gibdd_reply',array('rows'=>3, 'cols'=>40)); ?>
+                                                    <span class="comment"><?= Yii::t('holes_view', 'HOLE_PRESECUTOR_FORM_GIBDD_COMMENT2') ?></span>
+                                                </td>
 											</tr>
 											<tr>
 												<th><?= Yii::t('holes_view', 'HOLE_PROSECUTOR_FORM_APPLICATION_DATA') ?></th>
 												<td><?php echo $form->textField($model,'application_data',array('class'=>'textInput')); ?></td>
 											</tr>
 											<tr>
-												<th><?php echo $form->labelEx($model,'signature'); ?><span class="comment"><?= Yii::t('holes_view', 'HOLE_REQUEST_FORM_SIGNATURE_COMMENT') ?></span></th>
-												<td><?php echo $form->textField($model,'signature',array('class'=>'textInput')); ?></td>
+												<th><?php echo $form->labelEx($model,'signature'); ?></th>
+												<td>
+                                                    <?php echo $form->textField($model,'signature',array('class'=>'textInput')); ?>
+                                                    <span class="comment"><?= Yii::t('holes_view', 'HOLE_REQUEST_FORM_SIGNATURE_COMMENT') ?></span>
+                                                </td>
 											</tr>
 											<tr>
 												<th></th>
