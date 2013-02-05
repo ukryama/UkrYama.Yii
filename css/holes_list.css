@@ -99,7 +99,7 @@
 	width:7px;
 	height:7px;
 	vertical-align: middle;
-	background: url(../images/dots.png) 0 0 no-repeat;
+	background: url(../images/dots.png) 0 -16px no-repeat;
 	text-indent: -9999px;
 }
 .holes_list .state_fresh {  }

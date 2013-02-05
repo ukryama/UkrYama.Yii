@@ -223,7 +223,7 @@ EOD
 	</div>
 	<!-- /правая колоночка -->
 	<div class="addSubmit">
-		<div class="container">
+		<div class="container button_center">
 			<div class="btn" onclick="
 			savepolygon();
 			$(this).parents('form').submit();

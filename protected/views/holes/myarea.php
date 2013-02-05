@@ -85,9 +85,6 @@ $this->pageTitle=Yii::app()->name . ' :: Мой участок';
 				<a href="#" onclick="var c=document.getElementById('pdf_form');if(c){c.style.display=c.style.display=='block'?'none':'block';}return false;" class="close">&times;</a>
 				<div id="gibdd_form"></div>
 				</div>
-			<p>
-
-			</p>
 				
 <?php $this->widget('zii.widgets.CListView', array(
 	'id'=>'holes_list',

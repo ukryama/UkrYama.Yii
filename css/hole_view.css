@@ -44,10 +44,10 @@ div.rCol .h span.bull {
 	width:7px;
 	height:7px;
 	vertical-align: middle;
-	background: url(../images/dots.png) 0 0 no-repeat;
+	background: url(../images/dots.png) 0 -16px no-repeat;
 	text-indent: -9999px;  
 	float:left;
-	margin:6px 10px 0 2px;
+	margin:4px 10px 0 2px;
 }
 div.rCol .h span.fresh { color: #aaa; }
 div.rCol .h span.inprogress { background-position: 0 100%; }
@@ -329,7 +329,7 @@ a.holes_pict:hover span.zoom-pic { display: block; }
 
 .pdf_form table td { text-align: left; }
 .pdf_form span.hint { font-size: 0.7em; color:#637280; font-style: normal; }
-.pdf_form td.action-cell { background: #e5e9ec; text-align: center; vertical-align: middle; padding: 12px 0; }
+.pdf_form td.action-cell { background: #e5e9ec; text-align: center; vertical-align: middle; padding: 12px 0; border-radius: 4px;}
 .pdf_form input.submit {
     height: 36px;
     font-size: 1.25em;

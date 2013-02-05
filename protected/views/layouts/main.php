@@ -245,7 +245,7 @@
 				<noindex><a class="rs" target="_blank" href="http://rosyama.ru/" title="РосЯма">РосЯма</a></noindex><br>Яму мне запили!<br/>			
 				 
 			</p>
-			<p class="copy">Идея - <noindex><a href="http://navalny.ru/">Алексей Навальный</a></noindex>, 2011<br />
+			<p class="copy">Идея — <noindex><a href="http://navalny.ru/">Алексей Навальный</a></noindex>, 2011<br />
 			Хостинг — «<noindex><a href="http://ihc.com.ua/" target="_blank">ihc</a></noindex>»<br />
 			<span class="studio-copyright">Дизайн — веб-студия </noindex><a href="http://stfalcon.com"><span class="icon"></span>stfalcon.com</a></noindex></span>
 			Разработано в <a href="http://pixelsmedia.ru">Pixelsmedia</a> на Yii.<br/>
