@@ -2210,12 +2210,13 @@ div.form #user-groups-passrequest-form label{
 #holes-form .lCol.main_section .form_top_bg{
 	background: #e5e9ec;
 	border-radius: 5px;
-	padding: 10px 10px 0 10px;
-	margin-bottom: 20px;
+	padding: 10px;
+	margin-bottom: 30px;
 }
 #holes-form .lCol.main_section .form_top_bg .ya_map{
 	margin-left: -10px;
 	margin-right: -10px;
+	margin-bottom: 10px;
 }
 #holes-form .lCol.main_section .form_top_bg .bx-yandex-search-form{
 	padding-left: 10px;
@@ -2225,6 +2226,14 @@ div.form #user-groups-passrequest-form label{
 #holes-form .rCol{
 	width:auto;
 	float:none;
+}
+
+.MultiFile-label{
+	padding: 6px 0;
+	border-bottom: solid 1px #e5e9ec;
+}
+.MultiFile-remove{
+	float: right;
 }
 
 .defect_type{

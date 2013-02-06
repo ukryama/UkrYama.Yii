@@ -27,11 +27,12 @@ div.lCol .f textarea { height: 200px; border-width: 1px; font-size: normal; }
 div.rCol .button { float: right; margin-top: 15px; }
 .bx-yandex-search-form .textInput {width: 350px;}
 .bx-yandex-search-form p {margin-bottom: 0.34em}
-.bx-yandex-search-results {margin-bottom: 20px;}
+.bx-yandex-search-results {margin-bottom: 12px;}
 .f label { display: block; margin-bottom: 4px; width:295px; float:left; margin:0 26px 0 0;}
 .f .tip { float: left; width: 295px; margin:0 0 0 0;}
-.form_top_bg + .f {padding-left: 10px; padding-right: 10px;}
-.f + .f {padding-left: 10px; padding-right: 10px;}
+.form_top_bg + .f {padding: 0 10px 30px 10px;}
+.f + .f {padding-left: 10px; padding-right: 10px; padding-bottom: 30px;}
+.form_top_bg .f{padding-bottom: 0;}
 hr { margin-left: -230px; border-left: none; border-bottom-color: white; }
 span.required { color: red; width: 6px; float:right; margin:0 -10px 0 0;}
 #recognized_address_str { font-weight: bold; }
@@ -43,6 +44,8 @@ span.required { color: red; width: 6px; float:right; margin:0 -10px 0 0;}
 	padding: 15px 0 70px 0;
 	margin: 25px 10px 0 10px;
 }
+
+#holes-form .addSubmit, #holes-form .addSubmit p{margin-top: 0; margin-bottom: 0em; padding-bottom: 0;}
 
 .addSubmit .container {
 	border-top: 1px solid #fff;
