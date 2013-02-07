@@ -2083,6 +2083,7 @@ div.form #user-groups-passrequest-form label{
 
 .yashare-auto-init .b-share .b-share-form-button{
 	font-size: 11px;
+	margin-top: -2px;
 }
 
 .gfc-resultsHeader .gfc-title{
@@ -2247,7 +2248,7 @@ div.form #user-groups-passrequest-form label{
 .defect_type input[type="radio"]{
 	float: left;
 	width: auto !important;
-	margin: 2px 0 0 0;
+	margin: 2px 5px 0 0;
 }
 .defect_type li label:before{
 	content: ' ';
@@ -2259,46 +2260,46 @@ div.form #user-groups-passrequest-form label{
 	left: -2px;
 	background: url(../images/defect_type.png) no-repeat;
 }
-.defect_type .type_1 label:before{
+.defect_type label[for="type_1"]:before{
 	background-position: 0 0;
 }
-.defect_type .type_2 label:before{
+.defect_type label[for="type_2"]:before{
 	background-position: -30px 0;
 }
-.defect_type .type_3 label:before{
+.defect_type label[for="type_3"]:before{
 	background-position: -60px 0;
 }
-.defect_type .type_4 label:before{
+.defect_type label[for="type_4"]:before{
 	background-position: -90px 0;
 }
-.defect_type .type_5 label:before{
+.defect_type label[for="type_5"]:before{
 	background-position: 0 -24px;
 }
-.defect_type .type_6 label:before{
+.defect_type label[for="type_11"]:before{
 	background-position: -30px -24px;
 }
-.defect_type .type_7 label:before{
+.defect_type label[for="type_6"]:before{
 	background-position: -60px -24px;
 }
-.defect_type .type_1.checked label:before{
+.defect_type input[type="radio"]:checked + label[for="type_1"]:before{
 	background-position: 0 -48px;
 }
-.defect_type .type_2.checked label:before{
+.defect_type input[type="radio"]:checked + label[for="type_2"]:before{
 	background-position: -30px -48px;
 }
-.defect_type .type_3.checked label:before{
+.defect_type  input[type="radio"]:checked +label[for="type_3"]:before{
 	background-position: -60px -48px;
 }
-.defect_type .type_4.checked label:before{
+.defect_type input[type="radio"]:checked + label[for="type_4"]:before{
 	background-position: -90px -48px;
 }
-.defect_type .type_5.checked label:before{
+.defect_type input[type="radio"]:checked + label[for="type_5"]:before{
 	background-position: 0 -72px;
 }
-.defect_type .type_6.checked label:before{
+.defect_type input[type="radio"]:checked + label[for="type_11"]:before{
 	background-position: -30px -72px;
 }
-.defect_type .type_7.checked label:before{
+.defect_type input[type="radio"]:checked + label[for="type_6"]:before{
 	background-position: -60px -72px;
 }
 .defect_type label{

@@ -252,46 +252,9 @@
 			<a href="http://novus.org.ua/" style="background:none;" class="notus-logo" target="_blank"><img src="<?php echo Yii::app()->request->baseUrl;?>/images/logo-novus.png"></a>
 			</p>
 			<?php if($this->beginCache('countHoles', array('duration'=>3600))) { ?>
-			<!--<?php $this->widget('application.widgets.collection.collectionWidget'); ?>-->
-			<div class="collection">
-				<span class="label">Наша колекція нараховує:</span>
-				<div class="collection-counter-wrap">
-					<div class="collection-item">
-						<div class="wrap">
-							<span class="inside">
-								<span>1</span>
-								<span>2</span>
-								<span>3</span>
-								<span>4</span>
-							</span>
-						</div>
-						дефекти
-					</div>
-					<div class="collection-item">
-						<div class="wrap">
-							<span class="inside">
-								<span>1</span>
-								<span>2</span>
-								<span>3</span>
-							</span>
-						</div>
-						в ДАЇ
-					</div>
-					<div class="collection-item">
-						<div class="wrap">
-							<span class="inside">
-								<span>1</span>
-								<span>2</span>
-								<span>3</span>
-							</span>
-						</div>
-						виправлено
-					</div>
-					<div class="collection-item how">
-						<a href="#">Як покращити<br> ці показники?</a>
-					</div>
-				</div>
-			</div>			
+			
+			<?php $this->widget('application.widgets.collection.collectionWidget'); ?>		
+
 			<?php $this->endCache(); } ?>
 			<p class="friends">Информация:<br />
 				<a href="http://ukryama.info" target="_blank">Сообщество</a><br />
