@@ -247,7 +247,7 @@
 			</p>
 			<p class="copy">Идея — <noindex><a href="http://navalny.ru/">Алексей Навальный</a></noindex>, 2011<br />
 			Хостинг — «<noindex><a href="http://ihc.com.ua/" target="_blank">ihc</a></noindex>»<br />
-			<span class="studio-copyright">Дизайн — веб-студия </noindex><a href="http://stfalcon.com"><span class="icon"></span>stfalcon.com</a></noindex></span>
+			<span class="studio-copyright">Дизайн — веб-студия <a href="http://stfalcon.com"><span class="icon"></span>stfalcon.com</a></noindex></span>
 			Разработано в <a href="http://pixelsmedia.ru">Pixelsmedia</a> на Yii.<br/>
 			<a href="http://novus.org.ua/" style="background:none;" class="notus-logo" target="_blank"><img src="<?php echo Yii::app()->request->baseUrl;?>/images/logo-novus.png"></a>
 			</p>

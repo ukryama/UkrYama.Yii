@@ -1,6 +1,6 @@
 <?php
 $this->breadcrumbs=array(
-	'Результаты запроса в ГИБДД'=>array('index'),
+	'Результаты запроса в ГАИ'=>array('index'),
 	'Управление',
 );
 
@@ -10,7 +10,7 @@ $this->menu=array(
 
 ?>
 
-<h1>Управление результатами запроса в ГИБДД</h1>
+<h1>Управление результатами запроса в ГАИ</h1>
 
 <?php   $this->widget('zii.widgets.jui.CJuiSortable', array('items'=>array(), 'options'=>array(),)); ?>
 <?php // sortable script

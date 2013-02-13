@@ -1,11 +1,11 @@
 <?php
 $this->breadcrumbs=array(
-	'Результаты запроса в ГИБДД'=>array('index'),
+	'Результаты запроса в ГАИ'=>array('index'),
 	'Создать',
 );
 
 $this->menu=array(
-	array('label'=>'Результаты запроса в ГИБДД', 'url'=>array('index')),
+	array('label'=>'Результаты запроса в ГАИ', 'url'=>array('index')),
 );
 ?>
 

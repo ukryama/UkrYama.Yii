@@ -1,6 +1,6 @@
 <? 
-$this->pageTitle=Yii::app()->name . ' - '.$model->name_full.' - Справочник ГИБДД ';
-$this->title=CHtml::link('Справочник ГИБДД', Array('index')).' > '.$model->name_full;
+$this->pageTitle=Yii::app()->name . ' - '.$model->name_full.' - Справочник ГАИ ';
+$this->title=CHtml::link('Справочник ГАИ', Array('index')).' > '.$model->name_full;
 ?>
 <?php if ($model->gibdd) : ?>
 <div class="news-detail  sprav-detail">
@@ -18,11 +18,11 @@ $this->title=CHtml::link('Справочник ГИБДД', Array('index')).' > 
 
 <?php if (!Yii::app()->user->isGuest) : ?>
 <br/><br/><br/>
-<?php echo CHtml::link('Добавить территориальный отдел ГИБДД', array('add'), array('class'=>'button')); ?>
+<?php echo CHtml::link('Добавить территориальный отдел ГАИ', array('add'), array('class'=>'button')); ?>
 <?php endif; ?>
 <?php if ($model->gibdd_local) : ?>
 <br/><br/>
-<h2>Территориальные отделы ГИБДД :</h2>
+<h2>Территориальные отделы ГАИ :</h2>
 <?php foreach ($model->gibdd_local as $data) : ?>
 <div class="news-detail  sprav-detail">
 				<?php $this->renderPartial('_view_gibdd', array('data'=>$data)); ?>		 				

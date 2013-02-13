@@ -45,7 +45,7 @@ class HoleAnswers extends CActiveRecord
 			array('comment', 'length'),
 			array('uppload_files, results', 'safe'),
 			//Раскомментить после импорта
-			array('uppload_files', 'required', 'on'=>'insert', 'message' => 'Необходимо загрузить ответ ГИБДД'),
+			array('uppload_files', 'required', 'on'=>'insert', 'message' => 'Необходимо загрузить ответ ГАИ'),
 			array('uppload_files', 'file', 'types'=>'jpg, jpeg, png, gif, txt, pdf','maxFiles'=>10,'allowEmpty'=>true),			
 			
 			// The following rule is used by search().
@@ -90,7 +90,7 @@ class HoleAnswers extends CActiveRecord
 			'request_id' => 'Request',
 			'date' => 'Date',
 			'comment' => 'Комментарии (по желанию)',
-			'uppload_files'=>'Необходимо добавить отсканированный ответ из ГИБДД',
+			'uppload_files'=>'Необходимо добавить отсканированный ответ из ГАИ',
 			'results'=>'Фактический результат запроса'
 		);
 	}

@@ -544,15 +544,15 @@ class Holes extends CActiveRecord
 			'LATITUDE' => 'Latitude',
 			'LONGITUDE' => 'Longitude',
 			'ADDRESS' => 'Адрес дефекта',
-			'gibdd_id'=>'Отдел ГИБДД',
+			'gibdd_id'=>'Отдел ГАИ',
 			'STATE' => 'Статус',
 			'DATE_CREATED' => 'Дата создания',
-			'DATE_SENT' => 'Дата отправки в ГИБДД',
+			'DATE_SENT' => 'Дата отправки в ГАИ',
 			'DATE_STATUS' => 'Date Status',
 			'COMMENT1' => 'Комментарии',
 			'COMMENT2' => 'Комментарии',
 			'TYPE_ID' => 'Тип дефекта',
-			'ADR_SUBJECTRF' => 'Субъект РФ',
+			'ADR_SUBJECTRF' => 'Область',
 			'ADR_CITY' => 'Город',
 			'COMMENT_GIBDD_REPLY' => 'Comment Gibdd Reply',
 			'GIBDD_REPLY_RECEIVED' => 'Gibdd Reply Received',
@@ -560,7 +560,7 @@ class Holes extends CActiveRecord
 			'NOT_PREMODERATED' => 'только непроверенные',
 			'DATE_SENT_PROSECUTOR' => 'Date Sent Prosecutor',
 			'deletepict'=>'Удалить фотографию?',
-			'replуfiles'=>'Необходимо добавить отсканированный ответ из ГИБДД',
+			'replуfiles'=>'Необходимо добавить отсканированный ответ из ГАИ',
 			'upploadedPictures'=>$this->scenario=='fix' ? 'Желательно добавить фотографии исправленного дефекта' : 'Нужно загрузить фотографии'
 		);
 	}

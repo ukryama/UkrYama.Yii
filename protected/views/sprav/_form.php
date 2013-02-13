@@ -21,21 +21,21 @@
 			<?php echo $form->labelEx($model,'name'); ?>
 			<?php echo $form->textField($model,'name',array('class'=>'textInput')); ?>
 			<?php echo $form->error($model,'name'); ?>
-			<em class="hint">Пример: ГИБДД по Москве</em>
+			<em class="hint">Пример: ГАИ по Киеву</em>
 		</div>
 		
 		<div class="f">
 			<?php echo $form->labelEx($model,'gibdd_name'); ?>
 			<?php echo $form->textField($model,'gibdd_name',array('class'=>'textInput')); ?>
 			<?php echo $form->error($model,'gibdd_name'); ?>
-			<em class="hint">Пример: Управление ГИБДД ГУ МВД России по г. Москве</em>
+			<em class="hint">Пример: Управление ГАИ Киева</em>
 		</div>
 		
 		<div class="f">
 			<?php echo $form->labelEx($model,'address'); ?>
 			<?php echo $form->textField($model,'address',array('class'=>'textInput')); ?>
 			<?php echo $form->error($model,'address'); ?>
-			<em class="hint">Пример: 127473, г. Москва, ул. Садовая-Самотечная, 1</em>
+			<em class="hint">Пример: 127473, г. Киев, ул. Лягина, 1</em>
 		</div>
 		
 		<div class="f">
@@ -63,21 +63,21 @@
 			<?php echo $form->labelEx($model,'post_dative'); ?>
 			<?php echo $form->textField($model,'post_dative',array('class'=>'textInput')); ?>
 			<?php echo $form->error($model,'post_dative'); ?>
-			<em class="hint">Пример: Начальнику Управления ГИБДД ГУ МВД России по г. Москве</em>
+			<em class="hint">Пример: Начальнику Управления ГАИ Киева</em>
 		</div>
 		
 		<div class="f">
 			<?php echo $form->labelEx($model,'tel_degurn'); ?>
 			<?php echo $form->textField($model,'tel_degurn',array('class'=>'textInput')); ?>
 			<?php echo $form->error($model,'tel_degurn'); ?>
-			<em class="hint">Пример: (495) 624-31-17</em>
+			<em class="hint">Пример: (044) 624-31-17</em>
 		</div>
 		
 		<div class="f">
 			<?php echo $form->labelEx($model,'tel_dover'); ?>
 			<?php echo $form->textField($model,'tel_dover',array('class'=>'textInput')); ?>
 			<?php echo $form->error($model,'tel_dover'); ?>
-			<em class="hint">Пример: (495) 624-31-17</em>
+			<em class="hint">Пример: (044) 624-31-17</em>
 		</div>		
 	
 		
@@ -92,7 +92,7 @@
 	<div class="f">
 		<div class="bx-yandex-search-layout" style="padding-bottom: 0px;">
 			<div class="bx-yandex-search-form" style="padding-bottom: 0px;">				
-					<p>Введите адрес отдела ГИБДД для быстрого поиска</p>
+					<p>Введите адрес отдела ГАИ для быстрого поиска</p>
 					<input type="text" id="address_inp" name="address" class="textInput" value="" style="width: 300px;" />
 					<input type="submit" value="Искать" onclick="jsYandexSearch_MAP_DzDvWLBsil.searchByAddress($('#address_inp').val()); return false;" />
 					<a style="display:none;" id="clear_result_link" href="#" onclick="clearSerchResults('MAP_DzDvWLBsil', JCBXYandexSearch_arSerachresults); document.getElementById('address_inp').value=''; return false;">Очистить</a>				
