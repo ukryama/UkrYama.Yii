@@ -41,7 +41,7 @@
 	<!-- правая колоночка -->
 	<div class="rCol"> 
 	<div class="f">		
-		<div class="bx-yandex-view-layout">
+		<div class="bx-yandex-view-layout wide">
 			<div class="bx-yandex-view-map">
 			<div id="ymapcontainer" class="ymapcontainer"></div>
 			<?php Yii::app()->clientScript->registerScript('initmap',<<<EOD

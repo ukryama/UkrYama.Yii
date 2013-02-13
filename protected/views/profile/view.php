@@ -15,7 +15,8 @@
 						</div>
 					</div>
 					<div class="counter">
-						<?php echo Y::declOfNum($model->holes_cnt, array('дефект', 'дефекта', 'дефектов')); ?> / <?php echo Y::declOfNum($model->holes_fixed_cnt, array('отремонтирован', 'отремонтировано', 'отремонтировано')); ?>						
+						<span class="counter-text">Всего дефектов</span><span class="count-class"><?php echo Y::declOfNum($model->holes_cnt, array('', '', '')); ?></span>
+    				<span class="counter-text">Исправленно дефектов</span><span class="count-class"><?php echo Y::declOfNum($model->holes_fixed_cnt, array('', '', '')); ?></span>					
 					</div>	
 				</div>		
 			</div>
@@ -28,11 +29,7 @@
 	<?php $this->widget('application.widgets.userAreaMap.userAreaMapWidget',Array('data'=>Array('area'=>$model->hole_area))); ?>
 	<?php endif; ?>
 	
-	<?php if($model->relProfile && $model->relProfile->aboutme && $model->getParam('showAboutme')) : ?>
 	
-	<h2>Обо мне</h2>
-	<p><?php echo nl2br($model->relProfile->aboutme); ?></p>
-	<?php endif; ?>
 	</div>
 	<div class="rCol">
 	<?php if($model->email && $model->getParam('showContactForm')) : ?>
@@ -76,7 +73,11 @@
 			</div>
 		
 		<?php $this->endWidget(); ?>
-		
+			<?php if($model->relProfile && $model->relProfile->aboutme && $model->getParam('showAboutme')) : ?>
+	
+	<h2>Обо мне</h2>
+	<p><?php echo nl2br($model->relProfile->aboutme); ?></p>
+	<?php endif; ?>
 		</div><!-- form -->
 		<?php endif; ?>
 	<?php endif; ?>	

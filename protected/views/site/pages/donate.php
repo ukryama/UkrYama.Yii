@@ -1,4 +1,7 @@
-<?php $this->pageTitle=Yii::app()->name . ' :: Помощь проекту';?>
+<?php
+    $this->pageTitle=Yii::app()->name . ' :: Помощь проекту';
+    $this->layout='//layouts/header_blank';
+?>
 
  <h2>Помощь проекту</h2>
  		

@@ -2,7 +2,7 @@
 $this->pageTitle=Yii::app()->name . ' - Справочник ГИБДД';
 $this->title='Справочник ГИБДД';
 ?>
-<div class="news-list">
+<div class="news-list sprav-list">
 <?php foreach ($model as $subj) : ?>
 			<p class="news-item">
 				<?php if (Yii::app()->user->isModer && $subj->gibdd_local_not_moderated) : ?>

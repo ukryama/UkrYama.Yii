@@ -511,11 +511,10 @@ class HolesController extends Controller
 	 */
 	public function actionIndex()
 	{
-		
 		$this->layout='//layouts/header_default';
 		
 		//Если нет таблиц в базе редиректим на контроллер миграции
-		if(Holes::getDbConnection()->getSchema()->getTable(Holes::tableName())===null)
+		if(Holes::model()->getDbConnection()->getSchema()->getTable(Holes::model()->tableName())===null)
 			$this->redirect(array('migration/index'));
 	
 		$model=new Holes('search');		
@@ -525,8 +524,8 @@ class HolesController extends Controller
 		if(isset($_POST['Holes']) || isset($_GET['Holes']))
 			$model->attributes=isset($_POST['Holes']) ? $_POST['Holes'] : $_GET['Holes'];
 			if ($model->ADR_CITY=="Город") $model->ADR_CITY='';
-		$dataProvider=$model->search();	
-		
+		$dataProvider=$model->search();
+
 		$this->render('index',array(
 			'model'=>$model,
 			'dataProvider'=>$dataProvider,

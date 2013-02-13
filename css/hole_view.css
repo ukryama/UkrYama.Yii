@@ -1,24 +1,33 @@
-div#ymapcontainer { border: 1px solid #cacaca; height: 213px; margin-bottom: 2em; width: 213px; }
-div#ymapcontainer_big { display: none; position: absolute; border: 10px solid white; border-top: 0; z-index: 5; background-color: white; }
+div#ymapcontainer { border: 1px solid #d0d5d9; height: 300px; width: 280px; float:left; margin:0 37px 20px 0;}
+div#ymapcontainer_big { display: none; position: relative; margin:0 0 25px; border-top: 0; z-index: 5; background-color: white; }
 div#ymapcontainer_big span.close { color: #333; font-size: 1.5em; font-weight: bold; cursor: pointer; padding: 0 5px; }
 div#ymapcontainer_big span.close:hover {color:#edb209}
-div#ymapcontainer_big_map { height: 600px; width: 1000px; }
+div#ymapcontainer_big_map { height: 600px; width: 960px; }
 
-.h .info { float: left; width: 500px; }
-.h .social { background: #f2f2f2; float: right; margin-top: 1.38em; width: 225px; }
-.h .social .like {padding:20px 20px 15px}
+
+.h{float:left;}
+.r{float:right; width:225px;}
+
+.h .info { float: left; width: 375px; }
+.h .social { float:none; overflow: hidden; margin:30px 0 0;}
+.h .social .like {float:right; width: 150px;}
 #fb_like {margin-bottom: 7px;}
-.h .social .share { color: #4c4c4c; border-top: 1px solid #e0e0e0; font-size: 0.92em; line-height: 21px; padding: 15px 15px 20px 15px}
-.social .share span, .social .share a { float: left; margin: 0 7px 0 0; }
-.social .share a { background-image: url(../images/social_icons.png); height: 21px; overflow: hidden; text-indent: -10000px; width: 21px; }
+.h .social .share { float:left; font-size: 12px; color:#000; width:220px;}
+.social .share span, .social .share a { float: left; margin: 0 3px 0 0; }
+.social .share span{
+	float:none;
+	display: block;
+	margin:0 0 6px;
+}
+/*.social .share a { background-image: url(../images/social_icons.png); height: 21px; overflow: hidden; text-indent: -10000px; width: 21px; }
 .social .share .fb { background-position: -21px 0 }
 .social .share .vk { background-position: -42px 0 }
 .social .share .twitter-share-button { background-position: -84px 0 }
-
+*/
 div.rCol .h p { margin-bottom:0.31em }
-div.rCol .h .date { color: #aaa; font-style: italic; font-size: 0.85em; margin-right: 7px; }
-div.rCol .h .type { font-size: 1.15em; padding: 0 0 0 30px; background-repeat: no-repeat; background-position: left; height: 22px; line-height: 22px; margin-bottom:0.47em }
-div.rCol .h .address { background: url(../images/marker.gif) no-repeat 2px center; padding-left: 19px;}
+div.rCol .h .date { color: #637280; font-size: 12px; margin:3px 0 10px; display: inline-block;}
+div.rCol .h .type { font-size: 18px; padding: 0 0 0 32px; background-repeat: no-repeat; color:#000; background-position: left; height: 22px; line-height: 22px; margin-bottom:11px; }
+div.rCol .h .address { background: url(../images/marker.png) no-repeat 2px center; padding-left: 19px;}
 
 div.rCol .h .type_crossing { background-image: url("../images/st1234/crossing.png"); }
 div.rCol .h .type_badroad { background-image: url("../images/st1234/badroad.png"); }
@@ -30,11 +39,19 @@ div.rCol .h .type_fence { background-image: url("../images/st1234/fence.png"); }
 div.rCol .h .type_hatch { background-image: url("../images/st1234/hatch.png"); }
 div.rCol .h .type_nomarking { background-image: url("../images/st1234/nomarking.png"); }
 div.rCol .h .type_policeman { background-image: url("../images/st1234/policeman.png"); }
-div.rCol .h .status {position: relative; padding-left: 19px; }
-div.rCol .h span.bull { font-size: 26px; left: 0; line-height: 12px; position: absolute; top: 0;  }
+div.rCol .h .status {position: relative; }
+div.rCol .h span.bull {
+	width:7px;
+	height:7px;
+	vertical-align: middle;
+	background: url(../images/dots.png) 0 -16px no-repeat;
+	text-indent: -9999px;  
+	float:left;
+	margin:4px 10px 0 2px;
+}
 div.rCol .h span.fresh { color: #aaa; }
-div.rCol .h span.inprogress { color: orange; }
-div.rCol .h span.gibddre { color: orange; }
+div.rCol .h span.inprogress { background-position: 0 100%; }
+div.rCol .h span.gibddre { background-position: 0 100%; }
 div.rCol .h span.fixed { color: green; }
 div.rCol .h span.achtung { color: maroon; }
 div.rCol .h span.prosecutor { color: maroon; }
@@ -43,7 +60,7 @@ div.rCol .h span.prosecutor { color: maroon; }
 
 div.rCol .h a.pdf {  }
 
-div.rCol .h .control {border-top: 1px solid #ececec; margin-top: 12px; padding-top: 12px; position: relative;}
+div.rCol .h .control {border-top: 1px solid #ececec; margin-top: 12px; padding-top: 12px; width: 100%;}
 div.rCol .h .wait { line-height: 16px}
 
 div.rCol .h .progress {
@@ -86,8 +103,6 @@ div.rCol .h .progress .rc span ins {
 
 .progress .printDeclaration, .progress .printDeclaration:hover {
 	border-bottom: 1px dotted #1370aa;
-	font-size: 18px;
-	line-height: 22px;
 	text-decoration: none;
 }
 
@@ -96,7 +111,7 @@ div.rCol .h .progress .rc span ins {
 }
 
 .progress .declarationBtn, .progress .declarationBtn:hover {
-	border-bottom: 1px dotted #1370aa;
+	border-bottom: 1px dashed #1370aa;
 	line-height: 18px;
 	text-decoration: none;
 }
@@ -118,20 +133,37 @@ div.rCol .h .edit {
 	width: 145px;
 }
 
+div.rCol .h .edit-container {
+    font-size: 0.92em;
+    line-height: 1.54em;
+    text-align: right;
+    display: inline-block;
+    float: right;
+    width: 160px;
+}
+
+.edit-container a + a {
+    color: #db0000;
+    position: relative;
+    padding: 0 0 0 12px;
+    margin: 0 0 0 12px;
+    background: url('../images/del.png') no-repeat 0 4px;
+}
+
 div.rCol .h .edit a {margin-left:8px}
 div.rCol .h .days { font-size: 1.38em; font-weight: bold; line-height: 1em; }
 
 div.rCol .before {
-	margin-bottom: 5em;
-	min-height: 350px;
+	margin-bottom: 1em;
+	/*min-height: 350px;*/
 }
 
 div.rCol .after {
-	border-top: 1px solid #d1d1d1;
+	/*border-top: 1px solid #d1d1d1;
 	left: -240px;
 	padding-left: 240px;
 	position: relative;
-	width: 750px;
+	width: 750px;*/
 }
 
 div.rCol .after h2 {
@@ -140,13 +172,13 @@ div.rCol .after h2 {
 }
 
 div.rCol .after .comment {
-	border-top: 1px solid #fff;
+	/*border-top: 1px solid #fff;
 	float: left;
 	left: -240px;
 	margin-right: -240px;
 	padding: 5.38em 25px 0 0;
 	position: relative;
-	width: 215px;
+	width: 215px;*/
 }
 
 #tip
@@ -167,33 +199,58 @@ div.rCol .after .comment {
 }
 
 .pdf_form {
-	background-color: #f0f0f0;
+	background-color: #fff;
 	display: none;
-	border: 1px solid grey;
-	border-radius: 8px;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
+	border: 1px solid #6d7780;
+	border-radius: 20px;
+	-moz-border-radius: 20px;
+	-webkit-border-radius: 20px;
 	left: -10px;
-	padding: 10px;
+	padding: 20px 70px;
 	position: absolute;
-	width: 745px;
+	width: 660px;
 	z-index: 999;
+	box-shadow:0 0 15px 0 rgba(0,0,0, .09);
+	-moz-box-shadow:0 0 15px 0 rgba(0,0,0, .09);
+	-webkit-box-shadow:0 0 15px 0 rgba(0,0,0, .09);
 }
-.pdf_form .close, .pdf_form .close:hover { color: #333; font-size: 1.5em; font-weight: bold; cursor: pointer; padding: 0 5px; position: absolute; right: 5px; top: 2px; text-decoration: none; }
+.pdf_form .close, .pdf_form .close:hover {
+	position: absolute; 
+	right: 20px; 
+	top: 20px; 
+	text-decoration: none; 
+	width:20px;
+	height:20px;
+	background: url(../images/close-ico.png) 0 0 no-repeat;
+	text-indent: -9999px;
+}
+.pdf_form label{
+	font-size: 16px;
+    font-weight: normal;
+}
 .pdf_form .close:hover { color: #e6670f }
-.pdf_form h2 { font-size: 1.38em; font-weight: bold; }
+.pdf_form h2 { font-size: 1.8em; font-weight: normal; text-align: center; }
 .pdf_form a { background-color: transparent; color: #333; }
-.pdf_form th, .pdf_form td { padding: 0 0 8px; text-align: left; vertical-align: top; }
+.pdf_form th, .pdf_form td { padding: 0 0 20px; text-align: left; vertical-align: top; }
 .pdf_form th { font-weight: bold; width: 44%;}
 .pdf_form td { text-align: right;}
 .pdf_form input, .pdf_form textarea { width: 92% }
-.pdf_form .textInput, .pdf_form textarea  { border-width: 1px }
+.pdf_form .textInput, .pdf_form textarea  { border:1px solid #9aa3ab; }
+.pdf_form .textInput{
+	height:23px;
+	line-height: 23px;
+	padding:0 5px;
+	width:480px;
+}
+.pdf_form textarea{
+	padding:5px;
+	width:480px;
+}
 .pdf_form td .submit { width: auto }
 .pdf_form table span.comment { 
 	display: block;
-	color: #555;
-	font-size: 0.92em;
-	font-style: italic;
+	color: #637280;
+	font-size: 12px;
 	font-weight: normal;
 	line-height: 1.17em;
 	margin-top: 3px;
@@ -218,4 +275,89 @@ div.rCol .before:after, div.rCol .after:after {
 	width:100%;
 	resize:none;
 	margin-bottom:10px;
+}
+
+
+.add-by-user{
+	padding:32px 0 25px;
+}
+.add-by-user span{
+	display: block;
+	font-size: 12px;
+	color:#637280;
+	margin:0 0 5px;
+}
+.add-by-user a{
+	font-size: 14px;
+	color:#000;
+	text-decoration: none;
+}
+
+.holes_pict img{
+	margin: 0 20px 20px 0;
+    width: 215px;
+}
+
+a.holes_pict:active { background: none; }
+a.holes_pict {
+    position: relative;
+    float: left;
+}
+
+span.zoom-pic {
+    background-image: url('../images/zoom-pic.png');
+    height: 52px;
+    width: 52px;
+    display: none;
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    margin-top: -36px;
+    margin-left: -36px;
+}
+
+a.holes_pict:hover span.zoom-pic { display: block; }
+
+.pdf_form {
+    border: 1px solid #c9c9c9;
+    left: 50%;
+    box-shadow: 0 11px 65px -15px rgba(0, 0, 0, 1);
+    -moz-box-shadow:0 11px 65px -15px rgba(0, 0, 0, 1);
+    -webkit-box-shadow:0 11px 65px -15px rgba(0, 0, 0, 1);
+    margin-left: -400px;
+}
+
+.pdf_form table td { text-align: left; }
+.pdf_form span.hint { font-size: 0.7em; color:#637280; font-style: normal; }
+.pdf_form td.action-cell { background: #e5e9ec; text-align: center; vertical-align: middle; padding: 12px 0; border-radius: 4px;}
+.pdf_form input.submit {
+    height: 36px;
+    font-size: 1.25em;
+    margin-right:8px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.pdf_form .notes {
+    padding-top: 16px;
+    font-size: 0.9em;
+}
+
+.progress .pdf_form p {
+    margin-bottom: 1em;
+}
+
+#prosecutor_form table { margin-top: 2.5em; }
+
+.errortext.premoderate {
+    background: #f8ea91;
+    padding: 17px;
+    margin-top: 15px;
+    display: block;
+    font-size: 0.92em;
+    line-height: 1.5em;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
 }

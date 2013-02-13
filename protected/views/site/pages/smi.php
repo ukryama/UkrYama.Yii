@@ -1,4 +1,7 @@
-<?php $this->pageTitle=Yii::app()->name . ' :: Сми';?>
+<?php
+    $this->pageTitle=Yii::app()->name . ' :: Сми';
+    $this->layout='//layouts/header_blank';
+?>
 
  <h2>Средства массовой информации об УкрЯме</h2>
  	Интернет-СМИ: 		
