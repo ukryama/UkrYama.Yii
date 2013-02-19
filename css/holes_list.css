@@ -99,12 +99,13 @@
 	width:7px;
 	height:7px;
 	vertical-align: middle;
-	background: url(../images/dots.png) 0 -16px no-repeat;
+	background: url(../images/dots.png) no-repeat;
 	text-indent: -9999px;
 }
-.holes_list .state_fresh {  }
-.holes_list .state_inprogress { background-position: 0 100%; }
-.holes_list .state_gibddre { background-position: 0 100%; } 
+.status_span.state_fresh { background-position: 0 0; }
+.status_span.state_inprogress { background-position: 0 -8px; }
+.status_span.state_gibddre { background-position: 0 -16px; }
+.status_span.state_achtung { background-position: 0 -24px; }
 
 .pagination a, .pagination span {
 	margin-right: 1em;

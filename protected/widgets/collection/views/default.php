@@ -9,21 +9,19 @@
 			<div class="wrap">
 				<span class="inside">
 					<?php 
-						for($i = 0; $i < 3 	; $i++)
-						{
+						for($i = 0; $i < strlen($all) ; $i++) {
 						    echo '<span>'. $all[$i].'</span>';
 						}
 					?>
 				</span>
 			</div>
-			дефекти
+            <?php echo preg_replace('/[0-9 ]/ui', '', Y::declOfNum($all, array('дефект', 'дефекта', 'дефектов')))?>
 		</div>
 		<div class="collection-item">
 			<div class="wrap">
 				<span class="inside">
 					<?php 
-						for($i = 0; $i < strlen($ingibdd); $i++)
-						{
+						for($i = 0; $i < strlen($ingibdd); $i++) {
 						    echo '<span>'. $ingibdd[$i].'</span>';
 						}
 					?>
@@ -35,8 +33,7 @@
 			<div class="wrap">
 				<span class="inside">
 					<?php 
-						for($i = 0; $i < strlen($fixed) 	; $i++)
-						{
+						for($i = 0; $i < strlen($fixed) 	; $i++) {
 						    echo '<span>'. $fixed[$i].'</span>';
 						}
 					?>
@@ -48,4 +45,4 @@
 			<a href="#">Як покращити<br> ці показники?</a>
 		</div>
 	</div>
-</div>	
+</div>

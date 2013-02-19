@@ -24,10 +24,10 @@ class collectionWidget extends CWidget {
         $model=Holes::model()->count(Array('condition'=>'PREMODERATED=1 AND STATE="inprogress"'));
         $ingibdd=$model;
         $model=Holes::model()->count(Array('condition'=>'PREMODERATED=1 AND STATE="fixed"'));
-        $fixed=$model;        
+        $fixed=$model;
             $this->registerCoreScripts();
                 $this->render($this->itemview, Array(
-                'all'=>Y::declOfNum($all, array('дефект', 'дефекта', 'дефектов')),
+                'all'=>$all, //Y::declOfNum($all, array('дефект', 'дефекта', 'дефектов')),
 				'ingibdd'=>$ingibdd,
 				'fixed'=>$fixed,
                 ));

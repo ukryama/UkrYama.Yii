@@ -394,12 +394,16 @@ class HolesController extends Controller
 	//удаление ямы пользователем
 	public function actionPersonalDelete($id)
 	{
-			$model=$this->loadChangeModel($id);				
-			$model->delete();			
-			
-			// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-			if(!isset($_POST['ajax']))
-				$this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('personal'));		
+        $model=$this->loadChangeModel($id);
+        $currentUser = Yii::app()->user;
+
+        if ($currentUser->id == $model->user->id ) {
+            $model->delete();
+        }
+
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if(!isset($_POST['ajax']))
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('personal'));
 	}	
 	
 	//форма ГИБДД
