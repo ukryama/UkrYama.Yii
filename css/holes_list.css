@@ -104,7 +104,7 @@
 }
 .status_span.state_fresh { background-position: 0 0; }
 .status_span.state_inprogress { background-position: 0 -8px; }
-.status_span.state_gibddre { background-position: 0 -16px; }
+.status_span.state_gibddre, .status_span.state_fixed { background-position: 0 -16px; }
 .status_span.state_achtung { background-position: 0 -24px; }
 
 .pagination a, .pagination span {
