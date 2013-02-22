@@ -301,7 +301,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
                 <span class="date"><?php echo CHtml::encode(Y::dateFromTime($hole->DATE_CREATED)); ?></span>
                 <?php
                     $userGroup = UserGroupsUser::model()->findByPk(Yii::app()->user->id);
-                    if (isset($userGroup->group_name) && $userGroup->group_name != 'user'):?>
+                    if (isset($userGroup->level) && $userGroup->level > 1):?>
                 <div class="edit-container">
                     <?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_2'), array('update', 'id'=>$hole->ID)); ?>
                     <?php echo CHtml::link(Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_10'), array('personalDelete', 'id'=>$hole->ID), array('onclick'=>'return confirm("'.Yii::t('holes_view', 'HOLE_CART_ADMIN_TEXT_11').'");')); ?>

@@ -395,10 +395,13 @@ class HolesController extends Controller
 	public function actionPersonalDelete($id)
 	{
         $model=$this->loadChangeModel($id);
-        $currentUser = Yii::app()->user;
+        $currentUser = UserGroupsUser::model()->findByPk(Yii::app()->user->id);
 
-        if ($currentUser->id == $model->user->id ) {
+        if ($currentUser && (($currentUser->id == $model->user->id) || ($currentUser->level > 1))) {
             $model->delete();
+        }
+        else {
+            throw new CHttpException(403,'Доступ запрещен.');
         }
 
         // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser

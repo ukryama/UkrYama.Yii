@@ -10,7 +10,7 @@
 				<span class="inside">
 					<?php 
 						for($i = 0; $i < strlen($all) ; $i++) {
-						    echo '<span>'. $all[$i].'</span>';
+						    echo '<span>'. substr($all, $i, 1) .'</span>';
 						}
 					?>
 				</span>
@@ -22,7 +22,7 @@
 				<span class="inside">
 					<?php 
 						for($i = 0; $i < strlen($ingibdd); $i++) {
-						    echo '<span>'. $ingibdd[$i].'</span>';
+						    echo '<span>'. substr($ingibdd, $i, 1) .'</span>';
 						}
 					?>
 				</span>
@@ -34,7 +34,7 @@
 				<span class="inside">
 					<?php 
 						for($i = 0; $i < strlen($fixed) 	; $i++) {
-						    echo '<span>'. $fixed[$i].'</span>';
+						    echo '<span>'. substr($fixed, $i, 1) .'</span>';
 						}
 					?>
 				</span>
