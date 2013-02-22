@@ -200,9 +200,27 @@
 			<div class="social-widgets-wrap">
 				<div class="socialGroups">
 		<script src="http://widgets.twimg.com/j/2/widget.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('#groupSwitch a').click(function(){
+				var $target = $(event.target);
+				if($target.className != "active") {
+					$('#groupSwitch a').removeClass('active');
+					$target.addClass('active');
+					$('#groupsWrap li').hide();
+					$('#groupsWrap #' + event.target.id).show();
+					if(event.target.id=="vk") {
+						$('#groupsWrap #' + event.target.id + ' #vk_groups').css('height','290px');
+						$('#groupsWrap #' + event.target.id + ' iframe').css('height','290px');
+					}
+				}
+				return false;
+				});
+			});	
+		</script>
 			<ul id="groupSwitch">
-				<li><noindex><a href="/" id="fb" class="active">Faceboo<span class="l"></span><span class="r"></span>k</a></noindex></li>
-				<li><noindex><a href="/" id="vk">Вконтакте<span class="l"></span><span class="r"></span></a></noindex></li>
+				<li><noindex><a href="#" id="fb" class="active">Faceboo<span class="l"></span><span class="r"></span>k</a></noindex></li>
+				<li><noindex><a href="#" id="vk">Вконтакте<span class="l"></span><span class="r"></span></a></noindex></li>
 			</ul>
 			<ul id="groupsWrap">
 					<li id="fb">

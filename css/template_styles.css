@@ -1581,12 +1581,16 @@ color: rgb(0, 128, 0);
 				background: #fff;
 				color:#3c5a98;
 			}
+			#groupSwitch a .l,
+			#groupSwitch a .r{
+				display: none;
+				width:12px;
+				height:12px;
+			}
 			#groupSwitch a.active .l,
 			#groupSwitch a.active .r{
 				position: absolute;
 				bottom:0px;
-				width:12px;
-				height:12px;
 				background: #3c5a98;
 				display: block;
 				border-radius:6px;
@@ -2585,28 +2589,4 @@ a.button{
 	float: left;
 	width: 180px;
 	margin: 5px 15px 0 0;
-}
-
-/* Sape */
-.insape {
-   display:block;
-   float:none;
-   margin:0;
-   padding:2px 10px 3px 52px;
-   border-top:1px dotted #eee;
-   color:#999999;
-   font-size:9px;
-}
-.insape span 
-{ 
-	color: #666666; 
-}
-.insape a:link,
-.insape a:visited,
-.insape a:hover,
-.insape a:active,
-.insape a 
-{ 
-	color:	#999999;
-	text-decoration: none;	
 }

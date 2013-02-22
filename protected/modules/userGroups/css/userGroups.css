@@ -31,13 +31,18 @@
 }
 
 #userGroups-container div.info {
-	background:#4D9AC6;
-	color:#FFFFFF;
-	font-size:1.5em;
+	background:#d9e9f6;
+	color:#31414e;
+	border: solid 1px #c6d9e7;
+	font-size:15px;
 	margin: 0 0 20px 0px;
-	padding: 20px;
+	padding: 10px 20px;
+	text-align: center;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 	width: auto;
-	text-shadow: 3px 3px 3px #000000;
+	/*text-shadow: 3px 3px 3px #000000;*/
 }
 
 #userGroups-container div.info p {
