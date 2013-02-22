@@ -2590,3 +2590,27 @@ a.button{
 	width: 180px;
 	margin: 5px 15px 0 0;
 }
+
+/* Sape */
+.insape {
+   display:block;
+   float:none;
+   margin:0;
+   padding:2px 10px 3px 52px;
+   border-top:1px dotted #eee;
+   color:#999999;
+   font-size:9px;
+}
+.insape span 
+{ 
+	color: #666666; 
+}
+.insape a:link,
+.insape a:visited,
+.insape a:hover,
+.insape a:active,
+.insape a 
+{ 
+	color:	#999999;
+	text-decoration: none;	
+}
