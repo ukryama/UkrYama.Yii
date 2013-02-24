@@ -47,7 +47,7 @@ $this->layout='//layouts/header_blank';
 		<tr>
 			<th>A:</th>
 			<td>
-			<p>Наши официальные группы: <a href="http://vkontakte.ru/ukryama" title="УкрЯма ВКонтакте" target="_blank" >ВКонтакте</a>, <a href="https://www.facebook.com/ukryama" title="Фейсбук УкрЯмы" target="_blank" >Facebook</a>, <a href="https://twitter.com/#!/ukryama" title="Твиттер УкрЯмы" target="_blank" >Twitter</a>. Пока всё.</p>
+			<p>Наши официальные группы: <a href="http://vk.com/ukryama" title="УкрЯма ВКонтакте" target="_blank" >ВКонтакте</a>, <a href="https://www.facebook.com/ukryama" title="Фейсбук УкрЯмы" target="_blank" >Facebook</a>, <a href="https://twitter.com/#!/ukryama" title="Твиттер УкрЯмы" target="_blank" >Twitter</a>. Пока всё.</p>
 			</td>
 
 		</tr>		
