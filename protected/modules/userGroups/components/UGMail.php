@@ -231,7 +231,8 @@ class UGMailActivation implements UGMailMessage {
 	 */
 	public function mailSuccess($data)
 	{
-		return Yii::t('UserGroupsModule.general','The activation email was successfully sent to {email}', $data);
+        return;
+		//return Yii::t('UserGroupsModule.general','The activation email was successfully sent to {email}', $data);
 	}
 
 	/**
