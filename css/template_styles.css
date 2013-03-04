@@ -1581,12 +1581,16 @@ color: rgb(0, 128, 0);
 				background: #fff;
 				color:#3c5a98;
 			}
+			#groupSwitch a .l,
+			#groupSwitch a .r{
+				display: none;
+				width:12px;
+				height:12px;
+			}
 			#groupSwitch a.active .l,
 			#groupSwitch a.active .r{
 				position: absolute;
 				bottom:0px;
-				width:12px;
-				height:12px;
 				background: #3c5a98;
 				display: block;
 				border-radius:6px;
