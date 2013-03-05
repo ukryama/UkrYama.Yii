@@ -54,7 +54,7 @@ class HolesController extends Controller
 		$q = $_GET['term'];
        if (isset($q)) {
            $criteria = new CDbCriteria;           
-           $criteria->params = array(':q' => trim($q).'%');
+           $criteria->params = array(':q' => '%'.trim($q).'%');
            $criteria->condition = 'name LIKE (:q)'; 
            $RfSubjects = RfSubjects::model()->findAll($criteria); 
  
