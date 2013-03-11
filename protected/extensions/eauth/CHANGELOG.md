@@ -2,6 +2,25 @@ Yii EAuth Change Log
 ====================
 
 ### In progress...
+* Added Microsoft Live OAuth provider.
+* Added Yandex OAuth provider.
+* Added CustomFacebookService example class.
+* Added 'cache' and 'cacheExpire' options to control cache.
+* Added list of services to display in the EAuthWidget.
+* Changed VK.com API urls.
+
+### Version 1.1.8 (10.06.2012)
+* Added optional headers in EOAuthServiceBase::initRequest().
+* Added LinkedIn OAuth provider.
+* Added GitHub OAuth provider.
+* Fixed sending signed requests with the query parameters in the EOAuthService.
+
+### Version 1.1.7 (30.03.2012)
+* Fixed issue #11. Twitter must authorize user everytime they login.
+* Fixed issue #10. VKontakte must authorize user everytime they login with empty oauth scope.
+* Fixed translations.
+* Fixed bug in the EOAuthService::initRequest(), incorrect variable use in http header.
+* Fixed error with CURL HTTP chunked transfer encoding.
 
 ### Version 1.1.6 (01.02.2012)
 * Added EAuthUserIdentity class.
