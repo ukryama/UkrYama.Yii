@@ -5,16 +5,17 @@
 		echo '<li class="auth-service '.$service->id.'">';
 		$html = '<span class="auth-icon '.$service->id.'"><i></i></span>';
 		$html .= '<span class="auth-title">'.$service->title.'</span>';
-		if (isset($service->jsArguments['autologin']) && !$service->jsArguments['autologin'])
+		if (isset($service->jsArguments['autologin']) && !$service->jsArguments['autologin']) {
 			$html = CHtml::link($html, '#', array(
-				'class' => 'auth-link '.$service->id,
+				'class' => 'auth-link autologin '.$service->id,
 				'onclick'=>'$("#bx_auth_serv_'.$name.'").show().siblings().hide(); return false;'
-			));			
-		else		
+			));
+        }
+		else {
 			$html = CHtml::link($html, array($action, 'service' => $name), array(
 				'class' => 'auth-link '.$service->id,
 			));
-			
+        }
 		echo $html;
 		echo '</li>';		
 	}
@@ -42,3 +43,11 @@
 	</form>
   </div>
 </div>
+
+<script type="text/javascript">
+    jQuery('document').ready(function(){
+        $('.autologin').on('click', function(){
+            this.preventDefault();
+        });
+    });
+</script>

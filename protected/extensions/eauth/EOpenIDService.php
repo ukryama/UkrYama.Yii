@@ -3,7 +3,7 @@
  * EOpenIDService class file.
  *
  * @author Maxim Zemskov <nodge@yandex.ru>
- * @link http://code.google.com/p/yii-eauth/
+ * @link http://github.com/Nodge/yii-eauth/
  * @license http://www.opensource.org/licenses/bsd-license.php
  */
 
@@ -23,8 +23,7 @@ abstract class EOpenIDService extends EAuthServiceBase implements IAuthService {
 	/**
 	 * @var string the OpenID authorization url.
 	 */
-	protected $url;	
-
+	protected $url;
 	
 	/**
 	 * @var array the OpenID required attributes.
@@ -61,7 +60,7 @@ abstract class EOpenIDService extends EAuthServiceBase implements IAuthService {
 									$this->attributes[$key] = $attributes[$attr[1]];
 								}
 								else {
-									throw new EAuthException(Yii::t('eauth', 'Unable to complete the authentication because the required data was not received.', array('{provider}' => ucfirst($this->getServiceName())), 'en'));
+									throw new EAuthException(Yii::t('eauth', 'Unable to complete the authentication because the required data was not received.', array('{provider}' => $this->getServiceTitle())));
 									return false;
 								}
 							}
@@ -70,7 +69,7 @@ abstract class EOpenIDService extends EAuthServiceBase implements IAuthService {
 							return true;
 						}
 						else {
-							throw new EAuthException(Yii::t('eauth', 'Unable to complete the authentication because the required data was not received.', array('{provider}' => ucfirst($this->getServiceName())), 'en'));
+							throw new EAuthException(Yii::t('eauth', 'Unable to complete the authentication because the required data was not received.', array('{provider}' => $this->getServiceTitle())));
 							return false;
 						}
 					}

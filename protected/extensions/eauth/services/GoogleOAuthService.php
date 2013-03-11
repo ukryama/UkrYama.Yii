@@ -5,7 +5,7 @@
  * Register application: https://code.google.com/apis/console/
  * 
  * @author Maxim Zemskov <nodge@yandex.ru>
- * @link http://code.google.com/p/yii-eauth/
+ * @link http://github.com/Nodge/yii-eauth/
  * @license http://www.opensource.org/licenses/bsd-license.php
  */
 
@@ -17,28 +17,24 @@ require_once dirname(dirname(__FILE__)).'/EOAuth2Service.php';
  */
 class GoogleOAuthService extends EOAuth2Service {	
 	
-	protected $name = 'GoogleOAuth';
+	protected $name = 'google_oauth';
 	protected $title = 'Google';
 	protected $type = 'OAuth';
 	protected $jsArguments = array('popup' => array('width' => 500, 'height' => 450));
 
-	protected $client_id = '';  
-	protected $client_secret = '';  
-	protected $scope = 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile ';
+	protected $client_id = '';
+	protected $client_secret = '';
+	protected $scope = 'https://www.googleapis.com/auth/userinfo.profile';
 	protected $providerOptions = array(
 		'authorize' => 'https://accounts.google.com/o/oauth2/auth',
 		'access_token' => 'https://accounts.google.com/o/oauth2/token',
 	);
 	
 	protected function fetchAttributes() {
-		$info = (array)$this->makeSignedRequest('https://www.googleapis.com/oauth2/v1/userinfo'); 
-		
-		
+		$info = (array)$this->makeSignedRequest('https://www.googleapis.com/oauth2/v1/userinfo');
+				
 		$this->attributes['id'] = $info['id'];
-		$this->attributes['name'] = $info['given_name'] ? $info['given_name'] : $info['name'];
-		$this->attributes['lastname'] = $info['family_name'];
-		$this->attributes['email']=isset($info['email']) ? $info['email'] : '';
-		if ($this->attributes['email']) $this->attributes['id']=$this->attributes['email'];		
+		$this->attributes['name'] = $info['name'];
 		
 		if (!empty($info['link']))
 			$this->attributes['url'] = $info['link'];

@@ -1817,8 +1817,8 @@ color: rgb(0, 128, 0);
 }
 .auth-services li .auth-icon.yandex{background-position:0 -66px;}
 .auth-services li .auth-icon.Twitter{background-position:0 -33px;}
-.auth-services li .auth-icon.GoogleOAuth{background-position:-31px 0;}
-.auth-services li .auth-icon.Facebook{background-position:-32px -33px;}
+.auth-services li .auth-icon.google_oauth{background-position:-31px 0;}
+.auth-services li .auth-icon.facebook{background-position:-32px -33px;}
 .auth-services li .auth-icon.VKontakte{background-position:0 0;}
 .auth-services li .auth-icon.mailru{background-position:-62px -66px;}
 .auth-services li .auth-icon.livejournal{background-position:0 -99px;}
