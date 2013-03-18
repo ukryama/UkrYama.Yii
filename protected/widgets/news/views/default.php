@@ -11,7 +11,7 @@
 					<p><?php echo $news->introtext; ?>&nbsp;<?php echo CHtml::link('&rarr;', array('news/view', 'id'=>$news->id), array('class'=>"show")); ?></p>
 	</div>
 <?php endforeach; ?>
-<?php echo CHtml::link('Все новости', array('news/index'), array('class'=>'news-all')); ?>
+<?php echo CHtml::link(Yii::t('holes','all_news'), array('news/index'), array('class'=>'news-all')); ?>
 <div style="clear:both"></div>
 </div>
 <!-- /NEWS -->
