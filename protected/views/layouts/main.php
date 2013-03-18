@@ -94,7 +94,7 @@
                  <a href="#" onclick="changeLanguage('ru');" class="ru">По-русски</a>
                      <?php endif;?>
             </div>
-            <a href="<?php echo $this->createUrl('site/page',array('view'=>'donate'))?>" class="help-link">Помочь проекту</a>
+            <a href="<?php echo $this->createUrl('site/page',array('view'=>'donate'))?>" class="help-link"><?php Yii:t('template', 'help_project'); ?></a>
             
 			<div class="search">
 				<form action="/map">
@@ -104,7 +104,7 @@
 			</div>
             <?php if ((Yii::app()->getController()->getAction()->controller->getId() != 'holes') || (Yii::app()->getController()->getAction()->controller->action->id != 'index')): ?>
                 <div class="add-yama-container">
-                    <?php echo CHtml::link('<span>Додати дефект</span>',Array('/holes/add')); ?>
+                    <?php echo CHtml::link('<span>' . Yii:t('template', 'add_holle_btn') . '</span>',Array('/holes/add')); ?>
                 </div>
             <?php endif;?>
 			<div class="auth">

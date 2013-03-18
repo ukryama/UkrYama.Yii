@@ -10,5 +10,9 @@ $MESS['LOGIN'] = 'Войти';
 $MESS['LOGOUT'] = 'Выйти';
 $MESS['FIND_BY_ADRESS'] = 'Поиск по адресу';
 
+$MESS['add_holle_btn'] = 'Добавить дефект';
+
+$MESS['help_project'] = 'Помочь проекту';
+
 return $MESS;
 ?>

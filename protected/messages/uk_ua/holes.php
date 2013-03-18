@@ -43,5 +43,8 @@ $MESS['дней'] = "днів";
 
 $MESS['addholes'] = "Додати";
 
+$MESS['all_defects'] = "Всього дефектів";
+$MESS['fix_defects'] = "Виправлено дефектів";
+
 return $MESS;
 ?>
