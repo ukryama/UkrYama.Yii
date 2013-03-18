@@ -2,18 +2,22 @@
 class Y
 {
 
-	public static function declOfNum($number, $titles)
+	public static function declOfNum($number, $titles, $translate = false)
 		{
     		$cases = array (2, 0, 1, 1, 1, 2);
     		$number=abs($number);
-    		return $number."&nbsp;".$titles[ ($number%100>4 && $number%100<20)? 2 : $cases[min($number%10, 5)] ];
+            $index = ($number%100>4 && $number%100<20)? 2 : $cases[min($number%10, 5)];
+            $suffix = $translate ? Yii::t('holes', $titles[$index]) : $titles[$index];
+    		return trim($number . "&nbsp;" . $suffix, '&nbsp;');
 		}
 
-	public function declOfNumArr($number, $titles)
+	public function declOfNumArr($number, $titles, $translate = false)
 		{
     		$cases = array (2, 0, 1, 1, 1, 2);
     		$number=abs($number);
-    		return Array($number,$titles[ ($number%100>4 && $number%100<20)? 2 : $cases[min($number%10, 5)] ]);
+            $index = ($number%100>4 && $number%100<20)? 2 : $cases[min($number%10, 5)];
+            $suffix = $translate ? Yii::t('holes', $titles[$index]) : $titles[$index];
+    		return Array($number, $suffix);
 		}
 		
 	public function dateFromTime($time)

@@ -35,6 +35,11 @@ $MESS['HOLES_TYPE_RAILS']="Рельсы";
 $MESS['HOLES_TYPE_HOLEINYARD']="Яма во дворе";
 $MESS['HOLES_TYPE_SNOW']="Снег";
 
+$MESS['all_news']="Всі новини";
+
+$MESS['день'] = "день";
+$MESS['дня'] = "днi";
+$MESS['дней'] = "днів";
 
 return $MESS;
 ?>
