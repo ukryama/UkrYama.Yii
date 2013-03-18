@@ -104,7 +104,7 @@
 			</div>
             <?php if ((Yii::app()->getController()->getAction()->controller->getId() != 'holes') || (Yii::app()->getController()->getAction()->controller->action->id != 'index')): ?>
                 <div class="add-yama-container">
-                    <?php echo CHtml::link('<span>' . Yii:t('template', 'add_holle_btn') . '</span>',Array('/holes/add')); ?>
+                    <?php echo CHtml::link('<span>' . Yii::t('template', 'add_holle_btn') . '</span>',Array('/holes/add')); ?>
                 </div>
             <?php endif;?>
 			<div class="auth">
