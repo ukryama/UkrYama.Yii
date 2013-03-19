@@ -140,12 +140,12 @@
 				<li class="facebook"><noindex><a href="http://www.facebook.com/ukryama" target="_blank"><img src="<?php echo Yii::app()->request->baseUrl?>/images/social_icons.png" alt="Facebook" class="quimby_search_image"></a></noindex></li>
 			</ul>
 			<ul class="small-menu">
-				<li>Информація:</li>
-				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'donate'))?>">Допомогти проекту</a></li>
-				<li><a href="http://ukryama.info/" target="_blank">Спільнота</a></li>
-				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'partners'))?>">Партнери</a></li>
-				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'thanks'))?>">Подяка</a></li>
-				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'smi'))?>">ЗМІ</a></li>
+				<li><?php echo Yii::t('template', 'inform_foot') ?>:</li>
+				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'donate'))?>"><?php echo Yii::t('template', 'help_project') ?></a></li>
+				<li><a href="http://ukryama.info/" target="_blank"><?php echo Yii::t('template', 'social') ?></a></li>
+				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'partners'))?>"><?php echo Yii::t('template', 'partners') ?></a></li>
+				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'thanks'))?>"><?php echo Yii::t('template', 'thanks') ?></a></li>
+				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'smi'))?>"><?php echo Yii::t('template', 'smi') ?></a></li>
 			</ul>
 		</div>
 		<div class="l-col">
@@ -302,13 +302,14 @@
 			<?php $this->widget('application.widgets.collection.collectionWidget'); ?>		
 
 			<?php $this->endCache(); } ?>
-			<p class="friends">Информация:<br />
+		<!--	<p class="friends">Информация:<br />
 				<a href="http://ukryama.info" target="_blank">Сообщество</a><br />
 				<a href="<?php echo $this->createUrl('site/page',array('view'=>'partners'))?>" title="Наши партнеры">Партнеры</a><br />
 				<a href="<?php echo $this->createUrl('site/page',array('view'=>'thanks'))?>" title="Все те, кто нам помог">Благодарности</a><br />
 				<a href="<?php echo $this->createUrl('site/page',array('view'=>'smi'))?>" title="Сми об «УкрЯме»">СМИ</a><br />
 			</p>
 			<p class="info"></p>
+		-->
 		</div>
 	</div>
 	

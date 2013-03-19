@@ -14,5 +14,11 @@ $MESS['add_holle_btn'] = 'Добавить дефект';
 
 $MESS['help_project'] = 'Помочь проекту';
 
+$MESS['inform_foot'] = 'Информация';
+$MESS['social'] = 'Сообщество';
+$MESS['partners'] = 'Партнеры';
+$MESS['thanks'] = 'Благодарность';
+$MESS['smi'] = 'СМИ';
+
 return $MESS;
 ?>
