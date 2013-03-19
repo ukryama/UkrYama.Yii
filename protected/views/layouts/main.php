@@ -94,7 +94,7 @@
                  <a href="#" onclick="changeLanguage('ru');" class="ru">По-русски</a>
                      <?php endif;?>
             </div>
-            <a href="<?php echo $this->createUrl('site/page',array('view'=>'donate'))?>" class="help-link"><?php echo Yii:t('template', 'help_project'); ?></a>
+            <a href="<?php echo $this->createUrl('site/page',array('view'=>'donate'))?>" class="help-link"><?php echo Yii::t('template', 'help_project'); ?></a>
             
 			<div class="search">
 				<form action="/map">
