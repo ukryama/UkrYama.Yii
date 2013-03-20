@@ -36,5 +36,16 @@ $MESS['HOLES_TYPE_RAILS']="Рельсы";
 $MESS['HOLES_TYPE_HOLEINYARD']="Яма во дворе";
 $MESS['HOLES_TYPE_SNOW']="Снег";
 
+$MESS['all_news']="Все новости";
+
+$MESS['день'] = "день";
+$MESS['дня'] = "дня";
+$MESS['дней'] = "дней";
+
+$MESS['addholes'] = "Добавить";
+
+$MESS['all_defects'] = "Всего дефектов";
+$MESS['fix_defects'] = "Исправленно дефектов";
+
 return $MESS;
 ?>

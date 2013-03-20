@@ -10,7 +10,15 @@ $MESS['LOGIN'] = 'Увійти';
 $MESS['LOGOUT'] = 'Вийти';
 $MESS['FIND_BY_ADRESS'] = 'Пошук за адресою';
 
+$MESS['add_holle_btn'] = 'Додати дефект';
 
+$MESS['help_project'] = 'Допомогти проекту';
+
+$MESS['inform_foot'] = 'Информація';
+$MESS['social'] = 'Спільнота';
+$MESS['partners'] = 'Партнери';
+$MESS['thanks'] = 'Подяка';
+$MESS['smi'] = 'ЗМІ';
 
 return $MESS;
 ?>
