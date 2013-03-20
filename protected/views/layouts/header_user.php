@@ -7,8 +7,8 @@
 						<div class="rCol">
 							<div id="head_user_info"> 
 								<div class="counter">
-									<span class="counter-text">Всего дефектов</span><span class="count-class"><?php echo Y::declOfNum($this->user->usermodel->holes_cnt, array('', '', '')); ?></span>
-									<span class="counter-text">Исправленно дефектов</span><span class="count-class"><?php echo Y::declOfNum($this->user->usermodel->holes_fixed_cnt, array('', '', '')); ?></span>
+									<span class="counter-text"><?php Yii::t('holes', 'all_defects'); ?></span><span class="count-class"><?php echo Y::declOfNum($this->user->usermodel->holes_cnt, array('', '', '')); ?></span>
+									<span class="counter-text"><?php Yii::t('holes', 'fix_defects'); ?></span><span class="count-class"><?php echo Y::declOfNum($this->user->usermodel->holes_fixed_cnt, array('', '', '')); ?></span>
 								</div>
 								
 	<div class="photo">
