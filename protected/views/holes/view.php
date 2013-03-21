@@ -13,7 +13,7 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 <div class="head">
 		<div class="container">
 		<div class="lCol">
-					<a href="/" class="logo" title="На главную"><img src="/images/logo.png"  alt="РосЯма" /></a>
+					<a href="/" class="logo" title="На главную"><img src="<?php echo Yii::app()->request->baseUrl; ?>/images/logo.png"  alt="УкрЯма" /></a>
 			</div>
 			<div class="rCol">
 	<div class="r">
@@ -467,4 +467,14 @@ $this->widget('application.extensions.fancybox.EFancyBox', array(
 		<? endif; ?>
 	</div>
 </div>
+    
+    <div class="rCol">
+        <div class="b">
+            <?php
+                $this->widget('comments.widgets.ECommentsListWidget', array(
+                    'model' => $hole,
+                ));
+            ?>
+        </div>
+    </div>
 </div>

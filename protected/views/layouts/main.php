@@ -94,7 +94,7 @@
                  <a href="#" onclick="changeLanguage('ru');" class="ru">По-русски</a>
                      <?php endif;?>
             </div>
-            <a href="<?php echo $this->createUrl('site/page',array('view'=>'donate'))?>" class="help-link"><?php echo Yii::t('template', 'help_project'); ?></a>
+            <a href="<?php echo $this->createUrl('site/page',array('view'=>'donate'))?>" class="help-link">Помочь проекту</a>
             
 			<div class="search">
 				<form action="/map">
@@ -104,7 +104,7 @@
 			</div>
             <?php if ((Yii::app()->getController()->getAction()->controller->getId() != 'holes') || (Yii::app()->getController()->getAction()->controller->action->id != 'index')): ?>
                 <div class="add-yama-container">
-                    <?php echo CHtml::link('<span>' . Yii::t('template', 'add_holle_btn') . '</span>',Array('/holes/add')); ?>
+                    <?php echo CHtml::link('<span>Додати дефект</span>',Array('/holes/add')); ?>
                 </div>
             <?php endif;?>
 			<div class="auth">
@@ -140,12 +140,12 @@
 				<li class="facebook"><noindex><a href="http://www.facebook.com/ukryama" target="_blank"><img src="<?php echo Yii::app()->request->baseUrl?>/images/social_icons.png" alt="Facebook" class="quimby_search_image"></a></noindex></li>
 			</ul>
 			<ul class="small-menu">
-				<li><?php echo Yii::t('template', 'inform_foot') ?>:</li>
-				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'donate'))?>"><?php echo Yii::t('template', 'help_project') ?></a></li>
-				<li><a href="http://ukryama.info/" target="_blank"><?php echo Yii::t('template', 'social') ?></a></li>
-				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'partners'))?>"><?php echo Yii::t('template', 'partners') ?></a></li>
-				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'thanks'))?>"><?php echo Yii::t('template', 'thanks') ?></a></li>
-				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'smi'))?>"><?php echo Yii::t('template', 'smi') ?></a></li>
+				<li>Информація:</li>
+				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'donate'))?>">Допомогти проекту</a></li>
+				<li><a href="http://ukryama.info/" target="_blank">Спільнота</a></li>
+				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'partners'))?>">Партнери</a></li>
+				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'thanks'))?>">Подяка</a></li>
+				<li><a href="<?php echo $this->createUrl('site/page',array('view'=>'smi'))?>">ЗМІ</a></li>
 			</ul>
 		</div>
 		<div class="l-col">
@@ -267,6 +267,7 @@
 			Хостинг — «<noindex><a href="http://www.ukraine.com.ua/" target="_blank" rel="nofollow">Украина</a></noindex>»<br />
 			<span class="studio-copyright">Дизайн — веб-студия <a href="http://stfalcon.com"><span class="icon"></span>stfalcon.com</a></span>
 			Разработано в <noindex><a href="http://pixelsmedia.ru" rel="nofollow">Pixelsmedia</a> </noindex>на Yii.<br/>
+                        Поддержка сайта <noindex><a href="http://force-it.org" rel="nofollow">force-it.org</a></noindex>.<br/>
 			<a href="http://novus.org.ua/" style="background:none;" class="notus-logo" target="_blank"><img src="<?php echo Yii::app()->request->baseUrl;?>/images/logo-novus.png"></a>
 			</p>
 			
@@ -302,14 +303,13 @@
 			<?php $this->widget('application.widgets.collection.collectionWidget'); ?>		
 
 			<?php $this->endCache(); } ?>
-		<!--	<p class="friends">Информация:<br />
+			<p class="friends">Информация:<br />
 				<a href="http://ukryama.info" target="_blank">Сообщество</a><br />
 				<a href="<?php echo $this->createUrl('site/page',array('view'=>'partners'))?>" title="Наши партнеры">Партнеры</a><br />
 				<a href="<?php echo $this->createUrl('site/page',array('view'=>'thanks'))?>" title="Все те, кто нам помог">Благодарности</a><br />
 				<a href="<?php echo $this->createUrl('site/page',array('view'=>'smi'))?>" title="Сми об «УкрЯме»">СМИ</a><br />
 			</p>
 			<p class="info"></p>
-		-->
 		</div>
 	</div>
 	
@@ -336,15 +336,17 @@
 	
 		</script>
 	<?endif?>
-		<div class="insape"><?php 
-			if (!defined('_SAPE_USER')){
-		   define('_SAPE_USER', 'f127747a52619313d55480e54fe0ca6a'); 
+		<div class="insape"><?php
+                /*
+                        if (!defined('_SAPE_USER')){
+                            define('_SAPE_USER', 'f127747a52619313d55480e54fe0ca6a'); 
 			}
-			require_once($_SERVER['DOCUMENT_ROOT'].'/'._SAPE_USER.'/sape.php'); 
+			require_once($_SERVER['DOCUMENT_ROOT'].'/'._SAPE_USER.'/sape.php');
 			$o['charset'] = 'UTF-8';
 			$sape = new SAPE_client($o);
 			echo "<a href='http://ukryama.com/news/?ELEMENT_ID=431'>Реклама</a>: ";
 			echo $sape->return_links();
+                 */
 		?></div>
 	</body>
 	</html>
