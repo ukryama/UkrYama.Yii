@@ -263,11 +263,11 @@
 				<noindex><a class="rs" target="_blank" href="http://rosyama.ru/" title="РосЯма">РосЯма</a></noindex><br>Яму мне запили!<br/>			
 				 
 			</p>
-			<p class="copy">Идея — <noindex><a href="http://navalny.ru/" rel="nofollow">Алексей Навальный</a></noindex>, 2011<br />
+			<p class="copy">Идея — <noindex><a href="http://navalny.ru/" rel="nofollow" target="_blank">Алексей Навальный</a></noindex>, 2011<br />
 			Хостинг — «<noindex><a href="http://www.ukraine.com.ua/" target="_blank" rel="nofollow">Украина</a></noindex>»<br />
-			<span class="studio-copyright">Дизайн — веб-студия <a href="http://stfalcon.com"><span class="icon"></span>stfalcon.com</a></span>
-			Разработано в <noindex><a href="http://pixelsmedia.ru" rel="nofollow">Pixelsmedia</a> </noindex>на Yii.<br/>
-                        Поддержка сайта <noindex><a href="http://force-it.org" rel="nofollow">force-it.org</a></noindex>.<br/>
+			<span class="studio-copyright">Дизайн — веб-студия <a href="http://stfalcon.com" target="_blank"><span class="icon"></span>stfalcon.com</a></span>
+			Разработано в <noindex><a href="http://pixelsmedia.ru" rel="nofollow" target="_blank">Pixelsmedia</a> </noindex>на Yii.<br/>
+                        Поддержка сайта <noindex><a href="http://force-it.org" rel="nofollow" target="_blank">force-it.org</a></noindex>.<br/>
 			<a href="http://novus.org.ua/" style="background:none;" class="notus-logo" target="_blank"><img src="<?php echo Yii::app()->request->baseUrl;?>/images/logo-novus.png"></a>
 			</p>
 			
