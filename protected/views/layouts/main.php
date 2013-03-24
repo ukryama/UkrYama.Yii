@@ -337,7 +337,6 @@
 		</script>
 	<?endif?>
 		<div class="insape"><?php
-                /*
                         if (!defined('_SAPE_USER')){
                             define('_SAPE_USER', 'f127747a52619313d55480e54fe0ca6a'); 
 			}
@@ -346,7 +345,6 @@
 			$sape = new SAPE_client($o);
 			echo "<a href='http://ukryama.com/news/?ELEMENT_ID=431'>Реклама</a>: ";
 			echo $sape->return_links();
-                 */
 		?></div>
 	</body>
 	</html>
