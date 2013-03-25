@@ -124,6 +124,7 @@ return array(
 
 		),
             
+            
 
 		'image'=>array(
           'class'=>'application.extensions.image.CImageComponent',
