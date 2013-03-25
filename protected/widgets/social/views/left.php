@@ -22,6 +22,32 @@
 	<div id="feedControl">Загрузка постов…</div>
 </div>
 
+<div class="yaDirect">
+    <span>Реклама:</span>
+    <!-- Яндекс.Директ -->
+    <script type="text/javascript">
+    //<![CDATA[
+    yandex_partner_id = 78872;
+    yandex_site_bg_color = 'FFFFFF';
+    yandex_site_charset = 'utf-8';
+    yandex_ad_format = 'direct';
+    yandex_font_size = 1;
+    yandex_direct_type = 'vertical';
+    yandex_direct_border_type = 'block';
+    yandex_direct_limit = 4;
+    yandex_direct_title_font_size = 3;
+    yandex_direct_border_radius = true;
+    yandex_direct_border_color = 'D0D4D8';
+    yandex_direct_title_color = '046AB2';
+    yandex_direct_url_color = '637280';
+    yandex_direct_text_color = '000000';
+    yandex_direct_hover_color = '66B2FF';
+    yandex_direct_favicon = true;
+    document.write('<sc'+'ript type="text/javascript" src="http://an.yandex.ru/system/context.js"></sc'+'ript>');
+    //]]>
+    </script>
+</div>
+
 <div id="banner_ap">
 	<span>Партнеры:</span>
 	<div class="banner_yama">
