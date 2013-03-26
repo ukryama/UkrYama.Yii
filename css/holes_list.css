@@ -160,7 +160,24 @@ div#ymapcontainer_big_map { height: 600px; width: 1000px; }
 }
 .hole_check{position: absolute; z-index: 1; top:5px; left:5px;}
 
-
+.commentsHot { 
+    background: url("../images/icons.gif") 0px -57px no-repeat transparent;
+    color: #BE0206;
+    margin: 0px;
+    padding-left: 14px;
+    white-space: nowrap;
+    float:right;
+    height: 19px;
+}
+.commentsHot_0 { 
+    background: url("../images/icons.gif") 0px -43px no-repeat transparent;
+    color: #303030;
+    margin: 0px;
+    padding-left: 14px;
+    white-space: nowrap;
+    float:right;
+    height: 19px;
+}
 
 .fos_comment_submit{}
 .fos_comment_submit .save-photo-comment{}
