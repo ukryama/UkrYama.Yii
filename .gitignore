@@ -1,3 +1,4 @@
+.gitignore
 /upload/*
 /assets/*
 *.zip
@@ -9,4 +10,5 @@ bugs
 protected/runtime/*
 .idea/
 /protected/config/appConfig.php
+/nbproject/
 robots.txt
