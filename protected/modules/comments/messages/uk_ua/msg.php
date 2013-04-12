@@ -34,6 +34,7 @@ return array(
     'Approved'=>'Утвержден',
     'Deleted'=>'Удален',
     'Link'=>'Ссылка',
-    'Comment deleted'=>'Комментарий удален'
+    'Comment deleted'=>'Комментарий удален',
+    'Last comments'=>'Последние комментарии'
 );
 ?>
