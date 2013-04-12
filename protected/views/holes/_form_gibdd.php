@@ -14,7 +14,7 @@
                         $model->postaddress=$usermodel->relProfile->request_address ? $usermodel->relProfile->request_address : '';
                     }
 
-                    $model->to=$gibdd ? $gibdd->post_dative.' '.$gibdd->fio_dative : '';
+                    $model->to=$gibdd ? $gibdd->post_dative.' '.$gibdd->fio_dative.' '.$gibdd->address : '';
                     $model->address=CHtml::encode($hole->ADDRESS);
 					?>
 						<h2><?= Yii::t('holes_view', 'HOLE_REQUEST_FORM') ?></h2>
