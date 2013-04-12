@@ -2614,3 +2614,36 @@ a.button{
 	color:	#999999;
 	text-decoration: none;	
 }
+
+/* comment list on main page */
+
+.commentControl {
+    margin: 5px 7px;
+}
+    .commentHeader h2 {
+        font-size: 1.2em;
+        line-height: 1.2em;
+        margin: 0 0 10px;
+        text-decoration: none;
+    }
+    .commentResults {
+        margin: 0;
+    }
+        .commentItem {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+            .commentItem .commentName,
+            .commentItem .commentDate {
+                color: #637280;
+                font-size: 0.9em;
+                line-height: 1.5em;
+                display: inline;
+            }
+            .commentItem .commentSpacer {margin: 0 3px; color: #637280; display: inline;}
+            .commentItem .commentText {
+                font-size: 0.9em;
+                line-height: 1.3em;
+            }
+
+/* /comment list on main page */
