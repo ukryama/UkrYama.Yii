@@ -11,3 +11,4 @@ protected/runtime/*
 .idea/
 /protected/config/appConfig.php
 /nbproject/
+robots.txt
