@@ -30,8 +30,8 @@
             ));
 ?>
 
+<!-- 
 <div class="yaDirect">
-  <!-- Яндекс.Директ -->
         <script type="text/javascript">
         //<![CDATA[
         yandex_partner_id = 78872;
@@ -50,7 +50,8 @@
         document.write('<sc'+'ript type="text/javascript" src="http://an.yandex.ru/system/context.js"></sc'+'ript>');
         //]]>
         </script>
-</div>
+</div> 
+-->
 
 <div id="banner_ap">
 	<span>Партнеры:</span>
