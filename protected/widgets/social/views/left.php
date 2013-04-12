@@ -22,6 +22,14 @@
 	<div id="feedControl">Загрузка постов…</div>
 </div>
 
+<?php
+    // last comments
+    $this->widget("comments.widgets.ECommentsLastListWidget", array(
+                "showCountRecords"=>10,
+                "textLength"=>100
+            ));
+?>
+
 <div class="yaDirect">
   <!-- Яндекс.Директ -->
         <script type="text/javascript">
